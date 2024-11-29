@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "D:\\Projects\\Visual Studio\\Chat App\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{911E7301-0058-480B-9C72-2638F0693C84}|ChatServer\\ChatServer.csproj|d:\\projects\\visual studio\\chat app\\chatserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{911E7301-0058-480B-9C72-2638F0693C84}|ChatServer\\ChatServer.csproj|solutionrelative:chatserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\ChatClient.csproj|d:\\projects\\visual studio\\chat app\\chat app\\mvvm\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\ChatClient.csproj|solutionrelative:chat app\\mvvm\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\Chat App.csproj|d:\\projects\\visual studio\\chat app\\chat app\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\Chat App.csproj|solutionrelative:chat app\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\ChatClient.csproj|d:\\projects\\visual studio\\chat app\\chat app\\mvvm\\core\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\ChatClient.csproj|solutionrelative:chat app\\mvvm\\core\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\Chat App.csproj|d:\\projects\\visual studio\\chat app\\chat app\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\Chat App.csproj|solutionrelative:chat app\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\ChatClient.csproj|d:\\projects\\visual studio\\chat app\\chat app\\net\\server.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\ChatClient.csproj|solutionrelative:chat app\\net\\server.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\ChatClient.csproj|d:\\projects\\visual studio\\chat app\\chat app\\mvvm\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\ChatClient.csproj|solutionrelative:chat app\\mvvm\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\ChatClient.csproj|d:\\projects\\visual studio\\chat app\\chat app\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\ChatClient.csproj|solutionrelative:chat app\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 372,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,40 +54,65 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\ChatServer\\Program.cs",
-              "RelativeDocumentMoniker": "ChatServer\\Program.cs",
-              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\ChatServer\\Program.cs",
-              "RelativeToolTip": "ChatServer\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "RelayCommand.cs",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\MVVM\\Core\\RelayCommand.cs",
+              "RelativeDocumentMoniker": "Chat App\\MVVM\\Core\\RelayCommand.cs",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\MVVM\\Core\\RelayCommand.cs",
+              "RelativeToolTip": "Chat App\\MVVM\\Core\\RelayCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T02:53:11.669Z",
+              "WhenOpened": "2024-11-29T03:28:45.293Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "Chat App\\MainWindow.xaml",
-              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\MainWindow.xaml",
-              "RelativeToolTip": "Chat App\\MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-11-29T02:23:53.25Z",
+              "DocumentIndex": 0,
+              "Title": "MainViewModel.cs",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\MVVM\\ViewModel\\MainViewModel.cs",
+              "RelativeDocumentMoniker": "Chat App\\MVVM\\ViewModel\\MainViewModel.cs",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\MVVM\\ViewModel\\MainViewModel.cs",
+              "RelativeToolTip": "Chat App\\MVVM\\ViewModel\\MainViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T03:26:53.69Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "Chat App\\MainWindow.xaml.cs",
-              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\MainWindow.xaml.cs",
-              "RelativeToolTip": "Chat App\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "Server.cs",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\Net\\Server.cs",
+              "RelativeDocumentMoniker": "Chat App\\Net\\Server.cs",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\Net\\Server.cs",
+              "RelativeToolTip": "Chat App\\Net\\Server.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAABYAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T02:23:52.716Z",
+              "WhenOpened": "2024-11-29T03:16:26.218Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\MVVM\\View\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "Chat App\\MVVM\\View\\MainWindow.xaml",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\MVVM\\View\\MainWindow.xaml",
+              "RelativeToolTip": "Chat App\\MVVM\\View\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-11-29T03:00:06.789Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "App.xaml",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\App.xaml",
+              "RelativeDocumentMoniker": "Chat App\\App.xaml",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\App.xaml",
+              "RelativeToolTip": "Chat App\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-11-29T02:58:57.012Z",
               "EditorCaption": ""
             }
           ]

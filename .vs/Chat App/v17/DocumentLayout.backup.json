@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\Projects\\Visual Studio\\Chat App\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{911E7301-0058-480B-9C72-2638F0693C84}|ChatServer\\ChatServer.csproj|d:\\projects\\visual studio\\chat app\\chatserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{911E7301-0058-480B-9C72-2638F0693C84}|ChatServer\\ChatServer.csproj|solutionrelative:chatserver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\Chat App.csproj|d:\\projects\\visual studio\\chat app\\chat app\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{D3F184B0-6F53-4382-B368-71B815F1A048}|Chat App\\Chat App.csproj|solutionrelative:chat app\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
@@ -43,6 +47,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\ChatServer\\Program.cs",
+              "RelativeDocumentMoniker": "ChatServer\\Program.cs",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\ChatServer\\Program.cs",
+              "RelativeToolTip": "ChatServer\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T02:53:11.669Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\MainWindow.xaml",
               "RelativeDocumentMoniker": "Chat App\\MainWindow.xaml",
@@ -54,7 +71,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Chat App\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "Chat App\\MainWindow.xaml.cs",
