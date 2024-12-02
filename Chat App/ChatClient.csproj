@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ChatClient2|AnyCPU'">
+    <OutputPath>bin\ChatClient2\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -71,6 +74,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Net\IO\PacketBuilder.cs" />
+    <Compile Include="Net\IO\PacketReader.cs" />
     <Compile Include="Net\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

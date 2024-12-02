@@ -13,3 +13,4 @@ D:\Projects\Visual Studio\Chat App\Chat App\obj\Debug\ChatClient.csproj.Generate
 D:\Projects\Visual Studio\Chat App\Chat App\obj\Debug\ChatClient.csproj.CoreCompileInputs.cache
 D:\Projects\Visual Studio\Chat App\Chat App\obj\Debug\Chat App.exe
 D:\Projects\Visual Studio\Chat App\Chat App\obj\Debug\Chat App.pdb
+D:\Projects\Visual Studio\Chat App\Chat App\obj\Debug\GeneratedInternalTypeHelper.g.cs
