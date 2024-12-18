@@ -1,0 +1,22 @@
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).exe
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).deps.json
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).runtimeconfig.json
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).dll
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).pdb
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\MainWindow.g.cs
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\App.g.cs
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_MarkupCompile.cache
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_MarkupCompile.lref
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\MainWindow.baml
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).g.resources
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).AssemblyInfoInputs.cache
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).AssemblyInfo.cs
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).csproj.CoreCompileInputs.cache
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).sourcelink.json
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).dll
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\refint\Client (.Net).dll
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).pdb
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).genruntimeconfig.cache
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\ref\Client (.Net).dll
