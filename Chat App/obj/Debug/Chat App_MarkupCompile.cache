@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Projects\Visual Studio\Chat App\Chat App\obj\Debug\
+C:\Users\Micha\source\repos\ThePrince05\Chat-App\Chat App\obj\Debug\
 Chat_App
 none
 false
 DEBUG;TRACE
-D:\Projects\Visual Studio\Chat App\Chat App\App.xaml
+C:\Users\Micha\source\repos\ThePrince05\Chat-App\Chat App\App.xaml
 11486361154
 
 11512236663
 13-38814620
 MVVM\View\MainWindow.xaml;
 
-False
+True
 
