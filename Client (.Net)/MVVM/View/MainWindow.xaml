@@ -139,39 +139,42 @@
 
 
         <!-- Chat Section -->
-        <StackPanel Grid.Column="1" 
-                    Grid.Row="1" 
-                    HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch">
-
+        <Grid Grid.Column="1" 
+            Grid.Row="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="70"/>
+            </Grid.RowDefinitions>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ListView Foreground="White"
-                      ItemsSource="{Binding Messages}" 
-                      Background="Transparent"
-                      BorderThickness="0"
-                      Margin="8,0,0,0">
+                  Height="auto"
+                  ItemsSource="{Binding Messages}" 
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Margin="8,0,0,0">
 
                 </ListView>
             </ScrollViewer>
-            <Grid VerticalAlignment="Stretch">
+            <Grid VerticalAlignment="Stretch"
+          Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="90"/>
                 </Grid.ColumnDefinitions>
                 <TextBox 
-                         Height="50" 
-                         Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" 
-                         Style="{StaticResource MessageBox}"
-                         Foreground="white"
-                           Grid.Column="0"/>
+         Height="50" 
+         Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" 
+         Style="{StaticResource MessageBox}"
+         Foreground="white"
+           Grid.Column="0"/>
                 <StackPanel Orientation="Horizontal" 
-                            HorizontalAlignment="Right" 
-                            Grid.Column="1">
+        HorizontalAlignment="Right" 
+        Grid.Column="1">
                     <Button Width="70" Content="Send" 
-                            Command="{Binding SendMessageCommand}" 
-                            Height="40" Margin="0,0,10,0"/>
+        Command="{Binding SendMessageCommand}" 
+        Height="40" Margin="0,0,10,0"/>
                 </StackPanel>
             </Grid>
-        </StackPanel>
+        </Grid>
     </Grid>
 </Window>
