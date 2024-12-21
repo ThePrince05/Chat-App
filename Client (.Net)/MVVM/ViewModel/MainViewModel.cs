@@ -38,7 +38,17 @@ namespace Chat_App.MVVM.ViewModel
             }
         }
 
-        public string Message { get; set; }
+        private string _message;
+        public string Message
+        {
+            get => _message;
+            set
+            {
+                _message = value;
+                OnPropertyChanged(nameof(Message)); // Notify UI of changes
+            }
+        }
+
         private Server _server;
 
         public MainViewModel()
@@ -58,13 +68,18 @@ namespace Chat_App.MVVM.ViewModel
                 {
                     _server.ConnectToServer(Username);
                     ConnectedUsername = Username; // Update ConnectedUsername
+                    Username = string.Empty; // Clear the TextBox
                 },
                 o => !string.IsNullOrEmpty(Username)
             );
 
             SendMessageCommand = new RelayCommand(
-                o => _server.SendMessageToServer(Message),
-                o => !string.IsNullOrEmpty(Message)
+                o =>
+                {
+                    _server.SendMessageToServer(Message); // Send the message
+                    Message = string.Empty; // Clear the TextBox
+                },
+                o => !string.IsNullOrEmpty(Message) // Enable only when there's text
             );
         }
 

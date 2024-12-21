@@ -59,7 +59,7 @@ namespace Client__.Net_ {
             
             #line default
             #line hidden
-            System.Uri resourceLocater = new System.Uri("/Client (.Net);V1.0.0.0;component/app.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Client (.Net);component/app.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\App.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

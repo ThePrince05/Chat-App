@@ -10,7 +10,8 @@
         Background="#36393F"
         WindowStyle="None"
         AllowsTransparency="True"
-        ResizeMode="CanResizeWithGrip">
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <viewmodel:MainViewModel />
@@ -32,7 +33,7 @@
                 Background="#252525"
                 MouseDown="Border_MouseDown">
             <Grid HorizontalAlignment="Stretch">
-                <Label Content="Chat"
+                <Label Content="Chat App"
                        Foreground="Gray"
                        FontWeight="SemiBold"/>
 
@@ -85,7 +86,9 @@
 
                 <TextBox Grid.Row="0"
                         Height="25"
+                        FontSize="14"
                         Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                        Padding="5,0,10,0"
                         Background="#2f3136"
                         Foreground="White"/>
                 <Button Grid.Row="1"
@@ -123,7 +126,7 @@
                         Margin="18,0,0,0"/>
 
                 <StackPanel VerticalAlignment="Center">
-                    <Label Content="{Binding ConnectedUsername}"
+                    <Label Content="{Binding ConnectedUsername, TargetNullValue=Username}"
                            Foreground="White"
                            FontWeight="SemiBold"
                            Margin="0,-5,0,5"
@@ -156,23 +159,24 @@
                 </ListView>
             </ScrollViewer>
             <Grid VerticalAlignment="Stretch"
-          Grid.Row="1">
+            Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="90"/>
                 </Grid.ColumnDefinitions>
                 <TextBox 
-         Height="50" 
-         Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" 
-         Style="{StaticResource MessageBox}"
-         Foreground="white"
-           Grid.Column="0"/>
+                 Height="50" 
+                 FontSize="14"
+                 Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" 
+                 Style="{StaticResource MessageBox}"
+                 Foreground="white"
+                 Grid.Column="0" KeyDown="TextBox_KeyDown"/>
                 <StackPanel Orientation="Horizontal" 
-        HorizontalAlignment="Right" 
-        Grid.Column="1">
+                HorizontalAlignment="Right" 
+                Grid.Column="1">
                     <Button Width="70" Content="Send" 
-        Command="{Binding SendMessageCommand}" 
-        Height="40" Margin="0,0,10,0"/>
+                    Command="{Binding SendMessageCommand}" 
+                    Height="40" Margin="0,0,10,0"/>
                 </StackPanel>
             </Grid>
         </Grid>

@@ -20,7 +20,7 @@
                                      Background="Transparent"
                                      TextWrapping="Wrap"
                                      BorderThickness="0"
-                                     Foreground="Gray"
+                                     Foreground="White"
                                      CaretBrush="Gray"
                                      Margin="8,0,0,0"
                                      Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

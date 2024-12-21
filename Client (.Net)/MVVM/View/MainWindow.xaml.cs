@@ -50,5 +50,18 @@ namespace Chat_App
         {
             Application.Current.Shutdown();
         }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                // Access the ViewModel and execute the SendMessageCommand
+                if (DataContext is MainViewModel viewModel && viewModel.SendMessageCommand.CanExecute(null))
+                {
+                    viewModel.SendMessageCommand.Execute(null);
+
+                }
+            }
+        }
     }
 }
