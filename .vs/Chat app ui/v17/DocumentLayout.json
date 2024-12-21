@@ -1,0 +1,56 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Micha\\source\\repos\\ThePrince05\\Chat-App\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E79D7651-F76D-4966-86CE-EDFD73A3CA90}|Chat app ui\\Chat app ui.csproj|c:\\users\\micha\\source\\repos\\theprince05\\chat-app\\chat app ui\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E79D7651-F76D-4966-86CE-EDFD73A3CA90}|Chat app ui\\Chat app ui.csproj|solutionrelative:chat app ui\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Micha\\source\\repos\\ThePrince05\\Chat-App\\Chat app ui\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "Chat app ui\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\Micha\\source\\repos\\ThePrince05\\Chat-App\\Chat app ui\\MainWindow.xaml",
+              "RelativeToolTip": "Chat app ui\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-12-21T08:49:30.424Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

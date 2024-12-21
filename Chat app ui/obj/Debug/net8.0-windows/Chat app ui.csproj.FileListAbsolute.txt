@@ -1,0 +1,32 @@
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\bin\Debug\net8.0-windows\Chat app ui.exe
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\bin\Debug\net8.0-windows\Icon\phone-call.png
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\bin\Debug\net8.0-windows\Icon\photo-camera-interface-symbol-for-button.png
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\bin\Debug\net8.0-windows\Icon\plus.png
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\bin\Debug\net8.0-windows\Icon\send.png
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\bin\Debug\net8.0-windows\Chat app ui.deps.json
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\bin\Debug\net8.0-windows\Chat app ui.runtimeconfig.json
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\bin\Debug\net8.0-windows\Chat app ui.dll
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\bin\Debug\net8.0-windows\Chat app ui.pdb
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Themes\ChatItem.baml
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Themes\ContactCard.baml
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Themes\MessageBox.baml
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Themes\StylishCrollbar.baml
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Chat app ui_Content.g.cs
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Chat app ui_MarkupCompile.cache
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Chat app ui_MarkupCompile.lref
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\App.baml
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Chat app ui.g.resources
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Chat app ui.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Chat app ui.AssemblyInfoInputs.cache
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Chat app ui.AssemblyInfo.cs
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Chat app ui.csproj.CoreCompileInputs.cache
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Chat app ui.sourcelink.json
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Chat app ui.dll
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\refint\Chat app ui.dll
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Chat app ui.pdb
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\Chat app ui.genruntimeconfig.cache
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Chat app ui\obj\Debug\net8.0-windows\ref\Chat app ui.dll
