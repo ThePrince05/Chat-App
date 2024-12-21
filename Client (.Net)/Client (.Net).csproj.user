@@ -10,5 +10,17 @@
     <Page Update="MVVM\View\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Themes\ChatItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\ContactCard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\MessageBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\StylishCrollbar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>
