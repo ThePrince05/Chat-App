@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Chat_App"
         xmlns:viewmodel="clr-namespace:Chat_App.MVVM.ViewModel"
         mc:Ignorable="d"
-        Height="474" Width="816"
+        Height="474"
+        Width="816"
         Background="#36393F"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -19,13 +20,13 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <!-- Title Bar -->
@@ -35,34 +36,37 @@
             <Grid HorizontalAlignment="Stretch">
                 <Label Content="Chat App"
                        Foreground="Gray"
-                       FontWeight="SemiBold"/>
+                       FontWeight="SemiBold" />
 
                 <StackPanel HorizontalAlignment="Right"
                             Orientation="Horizontal">
                     <Button x:Name="Minimise"
-                            Width="20" Height="20"
+                            Width="20"
+                            Height="20"
                             Content="_"
                             Background="Transparent"
                             BorderThickness="0"
                             Foreground="Gray"
                             FontWeight="Bold"
-                            Click="Minimise_Click"/>
+                            Click="Minimise_Click" />
                     <Button x:Name="Maximise"
-                            Width="20" Height="20"
+                            Width="20"
+                            Height="20"
                             Content="▢"
                             Background="Transparent"
                             BorderThickness="0"
                             Foreground="Gray"
                             FontWeight="Bold"
-                            Click="Maximise_Click"/>
+                            Click="Maximise_Click" />
                     <Button x:Name="Exit"
-                            Width="20" Height="20"
+                            Width="20"
+                            Height="20"
                             Content="X"
                             Background="Transparent"
                             BorderThickness="0"
                             Foreground="Gray"
                             FontWeight="Bold"
-                            Click="Exit_Click"/>
+                            Click="Exit_Click" />
                 </StackPanel>
             </Grid>
         </Border>
@@ -71,33 +75,35 @@
         <Grid Grid.Row="1"
               Background="#2f3136">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
             <!-- User List Section -->
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <TextBox Grid.Row="0"
-                        Height="25"
-                        FontSize="14"
-                        Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
-                        Padding="5,0,10,0"
-                        Background="#2f3136"
-                        Foreground="White"/>
+                         Height="25"
+                         FontSize="14"
+                         Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                         Padding="5,0,10,0"
+                         Background="#2f3136"
+                         Foreground="White" />
                 <Button Grid.Row="1"
                         Height="25"
                         Content="Connect"
-                        Command="{Binding ConnectToServerCommand}"/>
+                        Command="{Binding ConnectToServerCommand}" />
 
                 <!--Use for underlined text-->
-                <TextBlock Grid.Row="2" Margin="10,10,0,0" Foreground="White">
+                <TextBlock Grid.Row="2"
+                           Margin="10,10,0,0"
+                           Foreground="White">
                     <Underline>
                         <Run Text="Groups" />
                     </Underline>
@@ -121,62 +127,64 @@
                         Background="#292b2f"
                         HorizontalAlignment="Stretch">
                 <Border CornerRadius="25"
-                        Width="30" Height="30"
+                        Width="30"
+                        Height="30"
                         Background="#3bff6f"
-                        Margin="18,0,0,0"/>
+                        Margin="18,0,0,0" />
 
                 <StackPanel VerticalAlignment="Center">
                     <Label Content="{Binding ConnectedUsername, TargetNullValue=Username}"
                            Foreground="White"
                            FontWeight="SemiBold"
-                           Margin="0,-5,0,5"
-                           />
+                           Margin="0,-5,0,5" />
                     <Label Content="Custom Status"
                            Foreground="Gray"
                            FontWeight="SemiBold"
                            FontSize="10"
-                           Margin="0,-8,0,5"/>
+                           Margin="0,-8,0,5" />
                 </StackPanel>
             </StackPanel>
         </Grid>
 
 
         <!-- Chat Section -->
-        <Grid Grid.Column="1" 
-            Grid.Row="1" >
+        <Grid Grid.Column="1"
+              Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="70"/>
+                <RowDefinition />
+                <RowDefinition Height="70" />
             </Grid.RowDefinitions>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ListView Foreground="White"
-                  Height="auto"
-                  ItemsSource="{Binding Messages}" 
-                  Background="Transparent"
-                  BorderThickness="0"
-                  Margin="8,0,0,0">
+                          Height="auto"
+                          ItemsSource="{Binding Messages}"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          Margin="8,0,0,0">
 
                 </ListView>
             </ScrollViewer>
             <Grid VerticalAlignment="Stretch"
-            Grid.Row="1">
+                  Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="90" />
                 </Grid.ColumnDefinitions>
-                <TextBox 
-                 Height="50" 
-                 FontSize="14"
-                 Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" 
-                 Style="{StaticResource MessageBox}"
-                 Foreground="white"
-                 Grid.Column="0" KeyDown="TextBox_KeyDown"/>
-                <StackPanel Orientation="Horizontal" 
-                HorizontalAlignment="Right" 
-                Grid.Column="1">
-                    <Button Width="70" Content="Send" 
-                    Command="{Binding SendMessageCommand}" 
-                    Height="40" Margin="0,0,10,0"/>
+                <TextBox Height="50"
+                         FontSize="14"
+                         Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource MessageBox}"
+                         Foreground="white"
+                         Grid.Column="0"
+                         KeyDown="TextBox_KeyDown" />
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Grid.Column="1">
+                    <Button Width="70"
+                            Content="Send"
+                            Command="{Binding SendMessageCommand}"
+                            Height="40"
+                            Margin="0,0,10,0" />
                 </StackPanel>
             </Grid>
         </Grid>

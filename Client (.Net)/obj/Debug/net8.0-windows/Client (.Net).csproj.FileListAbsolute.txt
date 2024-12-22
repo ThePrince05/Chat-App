@@ -25,3 +25,6 @@ D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Themes
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Themes\MessageBox.baml
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Themes\StylishCrollbar.baml
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\App.baml
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).csproj.AssemblyReference.cache
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.3BD56DDE.Up2Date
