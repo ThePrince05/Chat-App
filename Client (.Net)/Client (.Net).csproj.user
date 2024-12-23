@@ -27,6 +27,9 @@
     <Page Update="Themes\MessageBox.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Themes\SideMenuButtons.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Themes\StylishCrollbar.xaml">
       <SubType>Designer</SubType>
     </Page>

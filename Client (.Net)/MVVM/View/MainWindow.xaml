@@ -123,8 +123,9 @@
                 </ListView>-->
             </Grid>
             <!-- Footer Section -->
-            <Grid Grid.Row="2" Panel.ZIndex="1"
-                  Background="#292b2f">
+            <Grid Grid.Row="2"
+                  Background="#292b2f"
+                  Height="50">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="100"/>
@@ -150,12 +151,11 @@
                     
                 </StackPanel>
                 <Button Grid.Column="2"
-                        x:Name="btnSettings"
-                        Width="30"
-                        Height="30"
+                        Margin="0,0,0,0"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
-                        Command="{Binding SettingsCommand}"/>
+                        Command="{Binding SettingsCommand}"
+                        Style="{StaticResource SettingsButtonTheme}"/>
             </Grid>
             <!--<StackPanel Grid.Row="2"
                         Orientation="Horizontal"

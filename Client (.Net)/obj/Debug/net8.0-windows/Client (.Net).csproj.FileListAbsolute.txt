@@ -61,3 +61,4 @@ C:\Users\Micha\source\repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-
 C:\Users\Micha\source\repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).genruntimeconfig.cache
 C:\Users\Micha\source\repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\ref\Client (.Net).dll
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\SideMenuButtons.baml

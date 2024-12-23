@@ -49,6 +49,9 @@ namespace Chat_App.MVVM.ViewModel
         [ObservableProperty]
         string supabaseProjectURL;
 
+        [ObservableProperty]
+        string pinged;
+
         private SupabaseService _supabaseService;
         private readonly Server _server;
 
@@ -60,8 +63,9 @@ namespace Chat_App.MVVM.ViewModel
             {
                 ServerUrl = m.ServerUrl;
                 ServerPort = m.ServerPort;
-                supabaseApiKey = m.SupabaseApiKey;
-                supabaseProjectURL = m.SupabaseProjectURL;
+                SupabaseApiKey = m.SupabaseApiKey;
+                SupabaseProjectURL = m.SupabaseProjectURL;
+                Pinged = m.Pinged;
             });
 
             CurrentView = SettingVM;
