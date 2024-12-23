@@ -25,7 +25,7 @@ namespace Client__.Net_.MVVM.View
         public SettingsView()
         {
             InitializeComponent();
-            this.DataContext = new SettingViewModel();
+            DataContext = new SettingsViewModel();
         }
     }
 }

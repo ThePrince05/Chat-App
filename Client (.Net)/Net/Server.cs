@@ -17,29 +17,45 @@ namespace Chat_App.Net
         public event Action msgReceivedEvent;
         public event Action userDisconnectEvent;
 
+        //public string serverUrl;
+        //public int port;
+
         public Server()
         {
            _client = new TcpClient();
         }
 
-        public void ConnectToServer(string username)
+        public void ConnectToServer(string username, string serverUrl = "127.0.0.1", int serverport = 7893)
         {
-            if (!_client.Connected)
+            Console.WriteLine($"the url is {serverUrl}");
+            Console.WriteLine($"the url is {serverport}");
+            try
             {
-                _client.Connect("kreft-server.duckdns.org", 7893);
-                PacketReader = new PacketReader(_client.GetStream());
-
-                if (!string.IsNullOrEmpty(username)) 
+                if (!_client.Connected)
                 {
-                    var connectPacket = new PacketBuilder();
-                    connectPacket.WriteOpCode(0);
-                    connectPacket.WriteMessage(username);
-                    _client.Client.Send(connectPacket.GetPacketBytes());
-                }
+                    _client.Connect(serverUrl, serverport);
+                    PacketReader = new PacketReader(_client.GetStream());
 
-                ReadPackets();
-               
+                    if (!string.IsNullOrEmpty(username))
+                    {
+                        var connectPacket = new PacketBuilder();
+                        connectPacket.WriteOpCode(0);
+                        connectPacket.WriteMessage(username);
+                        _client.Client.Send(connectPacket.GetPacketBytes());
+                    }
+
+                    ReadPackets();
+
+                }
             }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine($"the url isn't {serverUrl}");
+                Console.WriteLine($"the url isn't {serverport}");
+                throw;
+            }
+            
         }
 
         private void ReadPackets()

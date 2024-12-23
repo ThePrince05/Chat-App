@@ -3,6 +3,7 @@ using Client__.Net_.MVVM.Model;
 using Client__.Net_.MVVM.ViewModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -36,13 +37,39 @@ namespace Chat_App.MVVM.ViewModel
         [ObservableProperty]
         private string message;
 
+        [ObservableProperty]
+        string serverUrl;
+
+        [ObservableProperty]
+        int serverPort;
+
+        [ObservableProperty]
+        string supabaseApiKey;
+
+        [ObservableProperty]
+        string supabaseProjectURL;
+
         private readonly SupabaseService _supabaseService;
         private readonly Server _server;
 
-        public SettingViewModel SettingVM { get; } = new();
+        //public readonly SettingsViewModel _settingsViewModel;
+
+        public SettingsViewModel SettingVM { get; } = new();
+
+        //public string ServerUrl => _settingsViewModel.ServerUrl;
+        //public int ServerPort => Convert.ToInt32( _settingsViewModel.ServerPort);
 
         public MainViewModel()
         {
+            //_settingsViewModel = new();
+            WeakReferenceMessenger.Default.Register<ServerSettingsChangedMessage>(this, (r, m) =>
+            {
+                ServerUrl = m.ServerUrl;
+                ServerPort = m.ServerPort;
+                supabaseApiKey = m.SupabaseApiKey;
+                supabaseProjectURL = m.SupabaseProjectURL;
+            });
+
             CurrentView = SettingVM;
             Console.WriteLine(CurrentView.ToString());
             _server = new Server();
@@ -70,7 +97,9 @@ namespace Chat_App.MVVM.ViewModel
         [RelayCommand]
         private void ConnectToServer()
         {
-            _server.ConnectToServer(Username);
+            Console.WriteLine($"the url is {ServerUrl}");
+            Console.WriteLine($"the url is {ServerPort}");
+            _server.ConnectToServer(Username, ServerUrl, ServerPort);
             ConnectedUsername = Username;
             Username = string.Empty;
         }

@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Client__.Net_"
-             xmlns:settingsView="clr-namespace:Client__.Net_.MVVM.ViewModel"
+             xmlns:settingsViewModel="clr-namespace:Client__.Net_.MVVM.ViewModel"
              xmlns:view="clr-namespace:Client__.Net_.MVVM.View"
              StartupUri="MVVM/View/MainWindow.xaml">
     <Application.Resources>
@@ -14,7 +14,8 @@
                 <ResourceDictionary Source="./Themes/StylishCrollbar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate DataType="{x:Type settingsView:SettingViewModel}">
+
+            <DataTemplate DataType="{x:Type settingsViewModel:SettingsViewModel}">
                 <view:SettingsView/>
             </DataTemplate>
         </ResourceDictionary>
