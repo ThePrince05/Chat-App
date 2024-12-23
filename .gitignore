@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Chat App Client/DesignTimeBuild/.dtbcache.v2
+/.vs/Chat App Client/FileContentIndex/1f058ac9-d4b0-4f25-8b81-d0d62159d553.vsidx
+/.vs/Chat App Client/FileContentIndex/3d1b1efd-cdde-48d8-a65f-8e2ea316c2c1.vsidx
+/.vs/Chat App Client/FileContentIndex/4bcc1a0f-498b-41b7-9429-3129fbc077dc.vsidx
+/.vs/Chat App Client/FileContentIndex/6db06bb4-1308-4e8a-aeeb-5bab39c9b00c.vsidx
+/.vs/Chat App Client/FileContentIndex/9af67fd8-4f58-44e6-a0e3-1143849d14c8.vsidx
+/.vs/Chat App Client/v17/.suo
+/.vs/Chat App Client/v17/DocumentLayout.backup.json
+/.vs/Chat App Client/v17/DocumentLayout.json
+/.vs/slnx.sqlite
