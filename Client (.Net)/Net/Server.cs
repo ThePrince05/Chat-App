@@ -25,7 +25,7 @@ namespace Chat_App.Net
            _client = new TcpClient();
         }
 
-        public void ConnectToServer(string username, string serverUrl = "127.0.0.1", int serverport = 7893)
+        public void ConnectToServer(string username, string serverUrl, int serverport)
         {
             Console.WriteLine($"the url is {serverUrl}");
             Console.WriteLine($"the url is {serverport}");

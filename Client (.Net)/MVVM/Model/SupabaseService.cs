@@ -12,12 +12,12 @@ public class SupabaseService
 {
     // HttpClient instance for making HTTP requests
     private readonly HttpClient _httpClient;
-    private string apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR1c290c2ZlZHFxeGlnbm52ZG54Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ3OTI4MzMsImV4cCI6MjA1MDM2ODgzM30.VJ4SGx_TeQRNZWrnU329ROChEoywUEAxaeSQi9gmmNA";
-    private string projectURL = "https://tusotsfedqqxignnvdnx.supabase.co";
+    //private string apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR1c290c2ZlZHFxeGlnbm52ZG54Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ3OTI4MzMsImV4cCI6MjA1MDM2ODgzM30.VJ4SGx_TeQRNZWrnU329ROChEoywUEAxaeSQi9gmmNA";
+    //private string projectURL = "https://tusotsfedqqxignnvdnx.supabase.co";
 
 
     // Constructor initializes the HttpClient with base address and required headers
-    public SupabaseService()
+    public SupabaseService(string projectURL, string apiKey)
     {
 
         Console.WriteLine("Initializing SupabaseService...");
@@ -35,10 +35,21 @@ public class SupabaseService
         Console.WriteLine("HttpClient initialized with base address and headers.");
     }
 
+    public void StartSupabaseService(string apiKey)
+    {
+        
+
+        // Add required API key and authorization headers for authentication
+        _httpClient.DefaultRequestHeaders.Add("apikey", apiKey);
+        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+
+        Console.WriteLine("HttpClient initialized with base address and headers.");
+    }
+
   
 
-// Method to fetch messages from the "Messages" table in the Supabase database
-public async Task<List<Message>> GetMessagesAsync()
+    // Method to fetch messages from the "Messages" table in the Supabase database
+    public async Task<List<Message>> GetMessagesAsync()
     {
         Console.WriteLine("Sending request to fetch messages...");
 

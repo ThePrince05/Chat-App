@@ -49,19 +49,13 @@ namespace Chat_App.MVVM.ViewModel
         [ObservableProperty]
         string supabaseProjectURL;
 
-        private readonly SupabaseService _supabaseService;
+        private SupabaseService _supabaseService;
         private readonly Server _server;
-
-        //public readonly SettingsViewModel _settingsViewModel;
 
         public SettingsViewModel SettingVM { get; } = new();
 
-        //public string ServerUrl => _settingsViewModel.ServerUrl;
-        //public int ServerPort => Convert.ToInt32( _settingsViewModel.ServerPort);
-
         public MainViewModel()
         {
-            //_settingsViewModel = new();
             WeakReferenceMessenger.Default.Register<ServerSettingsChangedMessage>(this, (r, m) =>
             {
                 ServerUrl = m.ServerUrl;
@@ -73,16 +67,15 @@ namespace Chat_App.MVVM.ViewModel
             CurrentView = SettingVM;
             Console.WriteLine(CurrentView.ToString());
             _server = new Server();
-            _supabaseService = new SupabaseService();
 
             _server.connectedEvent += UserConnected;
             _server.msgReceivedEvent += MessageReceived;
             _server.userDisconnectEvent += RemoveUser;
 
-            InitializePolling();
+            //InitializePolling();
 
-            // Load messages from Supabase on startup
-            _ = LoadMessagesAsync();
+            //// Load messages from Supabase on startup
+            //_ = LoadMessagesAsync();
         }
 
         [RelayCommand]
@@ -102,6 +95,15 @@ namespace Chat_App.MVVM.ViewModel
             _server.ConnectToServer(Username, ServerUrl, ServerPort);
             ConnectedUsername = Username;
             Username = string.Empty;
+
+
+            _supabaseService = new SupabaseService(supabaseProjectURL, supabaseApiKey);
+            //_supabaseService.StartSupabaseService(supabaseApiKey);
+
+            InitializePolling();
+
+            // Load messages from Supabase on startup
+            _ = LoadMessagesAsync();
         }
 
         [RelayCommand]

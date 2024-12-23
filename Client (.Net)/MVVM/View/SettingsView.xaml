@@ -49,7 +49,7 @@
                          FontSize="14"
                          Width="300"
                          HorizontalAlignment="Left"
-                         Text="{Binding SupabaseApiKey}"/>
+                         Text="{Binding SupabaseProjectURL}"/>
             </StackPanel>
             <StackPanel >
                 <Label Height="25"
@@ -61,7 +61,7 @@
                          FontSize="14"
                          Width="300"
                          HorizontalAlignment="Left"
-                         Text="{Binding SupabaseProjectURL}"/>
+                         Text="{Binding SupabaseApiKey}"/>
             </StackPanel>
         </StackPanel>
     </Grid>
