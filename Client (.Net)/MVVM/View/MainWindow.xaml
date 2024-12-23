@@ -122,7 +122,40 @@
                 </ListView>-->
             </Grid>
             <!-- Footer Section -->
-            <StackPanel Grid.Row="2"
+            <Grid Grid.Row="2" Panel.ZIndex="1"
+                  Background="#292b2f">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Border CornerRadius="25"
+                        Width="30"
+                        Height="30"
+                        Background="Red"
+                        HorizontalAlignment="Center"/>
+                <StackPanel VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Grid.Column="1">
+                    <Label Content="{Binding ConnectedUsername, TargetNullValue=Username}"
+                           Foreground="White"
+                           FontWeight="SemiBold"
+                           Width="auto"/>
+                    <Label Content="Custom Status"
+                           Foreground="Gray"
+                           FontWeight="SemiBold"
+                           FontSize="10"
+                           Width="auto"/>
+                    
+                </StackPanel>
+                <Button Grid.Column="2"
+                        x:Name="btnSettings"
+                        Width="30"
+                        Height="30"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"/>
+            </Grid>
+            <!--<StackPanel Grid.Row="2"
                         Orientation="Horizontal"
                         Background="#292b2f"
                         HorizontalAlignment="Stretch">
@@ -136,14 +169,21 @@
                     <Label Content="{Binding ConnectedUsername, TargetNullValue=Username}"
                            Foreground="White"
                            FontWeight="SemiBold"
-                           Margin="0,-5,0,5" />
+                           Margin="0,-5,0,5" 
+                           Width="70"/>
                     <Label Content="Custom Status"
                            Foreground="Gray"
                            FontWeight="SemiBold"
                            FontSize="10"
-                           Margin="0,-8,0,5" />
+                           Margin="0,-8,0,5" 
+                           MaxWidth="80"/>
                 </StackPanel>
-            </StackPanel>
+                <Button x:Name="btnSettings"
+                        Width="30"
+                        Height="30"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"/>
+            </StackPanel>-->
         </Grid>
 
 
@@ -154,14 +194,13 @@
                 <RowDefinition />
                 <RowDefinition Height="70" />
             </Grid.RowDefinitions>
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True">
                 <ListView Foreground="White"
                           Height="auto"
                           ItemsSource="{Binding Messages}"
                           Background="Transparent"
                           BorderThickness="0"
                           Margin="8,0,0,0">
-
                 </ListView>
             </ScrollViewer>
             <Grid VerticalAlignment="Stretch"

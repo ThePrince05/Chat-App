@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\
+C:\Users\Micha\source\repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\
 Client__.Net_
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-D:\Projects\Visual Studio\Chat App\Client (.Net)\App.xaml
-5-1607666909
+C:\Users\Micha\source\repos\ThePrince05\Chat-App\Client (.Net)\App.xaml
+6-1627101121
 
-12-833154445
-1991103314805
-MVVM\View\MainWindow.xaml;Themes\ChatItem.xaml;Themes\ContactCard.xaml;Themes\MessageBox.xaml;Themes\StylishCrollbar.xaml;
+151012861463
+1991039512773
+MVVM\View\MainWindow.xaml;MVVM\View\SettingsView.xaml;Themes\ChatItem.xaml;Themes\ContactCard.xaml;Themes\MessageBox.xaml;Themes\StylishCrollbar.xaml;
 
 False
 

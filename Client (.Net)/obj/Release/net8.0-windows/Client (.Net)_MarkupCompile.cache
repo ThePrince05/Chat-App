@@ -10,11 +10,11 @@ none
 false
 TRACE;RELEASE;NET;NET8_0;NETCOREAPP
 C:\Users\Micha\source\repos\ThePrince05\Chat-App\Client (.Net)\App.xaml
-5-1607666909
+6-1627101121
 
-13-755104673
-198-1431420039
-MVVM\View\MainWindow.xaml;Themes\ChatItem.xaml;Themes\ContactCard.xaml;Themes\MessageBox.xaml;Themes\StylishCrollbar.xaml;
+15665423034
+1991039512773
+MVVM\View\MainWindow.xaml;MVVM\View\SettingsView.xaml;Themes\ChatItem.xaml;Themes\ContactCard.xaml;Themes\MessageBox.xaml;Themes\StylishCrollbar.xaml;
 
 True
 

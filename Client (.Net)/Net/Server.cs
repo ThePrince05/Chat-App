@@ -26,7 +26,7 @@ namespace Chat_App.Net
         {
             if (!_client.Connected)
             {
-                _client.Connect("127.0.0.1", 7893);
+                _client.Connect("kreft-server.duckdns.org", 7893);
                 PacketReader = new PacketReader(_client.GetStream());
 
                 if (!string.IsNullOrEmpty(username)) 
