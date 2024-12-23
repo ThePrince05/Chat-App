@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Client__.Net_.MVVM.View"
+             xmlns:local="clr-namespace:Client__.Net_.MVVM.View" 
+             xmlns:viewmodel="clr-namespace:Client__.Net_.MVVM.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:SettingViewModel}"
+             Background="#36393F"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
@@ -15,23 +19,24 @@
                            FontSize="14"
                            Foreground="White"
                            Padding="0"/>
-                    <TextBox x:Name="tbServerIP" 
-                             Height="25"
+                    <TextBox Height="25"
                              FontSize="14"
-                             Width="300"/>
+                             Width="300"
+                             Text="{Binding ServerUrl}"/>
                 </StackPanel>
                 <StackPanel>
                     <Label Height="25"
                            Content=" Server Port"
                            FontSize="14"
                            Foreground="White"/>
-                    <TextBox x:Name="tbServerPort"
-                             Height="25"
+                    <TextBox Height="25"
                              FontSize="14"
-                             Width="50"/>
+                             Width="50"
+                             Text="{Binding ServerPort}"/>
                 </StackPanel>
                 <Button Content="Test Connection"
-                        Padding="5"/>
+                        Padding="5"
+                        Command="{Binding PingCommand}"/>
             </StackPanel>
             <StackPanel >
                 <Label Height="25"
@@ -39,11 +44,11 @@
                        FontSize="14"
                        Foreground="White"
                        Padding="0"/>
-                <TextBox x:Name="tbSupabaseUrl"
-                         Height="25"
+                <TextBox Height="25"
                          FontSize="14"
                          Width="300"
-                         HorizontalAlignment="Left"/>
+                         HorizontalAlignment="Left"
+                         Text="{Binding SupabaseApiKey}"/>
             </StackPanel>
             <StackPanel >
                 <Label Height="25"
@@ -51,11 +56,11 @@
                        FontSize="14"
                        Foreground="White"
                        Padding="0"/>
-                <TextBox x:Name="tbSupabaseAPI"
-                         Height="25"
+                <TextBox Height="25"
                          FontSize="14"
                          Width="300"
-                         HorizontalAlignment="Left"/>
+                         HorizontalAlignment="Left"
+                         Text="{Binding SupabaseProjectURL}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

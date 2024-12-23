@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Chat_App.MVVM.ViewModel;
+using Client__.Net_.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,7 @@ namespace Client__.Net_.MVVM.View
         public SettingsView()
         {
             InitializeComponent();
+            this.DataContext = new SettingViewModel();
         }
     }
 }

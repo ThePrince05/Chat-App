@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chat_App.MVVM.Model
+namespace Client__.Net_.MVVM.Model
 {
-     class UserModel
+    public class UserModel
     {
         public string Username { get; set; }
         public string UID { get; set; }
     }
+
 }

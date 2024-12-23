@@ -28,24 +28,26 @@ D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\refint
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).pdb
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).genruntimeconfig.cache
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\ref\Client (.Net).dll
-C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).exe
-C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).deps.json
-C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).runtimeconfig.json
-C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).dll
-C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).pdb
-C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).csproj.AssemblyReference.cache
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\ChatItem.baml
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\ContactCard.baml
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\MessageBox.baml
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\StylishCrollbar.baml
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\MainWindow.g.cs
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SettingsView.g.cs
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\App.g.cs
-C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_MarkupCompile.cache
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_MarkupCompile.lref
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).exe
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).deps.json
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).runtimeconfig.json
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).dll
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).pdb
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\CommunityToolkit.Mvvm.dll
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\App.baml
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\MainWindow.baml
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SettingsView.baml
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).g.resources
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).AssemblyInfoInputs.cache
@@ -58,5 +60,4 @@ C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).pdb
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).genruntimeconfig.cache
 C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\ref\Client (.Net).dll
-C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SettingsView.g.cs
-C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SettingsView.baml
+C:\Users\Micha\Source\Repos\ThePrince05\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
