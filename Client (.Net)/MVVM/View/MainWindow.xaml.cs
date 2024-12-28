@@ -52,6 +52,8 @@ namespace Chat_App
 
                 // username label behavior
                 lbl_username.FontSize = 14;
+
+              
             }
 
             else
