@@ -138,6 +138,8 @@
 
                 <StackPanel VerticalAlignment="Center">
                     <Label Content="{Binding ConnectedUsername, TargetNullValue=Username}"
+                           x:Name="lbl_username"
+                           FontSize="12"
                            Foreground="White"
                            FontWeight="SemiBold"
                            Margin="5,5,0,-5" />
@@ -156,7 +158,7 @@
               Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition Height="70" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ListView Foreground="White"
@@ -169,7 +171,7 @@
                 </ListView>
             </ScrollViewer>
             <Grid VerticalAlignment="Stretch"
-                  Grid.Row="1">
+                  Grid.Row="1" Margin="0 10 0 20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="90" />
@@ -180,7 +182,8 @@
                          Style="{StaticResource MessageBox}"
                          Foreground="white"
                          Grid.Column="0"
-                         KeyDown="TextBox_KeyDown" />
+                         KeyDown="TextBox_KeyDown"
+                         TextWrapping="Wrap"/>
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Right"
                             Grid.Column="1">

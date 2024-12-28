@@ -47,8 +47,11 @@ namespace Chat_App
                 // button behavior
                 TitleBtnSize(30);
 
-                // label behavior
+                // title label behavior
                 lbl_title.FontSize = 15;
+
+                // username label behavior
+                lbl_username.FontSize = 14;
             }
 
             else
@@ -58,8 +61,11 @@ namespace Chat_App
                 // button behavior
                 TitleBtnSize();
 
-                // label behavior
+                // title label behavior
                 lbl_title.FontSize = 12;
+
+                // username label behavior
+                lbl_username.FontSize = 12;
             }
         }
 
