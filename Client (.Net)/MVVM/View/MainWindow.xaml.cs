@@ -41,9 +41,26 @@ namespace Chat_App
         private void Maximise_Click(object sender, RoutedEventArgs e)
         {
             if (Application.Current.MainWindow.WindowState != WindowState.Maximized)
+            {
                 Application.Current.MainWindow.WindowState = WindowState.Maximized;
+
+                // button behavior
+                TitleBtnSize(30);
+
+                // label behavior
+                lbl_title.FontSize = 15;
+            }
+
             else
+            { 
                 Application.Current.MainWindow.WindowState = WindowState.Normal;
+
+                // button behavior
+                TitleBtnSize();
+
+                // label behavior
+                lbl_title.FontSize = 12;
+            }
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -62,6 +79,15 @@ namespace Chat_App
 
                 }
             }
+        }
+
+        private void TitleBtnSize(int btnSize = 20) {
+            Maximise.Height = btnSize;
+            Maximise.Width = btnSize;
+            Minimise.Height = btnSize;
+            Minimise.Width = btnSize;
+            Exit.Height = btnSize;
+            Exit.Width = btnSize;
         }
     }
 }

@@ -12,8 +12,8 @@ public class SupabaseService
 {
     // HttpClient instance for making HTTP requests
     private readonly HttpClient _httpClient;
-    private string apiKey = "";
-    private string projectURL = "";
+    private string apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR1c290c2ZlZHFxeGlnbm52ZG54Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ3OTI4MzMsImV4cCI6MjA1MDM2ODgzM30.VJ4SGx_TeQRNZWrnU329ROChEoywUEAxaeSQi9gmmNA";
+    private string projectURL = "https://tusotsfedqqxignnvdnx.supabase.co";
 
 
     // Constructor initializes the HttpClient with base address and required headers
