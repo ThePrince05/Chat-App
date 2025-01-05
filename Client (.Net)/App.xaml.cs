@@ -12,16 +12,16 @@ namespace Client__.Net_
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            var mainViewModel = new MainViewModel();
-            var settingsViewModel = new SettingsViewModel();
+        //protected override void OnStartup(StartupEventArgs e)
+        //{
+        //    var mainViewModel = new MainViewModel();
+        //    var settingsViewModel = new SettingsViewModel();
 
-            var mainWindow = new MainWindow { DataContext = mainViewModel };
-            //mainWindow.Show();
+        //    var mainWindow = new MainWindow { DataContext = mainViewModel };
+        //    mainWindow.Show();
 
-            base.OnStartup(e);
-        }
+        //    base.OnStartup(e);
+        //}
 
     }
 
