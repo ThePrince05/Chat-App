@@ -53,7 +53,12 @@ namespace Chat_App
                 // username label behavior
                 lbl_username.FontSize = 14;
 
-              
+                // left panel
+                var grid = (Grid)FindName("MainGrid"); // Replace with the actual name of your grid if needed
+                var row1 = (UIElement)grid.Children[1]; // Find the element of Row 1 (based on the order of the grid children)
+
+                // Change the margin (left, top, right, bottom)
+                row1.SetValue(MarginProperty, new Thickness(8, 0, 0, 0));  // Adjust as needed
             }
 
             else
@@ -68,6 +73,14 @@ namespace Chat_App
 
                 // username label behavior
                 lbl_username.FontSize = 12;
+
+                // left panel
+                // Reset the margin when window is normal
+                var grid = (Grid)FindName("MainGrid"); // Replace with actual name if needed
+                var row1 = (UIElement)grid.Children[1];
+
+                // Reset to default margin
+                row1.SetValue(MarginProperty, new Thickness(0)); // Default margin
             }
         }
 
@@ -78,15 +91,35 @@ namespace Chat_App
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            // Check for the Enter key with no Shift pressed (to send the message)
+            if (e.Key == Key.Enter && !Keyboard.IsKeyDown(Key.LeftShift) && !Keyboard.IsKeyDown(Key.RightShift))
             {
                 // Access the ViewModel and execute the SendMessageCommand
                 if (DataContext is MainViewModel viewModel && viewModel.SendMessageCommand.CanExecute(null))
                 {
-                    viewModel.SendMessageCommand.Execute(null);
-
+                    e.Handled = true; // Prevents the default Enter behavior (new line)
+                    viewModel.SendMessageCommand.Execute(null); // Execute the send message logic
                 }
             }
+
+            // Check for Shift + Enter (to insert a line break)
+            if (e.Key == Key.Enter && (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)))
+            {
+                e.Handled = true; // Prevents the default behavior (new line)
+
+                // Access the TextBox and insert a new line at the current caret position
+                var textBox = sender as TextBox;
+                if (textBox != null)
+                {
+                    // Insert a new line at the current caret position
+                    int caretIndex = textBox.CaretIndex;
+                    textBox.Text = textBox.Text.Insert(caretIndex, Environment.NewLine);
+
+                    // Move the caret position to after the new line (so it can continue typing)
+                    textBox.CaretIndex = caretIndex + Environment.NewLine.Length;
+                }
+            }
+
         }
 
         private void TitleBtnSize(int btnSize = 20) {
