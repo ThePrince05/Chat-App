@@ -28,3 +28,4 @@ D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\refint
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).pdb
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).genruntimeconfig.cache
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\ref\Client (.Net).dll
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\FontAwesome.Sharp.dll
