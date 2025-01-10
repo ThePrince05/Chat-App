@@ -91,35 +91,7 @@ namespace Chat_App
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            // Check for the Enter key with no Shift pressed (to send the message)
-            if (e.Key == Key.Enter && !Keyboard.IsKeyDown(Key.LeftShift) && !Keyboard.IsKeyDown(Key.RightShift))
-            {
-                // Access the ViewModel and execute the SendMessageCommand
-                if (DataContext is MainViewModel viewModel && viewModel.SendMessageCommand.CanExecute(null))
-                {
-                    e.Handled = true; // Prevents the default Enter behavior (new line)
-                    viewModel.SendMessageCommand.Execute(null); // Execute the send message logic
-                }
-            }
-
-            // Check for Shift + Enter (to insert a line break)
-            if (e.Key == Key.Enter && (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)))
-            {
-                e.Handled = true; // Prevents the default behavior (new line)
-
-                // Access the TextBox and insert a new line at the current caret position
-                var textBox = sender as TextBox;
-                if (textBox != null)
-                {
-                    // Insert a new line at the current caret position
-                    int caretIndex = textBox.CaretIndex;
-                    textBox.Text = textBox.Text.Insert(caretIndex, Environment.NewLine);
-
-                    // Move the caret position to after the new line (so it can continue typing)
-                    textBox.CaretIndex = caretIndex + Environment.NewLine.Length;
-                }
-            }
-
+          
         }
 
         private void TitleBtnSize(int btnSize = 20) {

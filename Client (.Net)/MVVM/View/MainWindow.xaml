@@ -194,7 +194,7 @@
                                 <TextBlock Text="{Binding username}"
                                            FontWeight="Bold"
                                            FontSize="14"
-                                           Foreground="#FFD700"
+                                           Foreground="#4CAF50"
                                            Margin="0,0,0,5" />
                                 <!-- Message content in the middle -->
                                 <TextBlock Text="{Binding message}"

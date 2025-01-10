@@ -9,6 +9,8 @@ namespace Client__.Net_
     /// </summary>
     public partial class App : Application
     {
+       
     }
-
 }
+
+

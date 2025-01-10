@@ -48,6 +48,8 @@ namespace Chat_App.MVVM.ViewModel
             set => SetProperty(ref _message, value);
         }
 
+        private readonly DatabaseService _databaseService;
+
         // Constructor
         public MainViewModel()
         {
@@ -69,8 +71,24 @@ namespace Chat_App.MVVM.ViewModel
 
             // Initialize polling
             InitializePolling();
-        }
 
+            _databaseService = new DatabaseService();
+            InitializeDatabase();
+        }
+        bool check =false;
+
+        private void InitializeDatabase()
+        {
+            try
+            {
+                _databaseService.InitializeDatabase();
+                Console.WriteLine("Database initialized successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error initializing the database: {ex.Message}");
+            }
+        }
         private void InitializeCommands()
         {
             // Connect to server command
@@ -79,7 +97,7 @@ namespace Chat_App.MVVM.ViewModel
                 {
                     await ConnectToServer();
                 },
-                o => !string.IsNullOrEmpty(Username) // Only enabled when username is not empty
+                o => !string.IsNullOrEmpty(Username)// Only enabled when username is not empty
             );
 
             // Send message command
@@ -97,9 +115,14 @@ namespace Chat_App.MVVM.ViewModel
 
         private async Task ConnectToServer()
         {
-            _server.ConnectToServer(Username);
             ConnectedUsername = Username;
             Username = string.Empty;
+
+            if (check)
+            {
+                _server.ConnectToServer(Username);
+            }
+          
         }
 
         private async Task SendMessageAsync()
@@ -108,8 +131,12 @@ namespace Chat_App.MVVM.ViewModel
             {
                 var timestamp = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
 
-                // Send message to server
-                _server.SendMessageToServer(Message);
+                if (check)
+                {
+                    // Send message to server
+                    _server.SendMessageToServer(Message);
+                }
+              
 
                 // Save message to Supabase
                 bool isSaved = await _supabaseService.SaveMessageAsync(ConnectedUsername, Message, timestamp);
