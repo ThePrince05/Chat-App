@@ -47,7 +47,5 @@ D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\runtim
 D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserProfile.g.cs
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserProfile.baml
-D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\Images\logo.png
 D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\MaterialDesignColors.dll
 D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\MaterialDesignThemes.Wpf.dll
-D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_Content.g.cs

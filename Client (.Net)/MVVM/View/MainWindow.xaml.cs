@@ -44,12 +44,6 @@ namespace Chat_App
             {
                 Application.Current.MainWindow.WindowState = WindowState.Maximized;
 
-                // button behavior
-                TitleBtnSize(30);
-
-                // title label behavior
-                lbl_title.FontSize = 15;
-
                 // username label behavior
                 lbl_username.FontSize = 14;
 
@@ -64,12 +58,6 @@ namespace Chat_App
             else
             { 
                 Application.Current.MainWindow.WindowState = WindowState.Normal;
-
-                // button behavior
-                TitleBtnSize();
-
-                // title label behavior
-                lbl_title.FontSize = 12;
 
                 // username label behavior
                 lbl_username.FontSize = 12;
@@ -94,13 +82,6 @@ namespace Chat_App
           
         }
 
-        private void TitleBtnSize(int btnSize = 20) {
-            Maximise.Height = btnSize;
-            Maximise.Width = btnSize;
-            Minimise.Height = btnSize;
-            Minimise.Width = btnSize;
-            Exit.Height = btnSize;
-            Exit.Width = btnSize;
-        }
+        
     }
 }

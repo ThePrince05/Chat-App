@@ -93,6 +93,34 @@ public class DatabaseService
         }
     }
 
+    public void SaveUser(string username, string color)
+    {
+        try
+        {
+            using (var connection = new SQLiteConnection($"Data Source={_databaseFilePath};Version=3;"))
+            {
+                connection.Open();
+
+                // Insert user into the User table
+                string insertQuery = "INSERT INTO User (Username, Colour) VALUES (@Username, @Colour)";
+                using (var command = new SQLiteCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Username", username);
+                    command.Parameters.AddWithValue("@Colour", color);
+
+                    command.ExecuteNonQuery();
+                    Debug.WriteLine("User saved successfully.");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error saving user: {ex.Message}");
+            throw;
+        }
+    }
+
+
     public string GetDatabaseFilePath()
     {
         return _databaseFilePath;

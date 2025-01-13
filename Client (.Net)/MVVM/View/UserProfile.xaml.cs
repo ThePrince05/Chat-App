@@ -1,16 +1,10 @@
-﻿using System;
+﻿using Chat_App.MVVM.ViewModel;
+using Client__.Net_.MVVM.Model;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Client__.Net_.MVVM.View
 {
@@ -22,11 +16,52 @@ namespace Client__.Net_.MVVM.View
         public UserProfile()
         {
             InitializeComponent();
+          
+            // Create a list of ColorItem objects for ComboBox
+            List<ColorItem> colors = new List<ColorItem>
+            {
+                new ColorItem("Red", new SolidColorBrush(Colors.OrangeRed)),
+                new ColorItem("Green", new SolidColorBrush(Colors.Green)),
+                new ColorItem("Blue", new SolidColorBrush(Colors.DodgerBlue)),
+                new ColorItem("Gold", new SolidColorBrush(Colors.SandyBrown)),
+                new ColorItem("Purple", new SolidColorBrush(Colors.Purple))
+            };
+
+            // Bind the list of colors to the ComboBox
+            ColorComboBox.ItemsSource = colors;
+
+
         }
 
+        // Close the Window
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
+        // Handle ComboBox selection changes
+        private void ColorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Get the selected color from the ComboBox
+            var selectedItem = ColorComboBox.SelectedItem as ColorItem;
+            if (selectedItem != null)
+            {
+                var viewModel = this.DataContext as MainViewModel;
+                if (viewModel != null)
+                {
+                    // Set the SelectedColor in ViewModel
+                    viewModel.SelectedColor = selectedItem.Color;
+                }
+            }
+            else
+            {
+                // If placeholder is selected, reset the color
+                var viewModel = this.DataContext as MainViewModel;
+                if (viewModel != null)
+                {
+                    viewModel.SelectedColor = new SolidColorBrush(Colors.Transparent); // Reset to transparent
+                }
+            }
+        }
     }
-}
+    }

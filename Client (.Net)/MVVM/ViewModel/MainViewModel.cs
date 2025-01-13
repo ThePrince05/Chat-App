@@ -8,31 +8,51 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Timers;
 
 namespace Chat_App.MVVM.ViewModel
 {
-    class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : INotifyPropertyChanged, IDisposable
     {
         private System.Timers.Timer _pollingTimer;
         private readonly SupabaseService _supabaseService;
         private readonly Server _server;
+        private readonly DatabaseService _databaseService;
+        private SolidColorBrush selectedColor;
 
         // ObservableCollections for binding
-        public ObservableCollection<UserModel> Users { get; set; }
-        public ObservableCollection<Message> Messages { get; set; }
+        public ObservableCollection<UserModel> Users { get; } = new ObservableCollection<UserModel>();
+        public ObservableCollection<Message> Messages { get; } = new ObservableCollection<Message>();
 
         // Commands
-        public RelayCommand ConnectToServerCommand { get; set; }
-        public RelayCommand SendMessageCommand { get; set; }
-        public RelayCommand LoadMessagesCommand { get; set; }
+        public ICommand ConnectToServerCommand { get; }
+        public ICommand SendMessageCommand { get; }
+        public ICommand LoadMessagesCommand { get; }
+        public ICommand LoginCommand { get; }
 
-        // Properties
-        private string _username;
+        private string username;
         public string Username
         {
-            get => _username;
-            set => SetProperty(ref _username, value);
+            get => username;
+            set
+            {
+                if (username != value)
+                {
+                    username = value;
+                    OnPropertyChanged(nameof(Username));
+
+                    // If CurrentUser is not null, update the Username in UserModel
+                    if (CurrentUser != null)
+                    {
+                        CurrentUser.Username = value;
+                    }
+                }
+            }
         }
+
+        public UserModel CurrentUser { get; set; }  // Keep this as a single declaration
 
         private string _connectedUsername;
         public string ConnectedUsername
@@ -48,120 +68,91 @@ namespace Chat_App.MVVM.ViewModel
             set => SetProperty(ref _message, value);
         }
 
-        private readonly DatabaseService _databaseService;
-
         // Constructor
         public MainViewModel()
         {
-            Users = new ObservableCollection<UserModel>();
-            Messages = new ObservableCollection<Message>();
             _server = new Server();
             _supabaseService = new SupabaseService();
+            _databaseService = new DatabaseService();
 
-            // Subscribe to events
+            // Initialize Commands
+            ConnectToServerCommand = new RelayCommand(async _ => await ConnectToServer(), _ => !string.IsNullOrEmpty(Username));
+            SendMessageCommand = new RelayCommand(async _ => await SendMessageAsync(), _ => !string.IsNullOrEmpty(Message));
+            LoadMessagesCommand = new RelayCommand(async _ => await LoadMessagesAsync());
+
+            // Initialize Commands
+            LoginCommand = new RelayCommand(async _ => await LogInUser(), _ => !string.IsNullOrEmpty(Username));
+
+            // Initialize Services and Events
             _server.connectedEvent += UserConnected;
             _server.msgReceivedEvent += MessageReceived;
             _server.userDisconnectEvent += RemoveUser;
 
-            // Initialize Commands
-            InitializeCommands();
-
-            // Load messages on startup
-            _ = LoadMessagesAsync();
-
-            // Initialize polling
+            // Initialize Polling
             InitializePolling();
 
-            _databaseService = new DatabaseService();
+            // Initialize Database and Load Messages
             InitializeDatabase();
-        }
-        bool check =false;
+            _ = LoadMessagesAsync();
 
-        private void InitializeDatabase()
-        {
-            try
-            {
-                _databaseService.InitializeDatabase();
-                Console.WriteLine("Database initialized successfully.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error initializing the database: {ex.Message}");
-            }
+            // Initialize SelectedColor to a default color, e.g., Green
+            SelectedColor = new SolidColorBrush(Colors.Green);
         }
-        private void InitializeCommands()
+
+        private async Task LogInUser()
         {
-            // Connect to server command
-            ConnectToServerCommand = new RelayCommand(
-                async o =>
+            if (string.IsNullOrEmpty(Username))
+            {
+                MessageBox.Show("Username is required.");
+                return;
+            }
+
+            // Get the SelectedColor as a string (You can use any color format, e.g., Hex)
+            string selectedColorHex = SelectedColor.Color.ToString(); // For example, #FF00FF
+
+            // Save the user to the database
+            _databaseService.SaveUser(Username, selectedColorHex);
+
+            // You can also do other actions after login like navigating to the chat screen or setting a flag
+            MessageBox.Show("User logged in successfully.");
+        }
+
+        public SolidColorBrush SelectedColor
+        {
+            get => selectedColor;
+            set
+            {
+                selectedColor = value;
+                OnPropertyChanged(nameof(SelectedColor));
+
+                // Link to CurrentUser's SelectedColor (UserModel)
+                if (CurrentUser != null)
                 {
-                    await ConnectToServer();
-                },
-                o => !string.IsNullOrEmpty(Username)// Only enabled when username is not empty
-            );
-
-            // Send message command
-            SendMessageCommand = new RelayCommand(
-                async o => await SendMessageAsync(),
-                o => !string.IsNullOrEmpty(Message) // Only enabled when message is not empty
-            );
-
-            // Load messages command
-            LoadMessagesCommand = new RelayCommand(
-                async o => await LoadMessagesAsync(),
-                o => true // Always enabled
-            );
+                    CurrentUser.SelectedColor = value;
+                }
+            }
         }
 
         private async Task ConnectToServer()
         {
             ConnectedUsername = Username;
             Username = string.Empty;
-
-            if (check)
-            {
-                _server.ConnectToServer(Username);
-            }
-          
+            _server.ConnectToServer(ConnectedUsername);
         }
 
         private async Task SendMessageAsync()
         {
-            if (!string.IsNullOrEmpty(Message))
+            if (string.IsNullOrEmpty(Message)) return;
+
+            var timestamp = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
+            _server.SendMessageToServer(Message);
+
+            if (await _supabaseService.SaveMessageAsync(ConnectedUsername, Message, timestamp))
             {
-                var timestamp = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
-
-                if (check)
-                {
-                    // Send message to server
-                    _server.SendMessageToServer(Message);
-                }
-              
-
-                // Save message to Supabase
-                bool isSaved = await _supabaseService.SaveMessageAsync(ConnectedUsername, Message, timestamp);
-
-                if (isSaved)
-                {
-                    Console.WriteLine("Message saved successfully.");
-                    await LoadMessagesAsync();
-                }
-                else
-                {
-                    Console.WriteLine("Failed to save message.");
-                }
-
-                // Clear the message input
-                Message = string.Empty;
+                await LoadMessagesAsync();
             }
-        }
 
-        private void InitializePolling()
-        {
-            _pollingTimer = new System.Timers.Timer(5000);
-            _pollingTimer.Elapsed += async (sender, e) => await PollMessagesAsync();
-            _pollingTimer.AutoReset = true;
-            _pollingTimer.Enabled = true;
+            Message = string.Empty;
         }
 
         private async Task PollMessagesAsync()
@@ -169,26 +160,25 @@ namespace Chat_App.MVVM.ViewModel
             await LoadMessagesAsync();
         }
 
+        private void InitializePolling()
+        {
+            _pollingTimer = new System.Timers.Timer(5000); // Interval in milliseconds
+            _pollingTimer.Elapsed += async (sender, e) => await PollMessagesAsync();
+            _pollingTimer.AutoReset = true; // Repeat the timer
+            _pollingTimer.Enabled = true;   // Start the timer
+        }
+
         private async Task LoadMessagesAsync()
         {
             try
             {
-                Console.WriteLine("Loading messages from Supabase...");
-
                 var messages = await _supabaseService.GetMessagesAsync();
-
-                // Update messages collection on UI thread
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     Messages.Clear();
                     foreach (var msg in messages)
-                    {
-                        // Add messages as Message objects
                         Messages.Add(msg);
-                    }
                 });
-
-                Console.WriteLine("Messages loaded successfully.");
             }
             catch (Exception ex)
             {
@@ -196,68 +186,72 @@ namespace Chat_App.MVVM.ViewModel
             }
         }
 
-        private void RemoveUser()
+        private void InitializeDatabase()
         {
-            if (_server.PacketReader != null)
+            try
             {
-                var uid = _server.PacketReader.ReadMessage();
-                var user = Users.FirstOrDefault(x => x.UID == uid);
-                if (user != null)
-                {
-                    Application.Current.Dispatcher.Invoke(() => Users.Remove(user));
-                }
+                _databaseService.InitializeDatabase();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error initializing database: {ex.Message}");
+            }
+        }
+
+        private void UserConnected()
+        {
+            if (_server.PacketReader == null) return;
+
+            var user = new UserModel
+            {
+                Username = _server.PacketReader.ReadMessage(),
+                UID = _server.PacketReader.ReadMessage()
+            };
+
+            if (!Users.Any(x => x.UID == user.UID))
+            {
+                Application.Current.Dispatcher.Invoke(() => Users.Add(user));
             }
         }
 
         private void MessageReceived()
         {
-            if (_server.PacketReader != null)
+            if (_server.PacketReader == null) return;
+
+            var msg = new Message
             {
-                // Assuming the PacketReader returns a message string, username, and timestamp.
-                var messageContent = _server.PacketReader.ReadMessage();  // Message content (text)
-                var username = _server.PacketReader.ReadMessage();        // Username
-                var timestamp = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss"); // Or use actual timestamp if available
+                message = _server.PacketReader.ReadMessage(),
+                username = _server.PacketReader.ReadMessage(),
+                timestamp = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss")
+            };
 
-                // Create a new Message object using the data
-                var msg = new Message
-                {
-                    message = messageContent,
-                    username = username,
-                    timestamp = timestamp
-                };
-
-                // Add the Message object to the collection
-                Application.Current.Dispatcher.Invoke(() => Messages.Add(msg));
-            }
+            Application.Current.Dispatcher.Invoke(() => Messages.Add(msg));
         }
 
-
-        private void UserConnected()
+        private void RemoveUser()
         {
-            if (_server.PacketReader != null)
-            {
-                var user = new UserModel
-                {
-                    Username = _server.PacketReader.ReadMessage(),
-                    UID = _server.PacketReader.ReadMessage()
-                };
+            if (_server.PacketReader == null) return;
 
-                if (!Users.Any(x => x.UID == user.UID))
-                {
-                    Application.Current.Dispatcher.Invoke(() => Users.Add(user));
-                }
+            var uid = _server.PacketReader.ReadMessage();
+            var user = Users.FirstOrDefault(x => x.UID == uid);
+            if (user != null)
+            {
+                Application.Current.Dispatcher.Invoke(() => Users.Remove(user));
             }
         }
 
-        // INotifyPropertyChanged Implementation
+        public void Dispose()
+        {
+            _server.connectedEvent -= UserConnected;
+            _server.msgReceivedEvent -= MessageReceived;
+            _server.userDisconnectEvent -= RemoveUser;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string propertyName)
-        {
+        protected virtual void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
-        // SetProperty Helper method to avoid redundant code
         protected bool SetProperty<T>(ref T field, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;

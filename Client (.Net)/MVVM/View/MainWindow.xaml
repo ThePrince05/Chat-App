@@ -7,7 +7,7 @@
         xmlns:viewmodel="clr-namespace:Chat_App.MVVM.ViewModel"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
-        Height="474"
+        Height="500"
         Width="900"
         Background="#36393F"
         WindowStyle="None"
@@ -39,40 +39,48 @@
                   Margin="5 5 5 5">
                 <Label x:Name="lbl_title"
                        Content="Chat App"
+                       Margin="5 0 0 0"
                        Foreground="Gray"
                        FontWeight="SemiBold"
-                       FontSize="12"
+                       FontSize="15"
                        VerticalAlignment="Center" />
 
                 <StackPanel HorizontalAlignment="Right"
                             Orientation="Horizontal">
-                    <Button x:Name="Minimise"
-                            Width="20"
-                            Height="20"
-                            Content="_"
+                    
+                    <Button Margin="0,5,0,5"
                             Background="Transparent"
-                            BorderThickness="0"
-                            Foreground="Gray"
-                            FontWeight="Bold"
-                            Click="Minimise_Click" />
-                    <Button x:Name="Maximise"
-                            Width="20"
-                            Height="20"
-                            Content="▢"
+                            Width="50"
+                            Height="30"
+                            HorizontalAlignment="Right"
+                            Click="Minimise_Click"
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <fa:IconImage Icon="WindowMinimize"
+                                      Foreground="LightGray" />
+                    </Button>
+                    
+                    <Button Margin="0,5,0,5"
                             Background="Transparent"
-                            BorderThickness="0"
-                            Foreground="Gray"
-                            FontWeight="Bold"
-                            Click="Maximise_Click" />
-                    <Button x:Name="Exit"
-                            Width="20"
-                            Height="20"
-                            Content="X"
+                            Width="50"
+                            Height="30"
+                            HorizontalAlignment="Right"
+                            Click="Maximise_Click"
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <fa:IconImage Icon="WindowMaximize"
+                                      Foreground="LightGray" />
+                    </Button>
+                    
+                    <Button Margin="0,5,0,5"
                             Background="Transparent"
-                            BorderThickness="0"
-                            Foreground="Gray"
-                            FontWeight="Bold"
-                            Click="Exit_Click" />
+                            Width="50"
+                            Height="30"
+                            HorizontalAlignment="Right"
+                            Click="Exit_Click"
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <fa:IconImage Icon="WindowClose"
+                                      Foreground="LightGray"/>
+                    </Button>
+
                 </StackPanel>
             </Grid>
         </Border>
@@ -188,7 +196,7 @@
                                 Background="#333"
                                 HorizontalAlignment="Left"
                                 MinWidth="150"
-                                MaxWidth="1000">
+                                MaxWidth="600">
                             <StackPanel>
                                 <!-- Username on top -->
                                 <TextBlock Text="{Binding username}"

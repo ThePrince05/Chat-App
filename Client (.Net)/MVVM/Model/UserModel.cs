@@ -10,5 +10,6 @@ namespace Chat_App.MVVM.Model
     {
         public string Username { get; set; }
         public string UID { get; set; }
+        public System.Windows.Media.SolidColorBrush SelectedColor { get; set; }
     }
 }
