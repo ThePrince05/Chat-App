@@ -4,9 +4,164 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client__.Net_.MVVM.View"
+        xmlns:viewmodel="clr-namespace:Chat_App.MVVM.ViewModel"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:converters="clr-namespace:Client__.Net_.Converters"
         mc:Ignorable="d"
-        Title="Settings" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Settings"
+        Height="800"
+        Width="800"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{x:Null}"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <viewmodel:MainViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <!-- Register the converter in the resources -->
+        <converters:BoolToOnOffConverter x:Key="BoolToOnOffConverter" />
+    </Window.Resources>
+
+    <!-- Card Layout -->
+    <materialDesign:Card UniformCornerRadius="15"
+                         Background="#333333"
+                         Margin="25">
+        <materialDesign:DialogHost CloseOnClickAway="True"
+                                   x:Name="DialogHost">
+
+
+            <StackPanel>
+
+                <Button Margin="0,10,0,0"
+                        Background="Transparent"
+                        Width="90"
+                        Height="60"
+                        HorizontalAlignment="Right"
+                        Click="Button_Click"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                    <fa:IconImage Icon="CircleXmark"
+                                  Foreground="LightGray" />
+                </Button>
+                
+                <StackPanel Margin="20 0 20 20">
+                    <fa:IconImage Margin="0 25 0 30"
+                                  Icon="ScrewdriverWrench"
+                                  Foreground="LightGray"
+                                  Height="90"
+                                  Width="90" />
+
+                    <!-- Title -->
+                    <TextBlock Text="Settings Configuration"
+                               FontSize="40"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,50"
+                               Foreground="LightGray" />
+
+                    <!-- TabControl -->
+                    <TabControl x:Name="SettingsTabControl"
+                                Background="#333333"
+                                FontSize="22">
+                        <!-- Supabase Settings Section -->
+                        <TabItem Header="Supabase"
+                                 Background="Transparent"
+                                 Height="33"
+                                 Margin="-2,-2,-2,0"
+                                 VerticalAlignment="Top"
+                                 Foreground="#212121">
+                            <StackPanel Margin="20">
+                                <TextBox x:Name="SupabaseUrlTextBox"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         materialDesign:HintAssist.Hint="Supabase URL"
+                                         FontSize="20"
+                                         Margin="0,0,0,20"
+                                         Foreground="LightGray"
+                                         BorderBrush="LightGray" />
+
+                                <PasswordBox x:Name="SupabaseApiKeyBox"
+                                             Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                                             materialDesign:HintAssist.Hint="Supabase API Key"
+                                             FontSize="20"
+                                             Margin="0,0,0,20"
+                                             Foreground="LightGray"
+                                             BorderBrush="LightGray" />
+
+                                <Button Content="Next"
+                                        HorizontalAlignment="Right"
+                                        Width="120"
+                                        Height="53"
+                                        FontSize="20"
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Click="NextToServerSettings_Click" />
+                            </StackPanel>
+                        </TabItem>
+
+                        <!-- Dedicated Server Settings Section -->
+                        <TabItem Header="Dedicated Server"
+                                 IsEnabled="True"
+                                 x:Name="ServerSettingsTab"
+                                 Background="Transparent"
+                                 Foreground="#212121">
+
+                            <StackPanel Margin="20">
+
+                                <!-- Toggle for Dedicated Server -->
+                                <StackPanel Orientation="Horizontal"
+                                            VerticalAlignment="Center"
+                                            Margin="0 20 0 20">
+                                    <TextBlock Text="Enable Dedicated Server"
+                                               Foreground="LightGray"
+                                               VerticalAlignment="Center"
+                                               Margin="0,0,8,0" />
+                                    <ToggleButton x:Name="DedicatedServerToggle"
+                                                  IsChecked="{Binding IsDedicatedServerEnabled}"
+                                                  Content="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked, Converter={StaticResource BoolToOnOffConverter}}"
+                                                  Width="100"
+                                                  Height="50"
+                                                  Margin="8,0,0,0"
+                                                  Style="{StaticResource MaterialDesignActionToggleButton}" />
+                                </StackPanel>
+
+                                <!-- Server IP Address TextBox -->
+                                <TextBox x:Name="ServerIpAddressTextBox"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         materialDesign:HintAssist.Hint="Server IP Address"
+                                         IsEnabled="{Binding IsDedicatedServerEnabled}"
+                                         FontSize="20"
+                                         Margin="0,0,0,20"
+                                         Foreground="LightGray"
+                                         BorderBrush="LightGray" />
+
+                                <!-- Server Port Number TextBox -->
+                                <TextBox x:Name="ServerPortNumberTextBox"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         materialDesign:HintAssist.Hint="Server Port Number"
+                                         IsEnabled="{Binding IsDedicatedServerEnabled}"
+                                         FontSize="20"
+                                         Margin="0,0,0,20"
+                                         Foreground="LightGray"
+                                         BorderBrush="LightGray" />
+
+                                <Button Content="Finish"
+                                        HorizontalAlignment="Right"
+                                        Width="120"
+                                        Height="53"
+                                        FontSize="20"
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Click="FinishSettings_Click" />
+
+
+                            </StackPanel>
+
+                        </TabItem>
+                    </TabControl>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:DialogHost>
+    </materialDesign:Card>
 </Window>

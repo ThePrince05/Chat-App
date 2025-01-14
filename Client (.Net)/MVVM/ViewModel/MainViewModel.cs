@@ -68,6 +68,29 @@ namespace Chat_App.MVVM.ViewModel
             set => SetProperty(ref _message, value);
         }
 
+        private bool _isDedicatedServerEnabled;
+        public bool IsDedicatedServerEnabled
+        {
+            get { return _isDedicatedServerEnabled; }
+            set
+            {
+                _isDedicatedServerEnabled = value;
+                OnPropertyChanged(nameof(IsDedicatedServerEnabled));
+            }
+        }
+
+        public void OnServerToggleChanged()
+        {
+            if (IsDedicatedServerEnabled)
+            {
+                // Code to start the server or show additional settings
+            }
+            else
+            {
+                // Code to stop the server or hide settings
+            }
+        }
+
         // Constructor
         public MainViewModel()
         {

@@ -77,7 +77,7 @@
                             HorizontalAlignment="Right"
                             Click="Exit_Click"
                             Style="{StaticResource MaterialDesignFlatButton}">
-                        <fa:IconImage Icon="WindowClose"
+                        <fa:IconImage Icon="Xmark"
                                       Foreground="LightGray"/>
                     </Button>
 

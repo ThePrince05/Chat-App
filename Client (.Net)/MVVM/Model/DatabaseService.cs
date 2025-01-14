@@ -101,15 +101,37 @@ public class DatabaseService
             {
                 connection.Open();
 
-                // Insert user into the User table
-                string insertQuery = "INSERT INTO User (Username, Colour) VALUES (@Username, @Colour)";
-                using (var command = new SQLiteCommand(insertQuery, connection))
+                // Check if the user already exists in the database
+                string checkUserQuery = "SELECT COUNT(*) FROM User WHERE Username = @Username";
+                using (var command = new SQLiteCommand(checkUserQuery, connection))
                 {
                     command.Parameters.AddWithValue("@Username", username);
-                    command.Parameters.AddWithValue("@Colour", color);
+                    long userCount = (long)command.ExecuteScalar();
 
-                    command.ExecuteNonQuery();
-                    Debug.WriteLine("User saved successfully.");
+                    // If the user exists, update their color
+                    if (userCount > 0)
+                    {
+                        string updateQuery = "UPDATE User SET Colour = @Colour WHERE Username = @Username";
+                        using (var updateCommand = new SQLiteCommand(updateQuery, connection))
+                        {
+                            updateCommand.Parameters.AddWithValue("@Colour", color);
+                            updateCommand.Parameters.AddWithValue("@Username", username);
+                            updateCommand.ExecuteNonQuery();
+                            Debug.WriteLine("User color updated successfully.");
+                        }
+                    }
+                    // If the user doesn't exist, insert a new user with the color
+                    else
+                    {
+                        string insertQuery = "INSERT INTO User (Username, Colour) VALUES (@Username, @Colour)";
+                        using (var insertCommand = new SQLiteCommand(insertQuery, connection))
+                        {
+                            insertCommand.Parameters.AddWithValue("@Username", username);
+                            insertCommand.Parameters.AddWithValue("@Colour", color);
+                            insertCommand.ExecuteNonQuery();
+                            Debug.WriteLine("New user saved successfully.");
+                        }
+                    }
                 }
             }
         }
@@ -119,6 +141,7 @@ public class DatabaseService
             throw;
         }
     }
+
 
 
     public string GetDatabaseFilePath()

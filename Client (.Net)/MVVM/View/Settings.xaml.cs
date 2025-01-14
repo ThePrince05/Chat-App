@@ -23,5 +23,45 @@ namespace Client__.Net_.MVVM.View
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        private void NextToServerSettings_Click(object sender, RoutedEventArgs e)
+        {
+            // Validate Supabase input
+            if (string.IsNullOrEmpty(SupabaseUrlTextBox.Text) || string.IsNullOrEmpty(SupabaseApiKeyBox.Password))
+            {
+                MessageBox.Show("Please fill in all Supabase fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Enable the second tab and switch to it
+            ServerSettingsTab.IsEnabled = true;
+            SettingsTabControl.SelectedIndex = 1;
+        }
+
+        private void FinishSettings_Click(object sender, RoutedEventArgs e)
+        {
+            // Validate Server input
+            if (string.IsNullOrEmpty(ServerIpAddressTextBox.Text) || string.IsNullOrEmpty(ServerPortNumberTextBox.Text))
+            {
+                MessageBox.Show("Please fill in all Server fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Save or process the settings
+            string supabaseUrl = SupabaseUrlTextBox.Text;
+            string supabaseApiKey = SupabaseApiKeyBox.Password;
+            string serverIp = ServerIpAddressTextBox.Text;
+            string serverPort = ServerPortNumberTextBox.Text;
+
+            MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            // Close the window
+            this.Close();
+        }
     }
 }
+
