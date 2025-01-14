@@ -66,7 +66,8 @@
                     <!-- TabControl -->
                     <TabControl x:Name="SettingsTabControl"
                                 Background="#333333"
-                                FontSize="22">
+                                FontSize="22"
+                                SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
                         <!-- Supabase Settings Section -->
                         <TabItem Header="Supabase"
                                  Background="Transparent"
@@ -79,17 +80,20 @@
                                          Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                          materialDesign:HintAssist.Hint="Supabase URL"
                                          FontSize="20"
+                                         Text="{Binding SupabaseSettings.SupabaseUrl}"
                                          Margin="0,0,0,20"
                                          Foreground="LightGray"
                                          BorderBrush="LightGray" />
 
-                                <PasswordBox x:Name="SupabaseApiKeyBox"
-                                             Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
-                                             materialDesign:HintAssist.Hint="Supabase API Key"
-                                             FontSize="20"
-                                             Margin="0,0,0,20"
-                                             Foreground="LightGray"
-                                             BorderBrush="LightGray" />
+                                <TextBox x:Name="SupabaseApiKeyBox"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         materialDesign:HintAssist.Hint="Supabase API Key"
+                                         Text="{Binding SupabaseSettings.SupabaseApiKey}"
+                                         FontSize="20"
+                                         Margin="0,0,0,20"
+                                         Foreground="LightGray"
+                                         BorderBrush="LightGray"
+                                          />
 
                                 <Button Content="Next"
                                         HorizontalAlignment="Right"
@@ -97,13 +101,13 @@
                                         Height="53"
                                         FontSize="20"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
-                                        Click="NextToServerSettings_Click" />
+                                        Command="{Binding NextSettingsCommand}" />
                             </StackPanel>
                         </TabItem>
 
                         <!-- Dedicated Server Settings Section -->
                         <TabItem Header="Dedicated Server"
-                                 IsEnabled="True"
+                                 IsEnabled="False"
                                  x:Name="ServerSettingsTab"
                                  Background="Transparent"
                                  Foreground="#212121">
@@ -119,7 +123,7 @@
                                                VerticalAlignment="Center"
                                                Margin="0,0,8,0" />
                                     <ToggleButton x:Name="DedicatedServerToggle"
-                                                  IsChecked="{Binding IsDedicatedServerEnabled}"
+                                                  IsChecked="{Binding ServerSettings.IsDedicatedServerEnabled}"
                                                   Content="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked, Converter={StaticResource BoolToOnOffConverter}}"
                                                   Width="100"
                                                   Height="50"
@@ -131,7 +135,8 @@
                                 <TextBox x:Name="ServerIpAddressTextBox"
                                          Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                          materialDesign:HintAssist.Hint="Server IP Address"
-                                         IsEnabled="{Binding IsDedicatedServerEnabled}"
+                                         Text="{Binding ServerSettings.ServerIp}"
+                                         IsEnabled="{Binding ServerSettings.IsDedicatedServerEnabled}"
                                          FontSize="20"
                                          Margin="0,0,0,20"
                                          Foreground="LightGray"
@@ -141,7 +146,8 @@
                                 <TextBox x:Name="ServerPortNumberTextBox"
                                          Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                          materialDesign:HintAssist.Hint="Server Port Number"
-                                         IsEnabled="{Binding IsDedicatedServerEnabled}"
+                                         Text="{Binding ServerSettings.ServerPort}"
+                                         IsEnabled="{Binding ServerSettings.IsDedicatedServerEnabled}"
                                          FontSize="20"
                                          Margin="0,0,0,20"
                                          Foreground="LightGray"
@@ -153,7 +159,7 @@
                                         Height="53"
                                         FontSize="20"
                                         Style="{StaticResource MaterialDesignRaisedButton}"
-                                        Click="FinishSettings_Click" />
+                                        Command="{Binding FinishSettingsCommand}" />
 
 
                             </StackPanel>

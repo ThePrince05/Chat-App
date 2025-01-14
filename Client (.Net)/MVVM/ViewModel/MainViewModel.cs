@@ -21,16 +21,23 @@ namespace Chat_App.MVVM.ViewModel
         private readonly Server _server;
         private readonly DatabaseService _databaseService;
         private SolidColorBrush selectedColor;
+        public SupabaseSettingsModel SupabaseSettings { get; } = new SupabaseSettingsModel();
+        public ServerSettingsModel ServerSettings { get; } = new ServerSettingsModel();
+
 
         // ObservableCollections for binding
         public ObservableCollection<UserModel> Users { get; } = new ObservableCollection<UserModel>();
         public ObservableCollection<Message> Messages { get; } = new ObservableCollection<Message>();
 
         // Commands
+        // The Finish button logic
+        public ICommand FinishSettingsCommand { get; }
         public ICommand ConnectToServerCommand { get; }
         public ICommand SendMessageCommand { get; }
         public ICommand LoadMessagesCommand { get; }
         public ICommand LoginCommand { get; }
+
+        public ICommand NextSettingsCommand { get; }
 
         private string username;
         public string Username
@@ -68,6 +75,17 @@ namespace Chat_App.MVVM.ViewModel
             set => SetProperty(ref _message, value);
         }
 
+        private int _selectedTabIndex;
+        public int SelectedTabIndex
+        {
+            get => _selectedTabIndex;
+            set
+            {
+                _selectedTabIndex = value;
+                OnPropertyChanged(nameof(SelectedTabIndex));
+            }
+        }
+
         private bool _isDedicatedServerEnabled;
         public bool IsDedicatedServerEnabled
         {
@@ -79,17 +97,7 @@ namespace Chat_App.MVVM.ViewModel
             }
         }
 
-        public void OnServerToggleChanged()
-        {
-            if (IsDedicatedServerEnabled)
-            {
-                // Code to start the server or show additional settings
-            }
-            else
-            {
-                // Code to stop the server or hide settings
-            }
-        }
+
 
         // Constructor
         public MainViewModel()
@@ -120,7 +128,72 @@ namespace Chat_App.MVVM.ViewModel
 
             // Initialize SelectedColor to a default color, e.g., Green
             SelectedColor = new SolidColorBrush(Colors.Green);
+
+
+            FinishSettingsCommand = new RelayCommand(ExecuteFinishSettings, CanExecuteFinishSettings);
+            NextSettingsCommand = new RelayCommand(ExecuteNextSettings, CanExecuteNextSettings);
         }
+
+        private void ExecuteNextSettings(object parameter)
+        {
+            // Validate and perform the next step logic
+            if (!SupabaseSettings.ValidateSupabaseSettings())
+            {
+                MessageBox.Show("Please fill in all Supabase fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Make sure ServerSettings are validated
+            if (!ServerSettings.ValidateServerSettings())
+            {
+                MessageBox.Show("Please fill in all server fields when the dedicated server is enabled.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+           // MessageBox.Show("Settings are valid! Proceeding to the next step.");
+            if (_selectedTabIndex < 1)
+            {
+                SelectedTabIndex++;
+            }
+            else
+            {
+                MessageBox.Show("You're already on the last tab.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private bool CanExecuteNextSettings(object parameter)
+        {
+            // Return true if the button should be enabled, based on any conditions
+            // For example, return true only if settings are valid
+            return SupabaseSettings.ValidateSupabaseSettings() && ServerSettings.ValidateServerSettings();
+        }
+
+        private void ExecuteFinishSettings(object parameter)
+        {
+            // Validate before saving
+            if (!SupabaseSettings.ValidateSupabaseSettings())
+            {
+                MessageBox.Show("Please fill in all Supabase fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Make sure ServerSettings are validated
+            if (!ServerSettings.ValidateServerSettings())
+            {
+                MessageBox.Show("Please fill in all server fields when the dedicated server is enabled.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Save settings or perform necessary actions
+            MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private bool CanExecuteFinishSettings(object parameter)
+        {
+            // Optionally return false to disable the button if fields are invalid
+            return true; // Return true to enable the Finish button
+        }
+
 
         private async Task LogInUser()
         {
