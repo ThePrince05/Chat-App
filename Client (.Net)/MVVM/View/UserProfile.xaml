@@ -38,7 +38,7 @@
                                   Foreground="LightGray" />
                 </Button>
 
-                <fa:IconImage Margin="0 25 0 5"
+                <fa:IconImage Margin="0 10 0 5"
                               Icon="Comments"
                               Foreground="LightGray"
                               Height="120"

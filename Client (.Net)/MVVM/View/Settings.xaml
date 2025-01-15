@@ -52,8 +52,8 @@
                     <fa:IconImage Margin="0 0 0 30"
                                   Icon="ScrewdriverWrench"
                                   Foreground="LightGray"
-                                  Height="90"
-                                  Width="90" />
+                                  Height="110"
+                                  Width="200" />
 
                     <!-- Title -->
                     <TextBlock Text="Settings Configuration"

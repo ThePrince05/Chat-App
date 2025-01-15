@@ -1,30 +1,16 @@
 ﻿using Chat_App.MVVM.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Chat_App
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainViewModel();
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
@@ -35,40 +21,34 @@ namespace Chat_App
 
         private void Minimise_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.WindowState = WindowState.Minimized;
+            this.WindowState = WindowState.Minimized;
         }
 
         private void Maximise_Click(object sender, RoutedEventArgs e)
         {
-            if (Application.Current.MainWindow.WindowState != WindowState.Maximized)
+            if (this.WindowState != WindowState.Maximized)
             {
-                Application.Current.MainWindow.WindowState = WindowState.Maximized;
+                this.WindowState = WindowState.Maximized;
 
                 // username label behavior
                 lbl_username.FontSize = 14;
 
                 // left panel
-                var grid = (Grid)FindName("MainGrid"); // Replace with the actual name of your grid if needed
-                var row1 = (UIElement)grid.Children[1]; // Find the element of Row 1 (based on the order of the grid children)
-
-                // Change the margin (left, top, right, bottom)
+                var grid = (Grid)FindName("MainGrid");
+                var row1 = (UIElement)grid.Children[1];  // Find the element of Row 1 (based on the order of the grid children)
                 row1.SetValue(MarginProperty, new Thickness(8, 0, 0, 0));  // Adjust as needed
             }
-
             else
-            { 
-                Application.Current.MainWindow.WindowState = WindowState.Normal;
+            {
+                this.WindowState = WindowState.Normal;
 
                 // username label behavior
                 lbl_username.FontSize = 12;
 
                 // left panel
-                // Reset the margin when window is normal
-                var grid = (Grid)FindName("MainGrid"); // Replace with actual name if needed
+                var grid = (Grid)FindName("MainGrid");
                 var row1 = (UIElement)grid.Children[1];
-
-                // Reset to default margin
-                row1.SetValue(MarginProperty, new Thickness(0)); // Default margin
+                row1.SetValue(MarginProperty, new Thickness(0));  // Default margin
             }
         }
 
@@ -79,9 +59,7 @@ namespace Chat_App
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
-          
+            // Handle key events here if needed
         }
-
-        
     }
 }

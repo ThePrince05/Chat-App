@@ -19,7 +19,7 @@ namespace Chat_App.MVVM.ViewModel
         private System.Timers.Timer _pollingTimer;
         private readonly SupabaseService _supabaseService;
         private readonly Server _server;
-        private readonly DatabaseService _databaseService;
+        private readonly SQLiteDBService _databaseService;
         private SolidColorBrush selectedColor;
 
         public SupabaseSettings SupabaseSettings { get; } = new SupabaseSettings();
@@ -39,6 +39,10 @@ namespace Chat_App.MVVM.ViewModel
         public ICommand LoginCommand { get; }
 
         public ICommand NextSettingsCommand { get; }
+
+        // Event to notify setup completion
+        public event EventHandler ProfileCompleted;
+        public event EventHandler SettingsCompleted;
 
         private string username;
         public string Username
@@ -107,7 +111,7 @@ namespace Chat_App.MVVM.ViewModel
         {
             _server = new Server(ServerSettings.ServerIp, Convert.ToInt32(ServerSettings.ServerPort));
             _supabaseService = new SupabaseService();
-            _databaseService = new DatabaseService();
+            _databaseService = new SQLiteDBService();
 
             // Initialize Commands
             ConnectToServerCommand = new RelayCommand(async _ => await ConnectToServer(), _ => !string.IsNullOrEmpty(Username));
@@ -125,8 +129,6 @@ namespace Chat_App.MVVM.ViewModel
             // Initialize Polling
             InitializePolling();
 
-            // Initialize Database and Load Messages
-            InitializeDatabase();
             _ = LoadMessagesAsync();
 
             // Initialize SelectedColor to a default color, e.g., Green
@@ -198,6 +200,8 @@ namespace Chat_App.MVVM.ViewModel
 
             // Save settings or perform necessary actions
             MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            // Raise the ProfileCompleted event
+            SettingsCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         private bool CanExecuteFinishSettings(object parameter)
@@ -223,8 +227,16 @@ namespace Chat_App.MVVM.ViewModel
 
             // You can also do other actions after login like navigating to the chat screen or setting a flag
             MessageBox.Show("User logged in successfully.");
+
+            // Raise the ProfileCompleted event
+            ProfileCompleted?.Invoke(this, EventArgs.Empty);
         }
 
+        // This method will be called when the user saves the settings
+        public void OnSettingsCompleted()
+        {
+            SettingsCompleted?.Invoke(this, EventArgs.Empty);
+        }
         public SolidColorBrush SelectedColor
         {
             get => selectedColor;
@@ -294,17 +306,6 @@ namespace Chat_App.MVVM.ViewModel
             }
         }
 
-        private void InitializeDatabase()
-        {
-            try
-            {
-                _databaseService.InitializeDatabase();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error initializing database: {ex.Message}");
-            }
-        }
 
         private void UserConnected()
         {

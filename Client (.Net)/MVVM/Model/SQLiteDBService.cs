@@ -4,12 +4,12 @@ using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 
-public class DatabaseService
+public class SQLiteDBService
 {
     private readonly string _databaseFolderPath;
     private readonly string _databaseFilePath;
 
-    public DatabaseService()
+    public SQLiteDBService()
     {
         // Set the folder and database file paths to AppData
         _databaseFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Chat App");
@@ -183,7 +183,35 @@ public class DatabaseService
         }
     }
 
+    public bool TableHasData(string tableName)
+    {
+        try
+        {
+            using (var connection = new SQLiteConnection($"Data Source={_databaseFilePath};Version=3;"))
+            {
+                connection.Open();
 
+                string query = $"SELECT EXISTS (SELECT 1 FROM {tableName} LIMIT 1)";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    return Convert.ToBoolean(command.ExecuteScalar());
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error checking data in table '{tableName}': {ex.Message}");
+            return false; // Assume the table has no data in case of an error
+        }
+    }
+
+    public (bool IsUserDataPresent, bool IsSettingsDataPresent) CheckInitializationState()
+    {
+        bool isUserDataPresent = TableHasData("User");
+        bool isSettingsDataPresent = TableHasData("Settings");
+
+        return (isUserDataPresent, isSettingsDataPresent);
+    }
 
 
     public string GetDatabaseFilePath()
