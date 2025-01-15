@@ -10,6 +10,9 @@ namespace Chat_App.Net
 {
      class Server
     {
+        private readonly string _serverIp;
+        private readonly int _serverPort;
+
         TcpClient _client;
         public PacketReader PacketReader;
 
@@ -17,16 +20,18 @@ namespace Chat_App.Net
         public event Action msgReceivedEvent;
         public event Action userDisconnectEvent;
 
-        public Server()
+        public Server(string serverIp, int serverPort)
         {
-           _client = new TcpClient();
+            _serverIp = serverIp;
+            _serverPort = serverPort;
+            _client = new TcpClient();
         }
 
         public void ConnectToServer(string username)
         {
             if (!_client.Connected)
             {
-                _client.Connect("127.0.0.1", 7893);
+                _client.Connect(_serverIp, _serverPort);
                 PacketReader = new PacketReader(_client.GetStream());
 
                 if (!string.IsNullOrEmpty(username)) 

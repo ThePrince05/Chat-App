@@ -21,8 +21,9 @@ namespace Chat_App.MVVM.ViewModel
         private readonly Server _server;
         private readonly DatabaseService _databaseService;
         private SolidColorBrush selectedColor;
-        public SupabaseSettingsModel SupabaseSettings { get; } = new SupabaseSettingsModel();
-        public ServerSettingsModel ServerSettings { get; } = new ServerSettingsModel();
+
+        public SupabaseSettings SupabaseSettings { get; } = new SupabaseSettings();
+        public ServerSettings ServerSettings { get; } = new ServerSettings();
 
 
         // ObservableCollections for binding
@@ -89,20 +90,22 @@ namespace Chat_App.MVVM.ViewModel
         private bool _isDedicatedServerEnabled;
         public bool IsDedicatedServerEnabled
         {
-            get { return _isDedicatedServerEnabled; }
+            get => _isDedicatedServerEnabled;
             set
             {
-                _isDedicatedServerEnabled = value;
-                OnPropertyChanged(nameof(IsDedicatedServerEnabled));
+         
+                    _isDedicatedServerEnabled = value;
+                    OnPropertyChanged(nameof(IsDedicatedServerEnabled));
             }
         }
+
 
 
 
         // Constructor
         public MainViewModel()
         {
-            _server = new Server();
+            _server = new Server(ServerSettings.ServerIp, Convert.ToInt32(ServerSettings.ServerPort));
             _supabaseService = new SupabaseService();
             _databaseService = new DatabaseService();
 
@@ -183,6 +186,15 @@ namespace Chat_App.MVVM.ViewModel
                 MessageBox.Show("Please fill in all server fields when the dedicated server is enabled.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+                // Save settings to the database
+                _databaseService.SaveSettings(
+                    SupabaseSettings.SupabaseUrl,
+                    SupabaseSettings.SupabaseApiKey,
+                    IsDedicatedServerEnabled,
+                    ServerSettings.ServerIp,
+                    Convert.ToInt32(ServerSettings.ServerPort)
+                );
 
             // Save settings or perform necessary actions
             MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
