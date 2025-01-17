@@ -165,7 +165,7 @@
                             Height="30"
                             Background="{Binding User.SelectedColor}"
                             HorizontalAlignment="Center"
-                            MouseDown="Border_MouseDown" />
+                            MouseDown="Border_MouseDown_1" />
                 </Grid>
 
                 <Grid Grid.Column="1"

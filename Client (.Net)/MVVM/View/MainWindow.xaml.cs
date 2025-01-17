@@ -23,8 +23,6 @@ namespace Chat_App
                 DragMove();
             }
 
-            var viewModel = (MainViewModel)DataContext;
-            viewModel.OpenUserProfile();
 
         }
 
@@ -71,6 +69,10 @@ namespace Chat_App
             // Handle key events here if needed
         }
 
-        
+        private void Border_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            var viewModel = (MainViewModel)DataContext;
+            viewModel.OpenUserProfile();
+        }
     }
 }
