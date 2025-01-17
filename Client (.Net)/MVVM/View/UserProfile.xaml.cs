@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace Client__.Net_.MVVM.View
 {
@@ -20,11 +21,12 @@ namespace Client__.Net_.MVVM.View
             // Create a list of ColorItem objects for ComboBox
             List<ColorItem> colors = new List<ColorItem>
             {
-                new ColorItem("Red", new SolidColorBrush(Colors.OrangeRed)),
+                new ColorItem("Red", new SolidColorBrush(Color.FromArgb(255, 158, 8, 8))),
                 new ColorItem("Green", new SolidColorBrush(Colors.Green)),
                 new ColorItem("Blue", new SolidColorBrush(Colors.DodgerBlue)),
-                new ColorItem("Gold", new SolidColorBrush(Colors.SandyBrown)),
-                new ColorItem("Purple", new SolidColorBrush(Colors.Purple))
+                new ColorItem("Yellow", new SolidColorBrush(Color.FromArgb(255, 229, 175, 9))),
+                new ColorItem("Purple", new SolidColorBrush(Color.FromArgb(255, 86, 25, 116)))
+
             };
 
             // Bind the list of colors to the ComboBox
@@ -63,5 +65,7 @@ namespace Client__.Net_.MVVM.View
                 }
             }
         }
+
+       
     }
     }

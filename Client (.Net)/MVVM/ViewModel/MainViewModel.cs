@@ -2,75 +2,67 @@
 using Chat_App.MVVM.Model;
 using Chat_App.Net;
 using Client__.Net_.MVVM.Model;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Timers;
+using System.Windows;
+using System.Windows.Navigation;
+using Client__.Net_.MVVM.View;
+
 
 namespace Chat_App.MVVM.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged, IDisposable
     {
+       
         private System.Timers.Timer _pollingTimer;
-        private readonly SupabaseService _supabaseService;
-        private readonly Server _server;
-        private readonly SQLiteDBService _databaseService;
-        private SolidColorBrush selectedColor;
+        private  SupabaseService _supabaseService;
+        private Server _server;
+        private readonly SQLiteDBService _sqliteDBService;
 
-        public SupabaseSettings SupabaseSettings { get; } = new SupabaseSettings();
-        public ServerSettings ServerSettings { get; } = new ServerSettings();
-
-
-        // ObservableCollections for binding
+        // Properties
+        public ServerSettings ServerSettings { get; set; }
+        public SupabaseSettings SupabaseSettings { get; set; }
+        public UserModel User { get; set; }
         public ObservableCollection<UserModel> Users { get; } = new ObservableCollection<UserModel>();
         public ObservableCollection<Message> Messages { get; } = new ObservableCollection<Message>();
 
         // Commands
-        // The Finish button logic
-        public ICommand FinishSettingsCommand { get; }
-        public ICommand ConnectToServerCommand { get; }
-        public ICommand SendMessageCommand { get; }
-        public ICommand LoadMessagesCommand { get; }
-        public ICommand LoginCommand { get; }
+        private ICommand _finishSettingsCommand;
+        private ICommand _connectToServerCommand;
+        private ICommand _sendMessageCommand;
+        private ICommand _loadMessagesCommand;
+        private ICommand _loginCommand;
+        private ICommand _nextSettingsCommand;
+        private ICommand _openUserProfileCommand;
+        private ICommand _openSettingsCommand;
 
-        public ICommand NextSettingsCommand { get; }
+        public ICommand FinishSettingsCommand => _finishSettingsCommand;
+        public ICommand SendMessageCommand => _sendMessageCommand;
+        public ICommand LoadMessagesCommand => _loadMessagesCommand;
+        public ICommand LoginCommand => _loginCommand;
+        public ICommand NextSettingsCommand => _nextSettingsCommand;
+        public ICommand OpenUserProfileCommand => _openUserProfileCommand;
+        public ICommand OpenSettingsCommand => _openSettingsCommand;
 
-        // Event to notify setup completion
+        // Events
         public event EventHandler ProfileCompleted;
         public event EventHandler SettingsCompleted;
 
+        // Properties for binding
         private string username;
         public string Username
         {
-            get => username;
+            get => User?.Username; // Reflect the value from UserModel
             set
             {
-                if (username != value)
+                if (User != null)
                 {
-                    username = value;
-                    OnPropertyChanged(nameof(Username));
-
-                    // If CurrentUser is not null, update the Username in UserModel
-                    if (CurrentUser != null)
-                    {
-                        CurrentUser.Username = value;
-                    }
+                    User.Username = value; // Update the UserModel
+                    OnPropertyChanged(nameof(Username)); // Notify UI of the change
                 }
             }
-        }
-
-        public UserModel CurrentUser { get; set; }  // Keep this as a single declaration
-
-        private string _connectedUsername;
-        public string ConnectedUsername
-        {
-            get => _connectedUsername;
-            set => SetProperty(ref _connectedUsername, value);
         }
 
         private string _message;
@@ -84,130 +76,144 @@ namespace Chat_App.MVVM.ViewModel
         public int SelectedTabIndex
         {
             get => _selectedTabIndex;
-            set
-            {
-                _selectedTabIndex = value;
-                OnPropertyChanged(nameof(SelectedTabIndex));
-            }
+            set => SetProperty(ref _selectedTabIndex, value);
         }
 
-        private bool _isDedicatedServerEnabled;
+        // Property to access IsDedicatedServerEnabled from ServerSettings
         public bool IsDedicatedServerEnabled
         {
-            get => _isDedicatedServerEnabled;
+            get => ServerSettings.IsDedicatedServerEnabled;
             set
             {
-         
-                    _isDedicatedServerEnabled = value;
+                if (ServerSettings.IsDedicatedServerEnabled != value)
+                {
+                    ServerSettings.IsDedicatedServerEnabled = value;
                     OnPropertyChanged(nameof(IsDedicatedServerEnabled));
+                }
             }
         }
 
-
-
+        private SolidColorBrush selectedColor;
+        public SolidColorBrush SelectedColor
+        {
+            get => selectedColor;
+            set
+            {
+                if (SetProperty(ref selectedColor, value))
+                {
+                    if (User != null)
+                        User.SelectedColor = value;
+                }
+            }
+        }
 
         // Constructor
         public MainViewModel()
         {
-            _server = new Server(ServerSettings.ServerIp, Convert.ToInt32(ServerSettings.ServerPort));
-            _supabaseService = new SupabaseService();
-            _databaseService = new SQLiteDBService();
+            
+
+            _sqliteDBService = new SQLiteDBService();
 
             // Initialize Commands
-            ConnectToServerCommand = new RelayCommand(async _ => await ConnectToServer(), _ => !string.IsNullOrEmpty(Username));
-            SendMessageCommand = new RelayCommand(async _ => await SendMessageAsync(), _ => !string.IsNullOrEmpty(Message));
-            LoadMessagesCommand = new RelayCommand(async _ => await LoadMessagesAsync());
-
-            // Initialize Commands
-            LoginCommand = new RelayCommand(async _ => await LogInUser(), _ => !string.IsNullOrEmpty(Username));
-
-            // Initialize Services and Events
-            _server.connectedEvent += UserConnected;
-            _server.msgReceivedEvent += MessageReceived;
-            _server.userDisconnectEvent += RemoveUser;
+            InitializeCommands();
 
             // Initialize Polling
             InitializePolling();
 
-            _ = LoadMessagesAsync();
+            // Load settings and user data
+            LoadSettings();
 
-            // Initialize SelectedColor to a default color, e.g., Green
-            SelectedColor = new SolidColorBrush(Colors.Green);
+            LoadUserData();
 
+            // Call method to handle the server initialization logic based on conditions
+            InitializeServerServices();
 
-            FinishSettingsCommand = new RelayCommand(ExecuteFinishSettings, CanExecuteFinishSettings);
-            NextSettingsCommand = new RelayCommand(ExecuteNextSettings, CanExecuteNextSettings);
         }
 
-        private void ExecuteNextSettings(object parameter)
+        private void InitializeCommands()
         {
-            // Validate and perform the next step logic
-            if (!SupabaseSettings.ValidateSupabaseSettings())
-            {
-                MessageBox.Show("Please fill in all Supabase fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+            _sendMessageCommand = new RelayCommand(async _ => await SendMessageAsync(), _ => !string.IsNullOrEmpty(Message));
+            _loadMessagesCommand = new RelayCommand(async _ => await LoadMessagesAsync());
+            _loginCommand = new RelayCommand(async _ => await LogInUser(), _ => !string.IsNullOrEmpty(Username));
+            _finishSettingsCommand = new RelayCommand(ExecuteFinishSettings, CanExecuteFinishSettings);
+            _nextSettingsCommand = new RelayCommand(ExecuteNextSettings, CanExecuteNextSettings);
+            _openSettingsCommand = new RelayCommand(_ => OpenSettings());
+        }
 
-            // Make sure ServerSettings are validated
-            if (!ServerSettings.ValidateServerSettings())
-            {
-                MessageBox.Show("Please fill in all server fields when the dedicated server is enabled.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+        internal void OpenUserProfile()
+        {
+            // Instantiate and show the UserProfile window
+            UserProfile userProfileWindow = new UserProfile();
+            userProfileWindow.Show();
+        }
 
-           // MessageBox.Show("Settings are valid! Proceeding to the next step.");
-            if (_selectedTabIndex < 1)
+        private void OpenSettings()
+        {
+            // Open the Settings window
+            var settingsWindow = new Settings();
+            settingsWindow.Show();
+        }
+
+        private void InitializeServicesAndEvents()
+        {
+            _server.connectedEvent += UserConnected;
+            _server.msgReceivedEvent += MessageReceived;
+            _server.userDisconnectEvent += RemoveUser;
+        }
+
+        private void InitializePolling()
+        {
+            _pollingTimer = new System.Timers.Timer(5000); // Interval in milliseconds
+            _pollingTimer.Elapsed += async (sender, e) => await PollMessagesAsync();
+            _pollingTimer.AutoReset = true; // Repeat the timer
+            _pollingTimer.Enabled = true;   // Start the timer
+        }
+
+        private async void InitializeServerServices()
+        {
+            if (IsDedicatedServerEnabled)
             {
-                SelectedTabIndex++;
+                try
+                {
+                    _server = new Server(ServerSettings.ServerIp, Convert.ToInt32(ServerSettings.ServerPort));
+                    await ConnectToServer();
+
+                    // Initialize Services and Events
+                    InitializeServicesAndEvents();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Oops, something went wrong on: {ex.Message}");
+                }
             }
-            else
+        }
+        private void LoadUserData()
+        {
+            User = _sqliteDBService.LoadUser();
+            OnPropertyChanged(nameof(User));
+        }
+
+        private void LoadSettings()
+        {
+            var settingsService = new SQLiteDBService();
+            var (serverSettings, supabaseSettings) = settingsService.LoadSettings();
+
+            ServerSettings = serverSettings ?? new ServerSettings();
+            SupabaseSettings = supabaseSettings ?? new SupabaseSettings();
+
+            // Validate Supabase settings
+            if (!string.IsNullOrEmpty(SupabaseSettings.SupabaseUrl) &&
+                Uri.TryCreate(SupabaseSettings.SupabaseUrl, UriKind.Absolute, out _))
             {
-                MessageBox.Show("You're already on the last tab.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                InitializeSupabaseService();
             }
         }
 
-        private bool CanExecuteNextSettings(object parameter)
+        private void InitializeSupabaseService()
         {
-            // Return true if the button should be enabled, based on any conditions
-            // For example, return true only if settings are valid
-            return SupabaseSettings.ValidateSupabaseSettings() && ServerSettings.ValidateServerSettings();
-        }
-
-        private void ExecuteFinishSettings(object parameter)
-        {
-            // Validate before saving
-            if (!SupabaseSettings.ValidateSupabaseSettings())
-            {
-                MessageBox.Show("Please fill in all Supabase fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            // Make sure ServerSettings are validated
-            if (!ServerSettings.ValidateServerSettings())
-            {
-                MessageBox.Show("Please fill in all server fields when the dedicated server is enabled.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-                // Save settings to the database
-                _databaseService.SaveSettings(
-                    SupabaseSettings.SupabaseUrl,
-                    SupabaseSettings.SupabaseApiKey,
-                    IsDedicatedServerEnabled,
-                    ServerSettings.ServerIp,
-                    Convert.ToInt32(ServerSettings.ServerPort)
-                );
-
-            // Save settings or perform necessary actions
-            MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            // Raise the ProfileCompleted event
-            SettingsCompleted?.Invoke(this, EventArgs.Empty);
-        }
-
-        private bool CanExecuteFinishSettings(object parameter)
-        {
-            // Optionally return false to disable the button if fields are invalid
-            return true; // Return true to enable the Finish button
+            // Initialize SupabaseService only after valid settings are loaded
+            _supabaseService = new SupabaseService(SupabaseSettings);
+            Console.WriteLine("SupabaseService initialized successfully.");
         }
 
 
@@ -219,45 +225,16 @@ namespace Chat_App.MVVM.ViewModel
                 return;
             }
 
-            // Get the SelectedColor as a string (You can use any color format, e.g., Hex)
-            string selectedColorHex = SelectedColor.Color.ToString(); // For example, #FF00FF
-
-            // Save the user to the database
-            _databaseService.SaveUser(Username, selectedColorHex);
-
-            // You can also do other actions after login like navigating to the chat screen or setting a flag
+            string selectedColorHex = SelectedColor.Color.ToString(); // Hex format
+            _sqliteDBService.SaveUser(Username, selectedColorHex);
+          
             MessageBox.Show("User logged in successfully.");
-
-            // Raise the ProfileCompleted event
             ProfileCompleted?.Invoke(this, EventArgs.Empty);
-        }
-
-        // This method will be called when the user saves the settings
-        public void OnSettingsCompleted()
-        {
-            SettingsCompleted?.Invoke(this, EventArgs.Empty);
-        }
-        public SolidColorBrush SelectedColor
-        {
-            get => selectedColor;
-            set
-            {
-                selectedColor = value;
-                OnPropertyChanged(nameof(SelectedColor));
-
-                // Link to CurrentUser's SelectedColor (UserModel)
-                if (CurrentUser != null)
-                {
-                    CurrentUser.SelectedColor = value;
-                }
-            }
         }
 
         private async Task ConnectToServer()
         {
-            ConnectedUsername = Username;
-            Username = string.Empty;
-            _server.ConnectToServer(ConnectedUsername);
+            _server.ConnectToServer(User.Username);
         }
 
         private async Task SendMessageAsync()
@@ -265,11 +242,23 @@ namespace Chat_App.MVVM.ViewModel
             if (string.IsNullOrEmpty(Message)) return;
 
             var timestamp = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
-            _server.SendMessageToServer(Message);
 
-            if (await _supabaseService.SaveMessageAsync(ConnectedUsername, Message, timestamp))
+            if (IsDedicatedServerEnabled)
             {
+                _server.SendMessageToServer(Message);
+            }
+
+            // Save message to Supabase
+            bool isSaved = await _supabaseService.SaveMessageAsync(Username, Message, timestamp);
+
+            if (isSaved)
+            {
+                //MessageBox.Show("Message saved successfully.");
                 await LoadMessagesAsync();
+            }
+            else
+            {
+                MessageBox.Show("Failed to save message.");
             }
 
             Message = string.Empty;
@@ -277,34 +266,49 @@ namespace Chat_App.MVVM.ViewModel
 
         private async Task PollMessagesAsync()
         {
-            await LoadMessagesAsync();
-        }
-
-        private void InitializePolling()
-        {
-            _pollingTimer = new System.Timers.Timer(5000); // Interval in milliseconds
-            _pollingTimer.Elapsed += async (sender, e) => await PollMessagesAsync();
-            _pollingTimer.AutoReset = true; // Repeat the timer
-            _pollingTimer.Enabled = true;   // Start the timer
+            if (_supabaseService != null)
+            {
+                await LoadMessagesAsync();
+            }
+                else
+                {
+                    Console.WriteLine("SupabaseService not initialized. Messages will not be loaded.");
+                }
         }
 
         private async Task LoadMessagesAsync()
         {
+            if (_supabaseService == null)
+            {
+                Console.WriteLine("SupabaseService is not initialized. Cannot load messages.");
+                return;
+            }
+
             try
             {
                 var messages = await _supabaseService.GetMessagesAsync();
-                Application.Current.Dispatcher.Invoke(() =>
+                if (messages != null)
                 {
-                    Messages.Clear();
-                    foreach (var msg in messages)
-                        Messages.Add(msg);
-                });
+                    // Update messages collection on UI thread
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Messages.Clear();
+                        foreach (var msg in messages)
+                        {
+                            // Add messages as Message objects
+                            Messages.Add(msg);
+                        }
+                    });
+
+                    Console.WriteLine($"{Messages.Count} messages loaded.");
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading messages: {ex.Message}");
             }
         }
+
 
 
         private void UserConnected()
@@ -349,6 +353,61 @@ namespace Chat_App.MVVM.ViewModel
             }
         }
 
+        private void ExecuteNextSettings(object parameter)
+        {
+            if (!SupabaseSettings.ValidateSupabaseSettings())
+            {
+                MessageBox.Show("Please fill in all Supabase fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (!ServerSettings.ValidateServerSettings())
+            {
+                MessageBox.Show("Please fill in all server fields when the dedicated server is enabled.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (_selectedTabIndex < 1)
+            {
+                SelectedTabIndex++;
+            }
+            else
+            {
+                MessageBox.Show("You're already on the last tab.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private bool CanExecuteNextSettings(object parameter) =>
+            SupabaseSettings.ValidateSupabaseSettings() && ServerSettings.ValidateServerSettings();
+
+        private void ExecuteFinishSettings(object parameter)
+        {
+            if (!SupabaseSettings.ValidateSupabaseSettings())
+            {
+                MessageBox.Show("Please fill in all Supabase fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (!ServerSettings.ValidateServerSettings())
+            {
+                MessageBox.Show("Please fill in all server fields when the dedicated server is enabled.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            _sqliteDBService.SaveSettings(
+                SupabaseSettings.SupabaseUrl,
+                SupabaseSettings.SupabaseApiKey,
+                IsDedicatedServerEnabled,
+                ServerSettings.ServerIp,
+                Convert.ToInt32(ServerSettings.ServerPort)
+            );
+
+            MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            SettingsCompleted?.Invoke(this, EventArgs.Empty);
+        }
+
+        private bool CanExecuteFinishSettings(object parameter) => true; // Always enabled
+
         public void Dispose()
         {
             _server.connectedEvent -= UserConnected;
@@ -370,3 +429,6 @@ namespace Chat_App.MVVM.ViewModel
         }
     }
 }
+
+
+

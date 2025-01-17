@@ -1,4 +1,5 @@
 ﻿using Chat_App.MVVM.ViewModel;
+
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,12 +12,20 @@ namespace Chat_App
         public MainWindow()
         {
             InitializeComponent();
+
+
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
+            {
                 DragMove();
+            }
+
+            var viewModel = (MainViewModel)DataContext;
+            viewModel.OpenUserProfile();
+
         }
 
         private void Minimise_Click(object sender, RoutedEventArgs e)
@@ -61,5 +70,7 @@ namespace Chat_App
         {
             // Handle key events here if needed
         }
+
+        
     }
 }
