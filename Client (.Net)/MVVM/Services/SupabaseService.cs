@@ -33,35 +33,53 @@ public class SupabaseService
     {
         Console.WriteLine("Sending request to fetch messages...");
 
-        var response = await _httpClient.GetAsync("Messages");
-
-        if (response.IsSuccessStatusCode)
+        try
         {
-            Console.WriteLine("Request successful. Parsing response...");
-            var json = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"Response JSON: {json}");
+            var response = await _httpClient.GetAsync("Messages");
 
-            var messages = System.Text.Json.JsonSerializer.Deserialize<List<Message>>(json, new JsonSerializerOptions
+            if (response.IsSuccessStatusCode)
             {
-                PropertyNameCaseInsensitive = true
-            });
+                Console.WriteLine("Request successful. Parsing response...");
+                var json = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Response JSON: {json}");
 
-            Console.WriteLine($"Parsed {messages?.Count ?? 0} messages.");
-            return messages;
-        }
+                var messages = System.Text.Json.JsonSerializer.Deserialize<List<Message>>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
 
-        if (!response.IsSuccessStatusCode)
-        {
+                Console.WriteLine($"Parsed {messages?.Count ?? 0} messages.");
+
+                // Sort messages by timestamp (using DateTime.ParseExact for the specific format)
+                var sortedMessages = messages?
+                    .OrderBy(msg =>
+                    {
+                        try
+                        {
+                            return DateTime.ParseExact(msg.timestamp, "dd/MM/yyyy HH:mm:ss", null);
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine($"Invalid timestamp format for message: {msg.timestamp}");
+                            return DateTime.MinValue; // Fallback for invalid timestamps
+                        }
+                    })
+                    .ToList();
+
+                return sortedMessages ?? new List<Message>();
+            }
+
+            // Log error response
             Console.WriteLine($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
             return new List<Message>();
         }
-
-        else
+        catch (Exception ex)
         {
-            Console.WriteLine($"Request failed with status code: {response.StatusCode}");
+            Console.WriteLine($"An error occurred: {ex.Message}");
             return new List<Message>();
         }
     }
+
 
     public async Task<bool> SaveMessageAsync(string username, string message, string timestamp)
     {
