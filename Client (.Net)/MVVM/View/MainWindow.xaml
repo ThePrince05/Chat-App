@@ -132,14 +132,34 @@
 
             <StackPanel Grid.Row="1">
 
-                <!--Use for underlined text-->
-                <TextBlock Margin="10,15,0,0"
-                           FontSize="17"
-                           Foreground="White">
-                 <Underline>
-                     <Run Text="Groups" />
-                 </Underline>
-                </TextBlock>
+                <Grid>
+                    <!--Use for underlined text-->
+                    <TextBlock Margin="10,5,0,0"
+                               FontSize="17"
+                               Foreground="White"
+                               HorizontalAlignment="Left">
+                        <Underline>
+                            <Run Text="Groups" />
+                        </Underline>
+                    </TextBlock>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                        <Button Margin="5"
+                                Background="Transparent"
+                                Padding="0"
+                                Width="30"
+                                Height="25"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                Command="{Binding OpenAddGroupCommand}">
+                            <fa:IconImage Icon="Edit"
+                                          Height="15"
+                                          Width="15"
+                                          Foreground="LightGray"
+                                          HorizontalAlignment="Center" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
 
                 <ListBox x:Name="groupChats"
                          Margin="5,5,5,0"

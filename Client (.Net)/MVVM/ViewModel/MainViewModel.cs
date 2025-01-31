@@ -39,6 +39,7 @@ namespace Chat_App.MVVM.ViewModel
         private ICommand _nextSettingsCommand;
         private ICommand _openUserProfileCommand;
         private ICommand _openSettingsCommand;
+        private ICommand _openAddGroupCommand;
 
         public ICommand FinishSettingsCommand => _finishSettingsCommand;
         public ICommand SendMessageCommand => _sendMessageCommand;
@@ -47,6 +48,8 @@ namespace Chat_App.MVVM.ViewModel
         public ICommand NextSettingsCommand => _nextSettingsCommand;
         public ICommand OpenUserProfileCommand => _openUserProfileCommand;
         public ICommand OpenSettingsCommand => _openSettingsCommand;
+
+        public ICommand OpenAddGroupCommand => _openAddGroupCommand;
 
         // Events
         public event EventHandler ProfileCompleted;
