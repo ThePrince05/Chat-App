@@ -171,14 +171,14 @@ namespace Chat_App.MVVM.ViewModel
         {
             // Instantiate and show the UserProfile window
             UserProfile userProfileWindow = new UserProfile();
-            userProfileWindow.Show();
+            userProfileWindow.ShowDialog();
         }
 
         private void OpenSettings()
         {
             // Open the Settings window
             var settingsWindow = new Settings();
-            settingsWindow.Show();
+            settingsWindow.ShowDialog();
         }
 
         private void InitializeServicesAndEvents()
