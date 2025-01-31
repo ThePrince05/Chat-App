@@ -10,6 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MVVM\View\UserControl\GroupCards.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="MVVM\View\UserControl\GroupCards.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -20,6 +28,10 @@
     <Compile Update="MVVM\View\MainWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MVVM\View\UserControl\" />
   </ItemGroup>
 
 </Project>

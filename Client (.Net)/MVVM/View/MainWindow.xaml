@@ -15,6 +15,13 @@
         Background="#36393F"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"
+                      CornerRadius="15"
+                      GlassFrameThickness="0"
+                      UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
 
 
     <Window.DataContext>
@@ -161,11 +168,25 @@
                     </StackPanel>
                 </Grid>
 
-                <ListBox x:Name="groupChats"
+                <!--<ListBox x:Name="groupChats"
                          Margin="5,5,5,0"
                          Width="auto"
                          Height="250"
-                         Background="Transparent" />
+                         Background="Transparent" />-->
+
+                <ListView Margin="5"
+                          Width="auto"
+                          Height="250"
+                          Foreground="White"
+                          ItemsSource="{Binding Groups}"
+                          IsSynchronizedWithCurrentItem="True"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                          ItemContainerStyle="{StaticResource GroupCard}">
+                    
+                </ListView>
             </StackPanel>
 
             <!-- Footer Section -->

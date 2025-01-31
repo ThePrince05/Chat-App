@@ -11,6 +11,8 @@ using System.Windows.Navigation;
 using Client__.Net_.MVVM.View;
 using Client__.Net_;
 using System.Collections.Specialized;
+using System.Windows.Controls;
+using System.Windows.Documents;
 
 
 namespace Chat_App.MVVM.ViewModel
@@ -29,6 +31,7 @@ namespace Chat_App.MVVM.ViewModel
         public UserModel User { get; set; }
         public ObservableCollection<UserModel> Users { get; } = new ObservableCollection<UserModel>();
         public ObservableCollection<Message> Messages { get; } = new ObservableCollection<Message>();
+        public ObservableCollection<Group> Groups { get; set; } = new ObservableCollection<Group>();
 
         // Commands
         private ICommand _finishSettingsCommand;
@@ -116,6 +119,7 @@ namespace Chat_App.MVVM.ViewModel
         // Constructor
         public MainViewModel()
         {
+
             Messages.CollectionChanged += Messages_CollectionChanged;
 
             _sqliteDBService = new SQLiteDBService();
@@ -144,6 +148,7 @@ namespace Chat_App.MVVM.ViewModel
             _finishSettingsCommand = new RelayCommand(ExecuteFinishSettings, CanExecuteFinishSettings);
             _nextSettingsCommand = new RelayCommand(ExecuteNextSettings, CanExecuteNextSettings);
             _openSettingsCommand = new RelayCommand(_ => OpenSettings());
+            _openAddGroupCommand = new RelayCommand(_ => OpenAddGroup());
         }
 
         private void Messages_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -174,14 +179,29 @@ namespace Chat_App.MVVM.ViewModel
         {
             // Instantiate and show the UserProfile window
             UserProfile userProfileWindow = new UserProfile();
-            userProfileWindow.Show();
+            userProfileWindow.ShowDialog();
         }
 
         private void OpenSettings()
         {
             // Open the Settings window
             var settingsWindow = new Settings();
-            settingsWindow.Show();
+            settingsWindow.ShowDialog();
+        }
+
+        private void OpenAddGroup()
+        {
+            // Open the AddGroup window
+            //var addGroupWindow = new AddGroup();
+            //addGroupWindow.Show();
+            //MessageBoxResult result = MessageBox.Show("This feature is not yet implemented.", "Info", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+            Groups.Add(new Group 
+            {
+                //Id = 1,
+                GroupName = "Group 1",
+                Messages = Messages.Last().message,
+                ImageSource = "https://img.freepik.com/free-photo/people-posing-together-registration-day_23-2149096794.jpg"
+            });
         }
 
         private void InitializeServicesAndEvents()

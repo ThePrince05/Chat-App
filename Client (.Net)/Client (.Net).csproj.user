@@ -30,6 +30,9 @@
     <Page Update="Themes\ContactCard.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Themes\GroupsCard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Themes\MessageBox.xaml">
       <SubType>Designer</SubType>
     </Page>

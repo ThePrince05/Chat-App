@@ -49,6 +49,20 @@ D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\V
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserProfile.baml
 D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\MaterialDesignColors.dll
 D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\MaterialDesignThemes.Wpf.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).csproj.AssemblyReference.cache
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\ChatItem.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\ContactCard.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\GroupsCard.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\MessageBox.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\Scrollbar.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\StylishCrollbar.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\MainWindow.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\Settings.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserProfile.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_MarkupCompile.cache
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_MarkupCompile.lref
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).exe
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).deps.json
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).runtimeconfig.json
@@ -72,18 +86,6 @@ C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runt
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\win-x86\native\SQLite.Interop.dll
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).csproj.AssemblyReference.cache
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\ChatItem.baml
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\ContactCard.baml
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\MessageBox.baml
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\StylishCrollbar.baml
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\MainWindow.g.cs
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\Settings.g.cs
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserProfile.g.cs
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\App.g.cs
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_MarkupCompile.cache
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_MarkupCompile.lref
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\App.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\MainWindow.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\Settings.baml
@@ -100,4 +102,3 @@ C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\refi
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).pdb
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).genruntimeconfig.cache
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\ref\Client (.Net).dll
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\Scrollbar.baml
