@@ -65,7 +65,5 @@ namespace Client__.Net_.MVVM.View
                 }
             }
         }
-
-       
     }
-    }
+}

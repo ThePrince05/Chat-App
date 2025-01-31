@@ -10,8 +10,8 @@
         xmlns:converters="clr-namespace:Client__.Net_.Converters"
         mc:Ignorable="d"
         Title="Settings"
-        Height="800"
-        Width="800"
+        Height="740"
+        Width="600"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{x:Null}"
         AllowsTransparency="True"
@@ -63,111 +63,37 @@
                                Margin="0,0,0,50"
                                Foreground="LightGray" />
 
-                    <!-- TabControl -->
-                    <TabControl x:Name="SettingsTabControl"
-                                Background="#333333"
-                                FontSize="22"
-                                SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
-                        <!-- Supabase Settings Section -->
-                        <TabItem Header="Supabase"
-                                 Background="Transparent"
-                                 Height="33"
-                                 Margin="-2,-2,-2,0"
-                                 VerticalAlignment="Top"
-                                 Foreground="#212121">
-                            <StackPanel Margin="20">
-                                <TextBox x:Name="SupabaseUrlTextBox"
-                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                         materialDesign:HintAssist.Hint="Supabase URL"
-                                         FontSize="20"
-                                         Text="{Binding SupabaseSettings.SupabaseUrl}"
-                                         Margin="0,0,0,20"
-                                         Foreground="LightGray"
-                                         BorderBrush="LightGray" />
+                    
+                    <StackPanel Margin="20">
+                        <TextBox x:Name="SupabaseUrlTextBox"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 materialDesign:HintAssist.Hint="Supabase URL"
+                                 FontSize="20"
+                                 Text="{Binding SupabaseSettings.SupabaseUrl}"
+                                 Margin="0,0,0,20"
+                                 Foreground="LightGray"
+                                 BorderBrush="LightGray" />
+                        
+                        <TextBox x:Name="SupabaseApiKeyBox"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 materialDesign:HintAssist.Hint="Supabase API Key"
+                                 Text="{Binding SupabaseSettings.SupabaseApiKey}"
+                                 FontSize="20"
+                                 Margin="0,0,0,20"
+                                 Foreground="LightGray"
+                                 BorderBrush="LightGray"
+              />
 
-                                <TextBox x:Name="SupabaseApiKeyBox"
-                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                         materialDesign:HintAssist.Hint="Supabase API Key"
-                                         Text="{Binding SupabaseSettings.SupabaseApiKey}"
-                                         FontSize="20"
-                                         Margin="0,0,0,20"
-                                         Foreground="LightGray"
-                                         BorderBrush="LightGray"
-                                          />
+                        <Button Content="Next"
+                                HorizontalAlignment="Right"
+                                Width="120"
+                                Height="53"
+                                FontSize="20"
+                                Background="{Binding User.SelectedColor}"
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                Command="{Binding NextSettingsCommand}" />
+                    </StackPanel>
 
-                                <Button Content="Next"
-                                        HorizontalAlignment="Right"
-                                        Width="120"
-                                        Height="53"
-                                        FontSize="20"
-                                        Background="{Binding User.SelectedColor}"
-                                        Style="{StaticResource MaterialDesignRaisedButton}"
-                                        Command="{Binding NextSettingsCommand}" />
-                            </StackPanel>
-                        </TabItem>
-
-                        <!-- Dedicated Server Settings Section -->
-                        <TabItem Header="Dedicated Server"
-                                 x:Name="ServerSettingsTab"
-                                 Background="Transparent"
-                                 Foreground="#212121">
-
-                            <StackPanel Margin="20">
-
-                                <!-- Toggle for Dedicated Server -->
-                                <StackPanel Orientation="Horizontal"
-                                            VerticalAlignment="Center"
-                                            Margin="0 20 0 20">
-                                    <TextBlock Text="Enable Dedicated Server"
-                                               Foreground="LightGray"
-                                               VerticalAlignment="Center"
-                                               Margin="0,0,8,0" />
-                                    <ToggleButton x:Name="DedicatedServerToggle"
-                                                  IsChecked="{Binding ServerSettings.IsDedicatedServerEnabled, Mode=TwoWay}"
-                                                  Content="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked, Converter={StaticResource BoolToOnOffConverter}}"
-                                                  Width="100"
-                                                  Height="50"
-                                                  Margin="8,0,0,0"
-                                                  Background="{Binding User.SelectedColor}"
-                                                  Style="{StaticResource MaterialDesignActionToggleButton}" />
-                                </StackPanel>
-
-                                <!-- Server IP Address TextBox -->
-                                <TextBox x:Name="ServerIpAddressTextBox"
-                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                         materialDesign:HintAssist.Hint="Server IP Address"
-                                         Text="{Binding ServerSettings.ServerIp}"
-                                         IsEnabled="{Binding ServerSettings.IsDedicatedServerEnabled}"
-                                         FontSize="20"
-                                         Margin="0,0,0,20"
-                                         Foreground="LightGray"
-                                         BorderBrush="LightGray" />
-
-                                <!-- Server Port Number TextBox -->
-                                <TextBox x:Name="ServerPortNumberTextBox"
-                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                         materialDesign:HintAssist.Hint="Server Port Number"
-                                         Text="{Binding ServerSettings.ServerPort}"
-                                         IsEnabled="{Binding ServerSettings.IsDedicatedServerEnabled}"
-                                         FontSize="20"
-                                         Margin="0,0,0,20"
-                                         Foreground="LightGray"
-                                         BorderBrush="LightGray" />
-
-                                <Button Content="Finish"
-                                        HorizontalAlignment="Right"
-                                        Width="120"
-                                        Height="53"
-                                        FontSize="20"
-                                        Background="{Binding User.SelectedColor}"
-                                        Style="{StaticResource MaterialDesignRaisedButton}"
-                                        Command="{Binding FinishSettingsCommand}" />
-
-
-                            </StackPanel>
-
-                        </TabItem>
-                    </TabControl>
                 </StackPanel>
             </StackPanel>
         </materialDesign:DialogHost>

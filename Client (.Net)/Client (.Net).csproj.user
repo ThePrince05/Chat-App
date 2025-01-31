@@ -33,6 +33,9 @@
     <Page Update="Themes\MessageBox.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Themes\Scrollbar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Themes\StylishCrollbar.xaml">
       <SubType>Designer</SubType>
     </Page>

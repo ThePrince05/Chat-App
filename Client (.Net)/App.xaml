@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="./Themes/ContactCard.xaml" />
                 <ResourceDictionary Source="./Themes/ChatItem.xaml" />
                 <ResourceDictionary Source="./Themes/MessageBox.xaml" />
+                <!--<ResourceDictionary Source="./Themes/Scrollbar.xaml" />-->
                 <ResourceDictionary Source="./Themes/StylishCrollbar.xaml" />
 
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />

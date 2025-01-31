@@ -22,10 +22,7 @@ namespace Chat_App
             {
                 DragMove();
             }
-
-
         }
-
         private void Minimise_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
@@ -38,24 +35,24 @@ namespace Chat_App
                 this.WindowState = WindowState.Maximized;
 
                 // username label behavior
-                lbl_username.FontSize = 14;
+                //lbl_username.FontSize = 14;
 
                 // left panel
-                var grid = (Grid)FindName("MainGrid");
-                var row1 = (UIElement)grid.Children[1];  // Find the element of Row 1 (based on the order of the grid children)
-                row1.SetValue(MarginProperty, new Thickness(8, 0, 0, 0));  // Adjust as needed
+                //var grid = (Grid)FindName("MainGrid");
+                //var row1 = (UIElement)grid.Children[1];  // Find the element of Row 1 (based on the order of the grid children)
+                //row1.SetValue(MarginProperty, new Thickness(8, 0, 0, 0));  // Adjust as needed
             }
             else
             {
                 this.WindowState = WindowState.Normal;
 
                 // username label behavior
-                lbl_username.FontSize = 12;
+                //lbl_username.FontSize = 12;
 
                 // left panel
-                var grid = (Grid)FindName("MainGrid");
-                var row1 = (UIElement)grid.Children[1];
-                row1.SetValue(MarginProperty, new Thickness(0));  // Default margin
+                //var grid = (Grid)FindName("MainGrid");
+                //var row1 = (UIElement)grid.Children[1];
+                //row1.SetValue(MarginProperty, new Thickness(0));  // Default margin
             }
         }
 

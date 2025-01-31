@@ -9,6 +9,8 @@ using System.Windows.Media;
 using System.Windows;
 using System.Windows.Navigation;
 using Client__.Net_.MVVM.View;
+using Client__.Net_;
+using System.Collections.Specialized;
 
 
 namespace Chat_App.MVVM.ViewModel
@@ -107,10 +109,11 @@ namespace Chat_App.MVVM.ViewModel
             }
         }
 
+
         // Constructor
         public MainViewModel()
         {
-            
+            Messages.CollectionChanged += Messages_CollectionChanged;
 
             _sqliteDBService = new SQLiteDBService();
 
@@ -139,6 +142,30 @@ namespace Chat_App.MVVM.ViewModel
             _nextSettingsCommand = new RelayCommand(ExecuteNextSettings, CanExecuteNextSettings);
             _openSettingsCommand = new RelayCommand(_ => OpenSettings());
         }
+
+        private void Messages_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
+            {
+                Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    ScrollToLastMessage();
+                });
+            }
+        }
+
+        public void ScrollToLastMessage()
+        {
+            if (Messages.Count > 0)
+            {
+                Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    var listView = Application.Current.MainWindow.FindName("lvMessageList") as System.Windows.Controls.ListView;
+                    listView?.ScrollIntoView(Messages[^1]); // Scroll to last item
+                });
+            }
+        }
+
 
         internal void OpenUserProfile()
         {
@@ -215,7 +242,6 @@ namespace Chat_App.MVVM.ViewModel
             _supabaseService = new SupabaseService(SupabaseSettings);
             Console.WriteLine("SupabaseService initialized successfully.");
         }
-
 
         private async Task LogInUser()
         {
@@ -308,8 +334,6 @@ namespace Chat_App.MVVM.ViewModel
                 Console.WriteLine($"Error loading messages: {ex.Message}");
             }
         }
-
-
 
         private void UserConnected()
         {
