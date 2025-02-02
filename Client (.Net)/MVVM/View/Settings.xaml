@@ -7,10 +7,9 @@
         xmlns:viewmodel="clr-namespace:Chat_App.MVVM.ViewModel"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        xmlns:converters="clr-namespace:Client__.Net_.Converters"
         mc:Ignorable="d"
         Title="Settings"
-        Height="740"
+        Height="700"
         Width="600"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{x:Null}"
@@ -22,10 +21,6 @@
         <viewmodel:MainViewModel />
     </Window.DataContext>
 
-    <Window.Resources>
-        <!-- Register the converter in the resources -->
-        <converters:BoolToOnOffConverter x:Key="BoolToOnOffConverter" />
-    </Window.Resources>
 
     <!-- Card Layout -->
     <materialDesign:Card UniformCornerRadius="15"
@@ -47,7 +42,7 @@
                     <fa:IconImage Icon="CircleXmark"
                                   Foreground="LightGray" />
                 </Button>
-                
+
                 <StackPanel Margin="20 0 20 20">
                     <fa:IconImage Margin="0 0 0 30"
                                   Icon="ScrewdriverWrench"
@@ -63,7 +58,7 @@
                                Margin="0,0,0,50"
                                Foreground="LightGray" />
 
-                    
+
                     <StackPanel Margin="20">
                         <TextBox x:Name="SupabaseUrlTextBox"
                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
@@ -73,25 +68,25 @@
                                  Margin="0,0,0,20"
                                  Foreground="LightGray"
                                  BorderBrush="LightGray" />
-                        
+
                         <TextBox x:Name="SupabaseApiKeyBox"
                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                  materialDesign:HintAssist.Hint="Supabase API Key"
                                  Text="{Binding SupabaseSettings.SupabaseApiKey}"
                                  FontSize="20"
-                                 Margin="0,0,0,20"
+                                 Margin="0,0,0,70"
                                  Foreground="LightGray"
-                                 BorderBrush="LightGray"
-              />
+                                 BorderBrush="LightGray" />
 
-                        <Button Content="Next"
-                                HorizontalAlignment="Right"
-                                Width="120"
+                        <Button Content="SAVE"
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                materialDesign:ShadowAssist.ShadowDepth="Depth0"
                                 Height="53"
-                                FontSize="20"
+                                Width="300"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                FontSize="25"
                                 Background="{Binding User.SelectedColor}"
-                                Style="{StaticResource MaterialDesignRaisedButton}"
-                                Command="{Binding NextSettingsCommand}" />
+                                Command="{Binding SaveSettingsCommand}" />
                     </StackPanel>
 
                 </StackPanel>
