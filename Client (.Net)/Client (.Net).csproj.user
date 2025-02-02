@@ -24,16 +24,7 @@
     <Page Update="MVVM\View\UserProfile.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Themes\ChatItem.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Themes\ContactCard.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Themes\MessageBox.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Themes\Scrollbar.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\StylishCrollbar.xaml">

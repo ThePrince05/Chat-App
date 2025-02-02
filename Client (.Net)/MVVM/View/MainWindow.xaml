@@ -16,11 +16,13 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
 
+ 
 
     <Window.DataContext>
         <viewmodel:MainViewModel />
     </Window.DataContext>
-
+    
+    
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
