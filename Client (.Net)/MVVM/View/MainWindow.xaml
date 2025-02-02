@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Height="500"
         MinHeight="300"
-        Width="800"
+        Width="900"
         MinWidth="500"
         Background="#36393F"
         WindowStyle="None"
