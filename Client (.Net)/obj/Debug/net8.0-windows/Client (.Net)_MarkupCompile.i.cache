@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 D:\Projects\Visual Studio\Chat App\Client (.Net)\App.xaml
-5-2110953523
+6499332417
 
-171951299662
+19-1318323205
 216-1844269876
-MVVM\View\MainWindow.xaml;MVVM\View\Settings.xaml;MVVM\View\UserProfile.xaml;Themes\MessageBox.xaml;Themes\StylishCrollbar.xaml;
+MVVM\View\MainWindow.xaml;MVVM\View\Settings.xaml;MVVM\View\UserLogin.xaml;MVVM\View\UserProfileAdd.xaml;Themes\MessageBox.xaml;Themes\StylishCrollbar.xaml;
 
 True
 

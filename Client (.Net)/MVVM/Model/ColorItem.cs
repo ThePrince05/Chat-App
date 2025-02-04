@@ -11,6 +11,7 @@ namespace Client__.Net_.MVVM.Model
     {
         public string Name { get; set; }
         public SolidColorBrush Color { get; set; }
+        public string HexValue => Color.Color.ToString(); // Converts to hex
 
         public ColorItem(string name, SolidColorBrush color)
         {
@@ -18,5 +19,6 @@ namespace Client__.Net_.MVVM.Model
             Color = color;
         }
     }
+
 
 }

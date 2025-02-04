@@ -12,8 +12,6 @@ namespace Chat_App
         public MainWindow()
         {
             InitializeComponent();
-
-
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
@@ -69,7 +67,7 @@ namespace Chat_App
         private void Border_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
             var viewModel = (MainViewModel)DataContext;
-            viewModel.OpenUserProfile();
+            MainViewModel.OpenUserProfile();
         }
     }
 }
