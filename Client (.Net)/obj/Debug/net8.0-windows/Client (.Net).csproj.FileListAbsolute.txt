@@ -63,6 +63,7 @@ C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\App.
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_MarkupCompile.cache
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_MarkupCompile.lref
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserControls\NewGroupControl.g.cs
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).exe
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).deps.json
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).runtimeconfig.json
@@ -89,6 +90,7 @@ C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runt
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\App.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\MainWindow.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\Settings.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserControls\NewGroupControl.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserProfile.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).g.resources
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).GeneratedMSBuildEditorConfig.editorconfig

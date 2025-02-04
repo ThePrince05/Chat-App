@@ -7,6 +7,7 @@
         xmlns:viewmodel="clr-namespace:Chat_App.MVVM.ViewModel"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:userControls="clr-namespace:Client__.Net_.MVVM.View.UserControls"
         mc:Ignorable="d"
         Height="500"
         MinHeight="300"
@@ -96,6 +97,7 @@
 
         <!-- Main Content Area -->
         <Grid Grid.Row="1"
+              Panel.ZIndex="1"
               Background="#2f3136">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
@@ -154,6 +156,7 @@
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Right">
                         <Button Margin="5"
+                                Click="Button_Click"
                                 Background="Transparent"
                                 Padding="0"
                                 Width="30"
@@ -256,6 +259,13 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
+
+            <userControls:NewGroupControl
+                x:Name="NewGroupControlMenus"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Width="250"
+                Height="350"/>
 
             <!--message feed-->
             <ListView x:Name="lvMessageList"

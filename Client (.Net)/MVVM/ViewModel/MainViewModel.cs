@@ -13,6 +13,8 @@ using Client__.Net_;
 using System.Collections.Specialized;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Reflection.Metadata;
+using System.Windows.Media.Animation;
 
 
 namespace Chat_App.MVVM.ViewModel
@@ -148,7 +150,7 @@ namespace Chat_App.MVVM.ViewModel
             _finishSettingsCommand = new RelayCommand(ExecuteFinishSettings, CanExecuteFinishSettings);
             _nextSettingsCommand = new RelayCommand(ExecuteNextSettings, CanExecuteNextSettings);
             _openSettingsCommand = new RelayCommand(_ => OpenSettings());
-            _openAddGroupCommand = new RelayCommand(_ => OpenAddGroup());
+            _openAddGroupCommand = new RelayCommand(OpenAddGroup);
         }
 
         private void Messages_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -184,18 +186,17 @@ namespace Chat_App.MVVM.ViewModel
 
         private void OpenSettings()
         {
-            // Open the Settings window
             var settingsWindow = new Settings();
+
             settingsWindow.ShowDialog();
         }
 
-        private void OpenAddGroup()
+        private void OpenAddGroup(object parameter)
         {
             // Open the AddGroup window
-            //var addGroupWindow = new AddGroup();
-            //addGroupWindow.Show();
-            //MessageBoxResult result = MessageBox.Show("This feature is not yet implemented.", "Info", MessageBoxButton.OKCancel, MessageBoxImage.Information);
-            Groups.Add(new Group 
+
+
+            Groups.Add(new Group
             {
                 //Id = 1,
                 GroupName = "Group 1",
