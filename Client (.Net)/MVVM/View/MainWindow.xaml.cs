@@ -13,7 +13,8 @@ namespace Chat_App
         {
             InitializeComponent();
 
-
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            this.MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
@@ -30,29 +31,15 @@ namespace Chat_App
 
         private void Maximise_Click(object sender, RoutedEventArgs e)
         {
-            if (this.WindowState != WindowState.Maximized)
+            if (WindowState != WindowState.Maximized)
             {
-                this.WindowState = WindowState.Maximized;
-
-                // username label behavior
-                //lbl_username.FontSize = 14;
-
-                // left panel
-                //var grid = (Grid)FindName("MainGrid");
-                //var row1 = (UIElement)grid.Children[1];  // Find the element of Row 1 (based on the order of the grid children)
-                //row1.SetValue(MarginProperty, new Thickness(8, 0, 0, 0));  // Adjust as needed
+                WindowState = WindowState.Maximized;
+                MainGrid.Margin = new Thickness(7);
             }
             else
             {
-                this.WindowState = WindowState.Normal;
-
-                // username label behavior
-                //lbl_username.FontSize = 12;
-
-                // left panel
-                //var grid = (Grid)FindName("MainGrid");
-                //var row1 = (UIElement)grid.Children[1];
-                //row1.SetValue(MarginProperty, new Thickness(0));  // Default margin
+                WindowState = WindowState.Normal;
+                MainGrid.Margin = new Thickness(0);
             }
         }
 
