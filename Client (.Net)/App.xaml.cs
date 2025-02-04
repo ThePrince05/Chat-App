@@ -26,8 +26,8 @@ namespace Client__.Net_
             viewModel.OnSettingsCompleted += OnSettingsCompleted;
             viewModel.OnUserLoginCompleted += OnUserLoginCompleted;
 
-            // Check if Settings table has data
-            var settingsDataPresent = dbService.TableHasData("settings");
+            // Step 1: Check if Settings table has data
+            bool settingsDataPresent = dbService.TableHasData("settings");
 
             if (!settingsDataPresent)
             {
@@ -36,51 +36,35 @@ namespace Client__.Net_
                 {
                     DataContext = viewModel
                 };
-                _settingsWindow.ShowDialog();  // Show the Settings window first
+                _settingsWindow.ShowDialog();
             }
 
-            // Check if user data exists in users table
+            // Step 2: Check if user data exists in users table
             var (isUserDataPresent, _) = dbService.CheckInitializationState();
 
-            if (!isUserDataPresent)
+            if (isUserDataPresent)
             {
-                // If no user data, open the UserLogin window
-                _userLoginWindow = new UserLogin
-                {
-                    DataContext = viewModel
-                };
-                _userLoginWindow.ShowDialog();  // Show the UserLogin window
-            }
-            else
-            {
-                // Check if UserLogin is false (0) in login table
+                // Step 3: Check if UserLogin is true (1) in login table
                 bool isUserLoggedIn = dbService.IsUserLoggedIn();
 
-                if (!isUserLoggedIn)
+                if (isUserLoggedIn)
                 {
-                    // Open UserLogin window if UserLogin is false
-                    _userLoginWindow = new UserLogin
-                    {
-                        DataContext = viewModel
-                    };
-                    _userLoginWindow.ShowDialog();  // Show the UserLogin window
+                    // Open MainWindow if user is already logged in
+                    OpenMainWindow();
+                    return;
                 }
             }
 
-            //// Once both settings and user login are done, open MainWindow
-            //if (_mainWindow == null)
-            //{
-            //    _mainWindow = new MainWindow();
-            //    _mainWindow.Show();
-            //    _mainWindow.WindowState = WindowState.Normal;
-            //    _mainWindow.Focus();
-            //}
+            // If user is not logged in or no user exists, open UserLogin window
+            _userLoginWindow = new UserLogin
+            {
+                DataContext = viewModel
+            };
+            _userLoginWindow.ShowDialog();
         }
-
 
         private void OnSettingsCompleted(object sender, EventArgs e)
         {
-            // Hide the Settings window when completed
             if (_settingsWindow != null && _settingsWindow.IsVisible)
             {
                 _settingsWindow.Hide();
@@ -89,11 +73,21 @@ namespace Client__.Net_
 
         private void OnUserLoginCompleted(object sender, EventArgs e)
         {
-            // Hide the UserLogin window when completed
             if (_userLoginWindow != null && _userLoginWindow.IsVisible)
             {
                 _userLoginWindow.Hide();
             }
+
+            // Open MainWindow after login is completed
+            OpenMainWindow();
+        }
+
+        private void OpenMainWindow()
+        {
+            _mainWindow = new MainWindow();
+            _mainWindow.Show();
+            _mainWindow.WindowState = WindowState.Normal;
+            _mainWindow.Focus();
         }
     }
 }

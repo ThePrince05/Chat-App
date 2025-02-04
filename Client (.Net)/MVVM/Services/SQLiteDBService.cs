@@ -352,6 +352,32 @@ public class SQLiteDBService
         }
     }
 
+    public bool UpdateUser(string username, string selectedColorHex)
+    {
+        try
+        {
+            using (var connection = new SQLiteConnection($"Data Source={_databaseFilePath};Version=3;"))
+            {
+                connection.Open();
+
+                string query = "UPDATE User SET SelectedColour = @SelectedColour WHERE Username = @Username";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@SelectedColour", selectedColorHex);
+                    command.Parameters.AddWithValue("@Username", username);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+                    return rowsAffected > 0;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error updating user in SQLite: {ex.Message}");
+            return false;
+        }
+    }
+
     public void UpdateUserLoginStatus(bool isLoggedIn)
     {
         try

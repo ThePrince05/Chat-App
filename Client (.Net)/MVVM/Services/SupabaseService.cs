@@ -410,6 +410,46 @@ public class SupabaseService
         return null;
     }
 
+    public async Task<bool> UpdateUserAsync(string username, string encryptedPassword, string selectedColorHex)
+    {
+        try
+        {
+            Debug.WriteLine($"Starting UpdateUserAsync for username: {username}");
+
+            var requestBody = new
+            {
+                userpassword = encryptedPassword,  // Ensure lowercase "userpassword"
+                selectedcolour = selectedColorHex  // Ensure lowercase "selectedcolour"
+            };
+
+            string jsonData = JsonConvert.SerializeObject(requestBody);
+            Debug.WriteLine($"Request JSON: {jsonData}");
+
+            var jsonContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            Debug.WriteLine($"Sending PATCH request to Supabase for user: {username}");
+
+            var response = await _httpClient.PatchAsync($"users?username=eq.{username}", jsonContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("User update successful.");
+                return true;
+            }
+            else
+            {
+                string errorResponse = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"User update failed. Status Code: {response.StatusCode}, Response: {errorResponse}");
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in UpdateUserAsync: {ex.Message}");
+            return false;
+        }
+    }
+
 
 
     // ✅ URL validation helper method

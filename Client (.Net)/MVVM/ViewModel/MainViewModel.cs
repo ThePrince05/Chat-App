@@ -22,24 +22,29 @@ namespace Chat_App.MVVM.ViewModel
         public SupabaseSettings SupabaseSettings { get; set; }
         public User User { get; set; }
         public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
-        public ObservableCollection<Message> Messages { get; } = new ObservableCollection<Message>();
+        public ObservableCollection<Message> Messages { get; set; } = new ObservableCollection<Message>();
 
         // Commands
         private ICommand _sendMessageCommand;
         private ICommand _loadMessagesCommand;
         private ICommand _loginCommand;
-        private ICommand _openUserProfileCommand;
+        private ICommand _openUserProfileEditCommand;
+        private ICommand _openUserProfileAddCommand;
         private ICommand _openSettingsCommand;
         private ICommand _saveSettingsCommand;
         private ICommand _saveUserCommand;
+        private ICommand _modifyUserCommand;
+
 
         public ICommand SendMessageCommand => _sendMessageCommand;
         public ICommand LoadMessagesCommand => _loadMessagesCommand;
         public ICommand LoginCommand => _loginCommand;
-        public ICommand OpenUserProfileCommand => _openUserProfileCommand;
+        public ICommand OpenUserProfileEditCommand => _openUserProfileEditCommand;
+        public ICommand OpenUserProfileAddCommand => _openUserProfileAddCommand;
         public ICommand OpenSettingsCommand => _openSettingsCommand;
         public ICommand SaveSettingsCommand => _saveSettingsCommand;
         public ICommand SaveUserCommand => _saveUserCommand;
+        public ICommand ModifyUserCommand => _modifyUserCommand;
 
         // Events
         public event EventHandler OnUserLoginCompleted;
@@ -145,8 +150,10 @@ namespace Chat_App.MVVM.ViewModel
             _loginCommand = new RelayCommand(async _ => await LogInUser(), _ => !string.IsNullOrEmpty(Username));
             _openSettingsCommand = new RelayCommand(_ => OpenSettings());
             _saveSettingsCommand = new RelayCommand(_ => ExecuteSaveSettings());
-            _openUserProfileCommand = new RelayCommand(_ => OpenUserProfile());
+            _openUserProfileEditCommand = new RelayCommand(_ => OpenUserProfileEdit());
+            _openUserProfileAddCommand = new RelayCommand(_ => OpenUserProfileAdd());
             _saveUserCommand = new RelayCommand(async _ => await SaveUserAsync(), _ => CanSaveUser());
+            _modifyUserCommand = new RelayCommand(async _ => await ModifyUserAsync(), _ => CanSaveUser());
         }
 
         private bool CanSaveUser()
@@ -193,6 +200,62 @@ namespace Chat_App.MVVM.ViewModel
             }
         }
 
+        private async Task ModifyUserAsync()
+        {
+            if (!CanSaveUser())
+            {
+                MessageBox.Show("Please fill in all fields!", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                // Encrypt the new password
+                string encryptedPassword = EncryptionHelper.Encrypt(Password);
+
+                // Default to green (#00FF00) if no color is selected
+                string selectedColorHex = SelectedColorHex ?? "#00FF00";
+
+                // Step 1: Check if user exists in SQLite
+                bool isUserInSQLite = _sqliteDBService.CheckUserExists(Username);
+                if (!isUserInSQLite)
+                {
+                    MessageBox.Show("User not found in local database!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Step 2: Check if user exists in Supabase
+                var userFromSupabase = await _supabaseService.GetUserByUsernameAsync(Username);
+                if (userFromSupabase == null)
+                {
+                    MessageBox.Show("User not found in Supabase!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Step 3: Update the user's details in Supabase
+                bool isUpdatedInSupabase = await _supabaseService.UpdateUserAsync(Username, encryptedPassword, selectedColorHex);
+                if (!isUpdatedInSupabase)
+                {
+                    MessageBox.Show("Failed to update user in Supabase!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Step 4: Update the user's details in SQLite
+                bool isUpdatedInSQLite = _sqliteDBService.UpdateUser(Username, selectedColorHex);
+                if (!isUpdatedInSQLite)
+                {
+                    MessageBox.Show("Failed to update user in local database!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Step 5: Show success message
+                MessageBox.Show("User updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating user: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         private void Messages_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
@@ -214,10 +277,15 @@ namespace Chat_App.MVVM.ViewModel
             }
         }
 
-        internal static void OpenUserProfile()
+        internal static void OpenUserProfileEdit()
         {
-            UserProfile userProfileWindow = new UserProfile();
-            userProfileWindow.ShowDialog();
+            UserProfileEdit userProfileEditWindow = new();
+            userProfileEditWindow.ShowDialog();
+        }
+        internal static void OpenUserProfileAdd()
+        {
+            UserProfile userProfileAddWindow = new UserProfile();
+            userProfileAddWindow.ShowDialog();
         }
 
         private static void OpenSettings()
@@ -380,26 +448,40 @@ namespace Chat_App.MVVM.ViewModel
 
             try
             {
+                Console.WriteLine("Fetching messages from Supabase...");
                 var messages = await _supabaseService.GetMessagesAsync();
-                if (messages != null)
+
+                if (messages == null || !messages.Any())  // Check for null or empty list
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
+                    Console.WriteLine("No messages found or received null response.");
+                    return;
+                }
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (Messages == null)  // Ensure Messages list is initialized
                     {
-                        Messages.Clear();
-                        foreach (var msg in messages)
+                        Messages = new ObservableCollection<Message>();
+                    }
+
+                    Messages.Clear();
+                    foreach (var msg in messages)
+                    {
+                        if (msg != null)  // Ensure each message is not null
                         {
                             Messages.Add(msg);
                         }
-                    });
+                    }
 
                     Console.WriteLine($"{Messages.Count} messages loaded.");
-                }
+                });
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading messages: {ex.Message}");
             }
         }
+
 
         private async void ExecuteSaveSettings()
         {

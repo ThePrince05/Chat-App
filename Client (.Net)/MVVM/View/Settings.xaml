@@ -9,7 +9,7 @@
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
         Title="Settings"
-        Height="700"
+        Height="680"
         Width="600"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{x:Null}"
@@ -60,7 +60,7 @@
                                Foreground="LightGray" />
 
 
-                    <StackPanel Margin="20">
+                    <StackPanel Margin="20 0 20 20">
                         <TextBox x:Name="SupabaseUrlTextBox"
                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                  materialDesign:HintAssist.Hint="Supabase URL"

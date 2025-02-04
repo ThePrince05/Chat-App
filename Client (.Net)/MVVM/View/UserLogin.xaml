@@ -94,7 +94,7 @@
                         Content="Create new user"
                         HorizontalAlignment="Right"
                         Foreground="LightGray"
-                        Command="{Binding OpenUserProfileCommand}"
+                        Command="{Binding OpenUserProfileAddCommand}"
                         >
                     <Button.Style>
                     <Style TargetType="Button">
