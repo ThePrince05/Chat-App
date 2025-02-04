@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Micha\\source\\repos\\Chat-App\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|c:\\users\\micha\\source\\repos\\chat-app\\client (.net)\\mvvm\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|c:\\users\\micha\\source\\repos\\chat-app\\client (.net)\\mvvm\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|c:\\users\\micha\\source\\repos\\chat-app\\client (.net)\\mvvm\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|c:\\users\\micha\\source\\repos\\chat-app\\client (.net)\\mvvm\\view\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,7 +62,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\Micha\\source\\repos\\Chat-App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml",
               "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\View\\MainWindow.xaml",
@@ -74,13 +74,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MainViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Micha\\source\\repos\\Chat-App\\Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
               "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
-              "ToolTip": "C:\\Users\\Micha\\source\\repos\\Chat-App\\Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs*",
-              "RelativeToolTip": "Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs*",
-              "ViewState": "AgIAAKYAAAAAAAAAAAAUwMwAAAAPAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Micha\\source\\repos\\Chat-App\\Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
+              "RelativeToolTip": "Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
+              "ViewState": "AgIAALMAAAAAAAAAAAAcwMYAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-23T15:03:45.623Z",
               "EditorCaption": ""
