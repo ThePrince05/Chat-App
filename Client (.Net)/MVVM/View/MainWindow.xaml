@@ -10,17 +10,19 @@
         mc:Ignorable="d"
         Height="500"
         MinHeight="300"
-        Width="800"
+        Width="900"
         MinWidth="500"
         Background="#36393F"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
 
+ 
 
     <Window.DataContext>
         <viewmodel:MainViewModel />
     </Window.DataContext>
-
+    
+    
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -92,7 +94,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="60" />
+                <RowDefinition Height="70" />
             </Grid.RowDefinitions>
 
             <!-- User List Section -->
@@ -114,7 +116,7 @@
                 <Button Grid.Column="2"
                         Background="Transparent"
                         Width="35"
-                        Height="21"
+                        Height="20"
                         Padding="0"
                         Margin="0 3 2 3"
                         HorizontalAlignment="Right"
