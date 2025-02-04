@@ -14,7 +14,7 @@
         MinWidth="500"
         Background="#36393F"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
     
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0"
@@ -26,6 +26,8 @@
     <Window.DataContext>
         <viewmodel:MainViewModel />
     </Window.DataContext>
+    
+    
 
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
@@ -253,7 +255,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="15" />
             </Grid.RowDefinitions>
 
             <!--message feed-->
@@ -325,7 +326,7 @@
                          KeyDown="TextBox_KeyDown"
                          TextWrapping="Wrap"
                          AcceptsReturn="True"
-                         Margin="8,8,8,8" />
+                         Margin="8,8,8,10" />
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Left"
                             Grid.Column="2"

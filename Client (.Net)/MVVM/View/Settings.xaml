@@ -84,7 +84,7 @@
                                  BorderBrush="LightGray"
               />
 
-                        <Button Content="Next"
+                        <Button Content="Save"
                                 HorizontalAlignment="Right"
                                 Width="120"
                                 Height="53"
