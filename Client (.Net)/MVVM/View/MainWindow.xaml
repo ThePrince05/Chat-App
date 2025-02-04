@@ -14,9 +14,14 @@
         MinWidth="500"
         Background="#36393F"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" 
+        ResizeMode="CanResize">
 
- 
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"
+                  CornerRadius="15"
+                  GlassFrameThickness="5"/>
+    </WindowChrome.WindowChrome>
 
     <Window.DataContext>
         <viewmodel:MainViewModel />

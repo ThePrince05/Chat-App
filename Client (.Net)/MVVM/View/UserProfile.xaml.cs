@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -63,6 +64,14 @@ namespace Client__.Net_.MVVM.View
                 {
                     viewModel.SelectedColor = new SolidColorBrush(Colors.Transparent); // Reset to transparent
                 }
+            }
+        }
+
+        private void Border_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
             }
         }
     }

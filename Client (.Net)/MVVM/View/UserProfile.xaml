@@ -26,38 +26,58 @@
                          Margin="25">
         <materialDesign:DialogHost CloseOnClickAway="True"
                                    x:Name="DialogHost">
-            <StackPanel>
-                <Button Margin="0,5,0,0"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0"
+                        Background="{Binding User.SelectedColor}"
+                        Height="60"
+                        CornerRadius="15 15 0 0"
+                        MouseDown="Border_MouseDown">
+                    <TextBlock Text="User Profile"
+                               FontSize="30"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="LightGray" />
+                </Border>
+
+                <Button Margin="0,0,0,0"
                         Background="Transparent"
                         Padding="0"
                         Width="70"
-                        Height="50"
+                        Height="60"
                         HorizontalAlignment="Right"
                         Click="Button_Click"
                         Style="{StaticResource MaterialDesignFlatButton}">
                     <fa:IconImage Icon="CircleXmark"
-                                  Foreground="LightGray" />
+                                  Foreground="LightGray"
+                                  Height="50"/>
                 </Button>
 
-                <fa:IconImage Margin="0 10 0 5"
+                <StackPanel Grid.Row="1">
+                    <fa:IconImage Margin="0 10 0 5"
                               Icon="Comments"
                               Foreground="LightGray"
                               Height="120"
                               Width="200"/>
 
-                <TextBlock Margin="0 25 0 5"
+                    <TextBlock Margin="0 25 0 5"
                            HorizontalAlignment="Center"
                            FontSize="40"
                            FontWeight="Bold"
                            Text="Welcome!!!"
                            Foreground="LightGray" />
-                <TextBlock FontSize="17"
+                    <TextBlock FontSize="17"
                            FontWeight="SemiBold"
                            Foreground="LightGray"
                            HorizontalAlignment="Center"
                            Text="Log in with a new username" />
 
-                <TextBox Margin="0 30 0 0"
+                    <TextBox Margin="0 30 0 0"
                          x:Name="textUsername"
                          Width="300"
                          FontSize="15"
@@ -68,7 +88,7 @@
                          BorderBrush="{DynamicResource MaterialDesignDivider}"
                          Style="{StaticResource MaterialDesignOutlinedTextBox}" />
 
-                <ComboBox Margin="0 10 0 0"
+                    <ComboBox Margin="0 10 0 0"
                           x:Name="ColorComboBox"
                           materialDesign:ShadowAssist.ShadowDepth="Depth1"
                           Height="50"
@@ -82,12 +102,12 @@
                           SelectedValuePath="Color"
                           SelectionChanged="ColorComboBox_SelectionChanged"
                           DisplayMemberPath="Name">
-                  
-                   
-                </ComboBox>
 
-                <!-- Rectangle to Show Selected Color -->
-                <Rectangle Width="300"
+
+                    </ComboBox>
+
+                    <!-- Rectangle to Show Selected Color -->
+                    <Rectangle Width="300"
                            Height="40"
                            VerticalAlignment="Bottom"
                            HorizontalAlignment="Center"
@@ -95,7 +115,7 @@
                            Margin="0 30 0 20"
                            Fill="{Binding SelectedColor}" />
 
-                <Button Margin="0 30 0 0"
+                    <Button Margin="0 30 0 0"
                         x:Name="loginBtn"
                         Style="{StaticResource MaterialDesignFlatMidBgButton}"
                         materialDesign:ShadowAssist.ShadowDepth="Depth0"
@@ -106,7 +126,8 @@
                         Content="LOG IN"
                         Background="{Binding User.SelectedColor}"
                         Command="{Binding LoginCommand}"/>
-            </StackPanel>
+                </StackPanel>
+            </Grid>
         </materialDesign:DialogHost>
     </materialDesign:Card>
 
