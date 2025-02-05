@@ -196,13 +196,13 @@ namespace Chat_App.MVVM.ViewModel
             // Open the AddGroup window
 
 
-            Groups.Add(new Group
-            {
-                //Id = 1,
-                GroupName = "Group 1",
-                Messages = Messages.Last().message,
-                ImageSource = "https://img.freepik.com/free-photo/people-posing-together-registration-day_23-2149096794.jpg"
-            });
+            //Groups.Add(new Group
+            //{
+            //    //Id = 1,
+            //    GroupName = "Group 1",
+            //    Messages = Messages.Last().message,
+            //    ImageSource = "https://img.freepik.com/free-photo/people-posing-together-registration-day_23-2149096794.jpg"
+            //});
         }
 
         private void InitializeServicesAndEvents()
