@@ -10,12 +10,18 @@ namespace Chat_App
 {
     public partial class MainWindow : Window
     {
+        private double lvGroupListOldMaxHeight;
+        private double NewGroupControlMenusOldHeight;
+        private double NewGroupControlMenusOldLvListFreindsMaxHeight;
         public MainWindow()
         {
             InitializeComponent();
 
             this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             this.MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+            lvGroupListOldMaxHeight = lvGroupList.MaxHeight;
+            NewGroupControlMenusOldHeight = NewGroupControlMenus.Height;
+            NewGroupControlMenusOldLvListFreindsMaxHeight = NewGroupControlMenus.lvListFreinds.MaxHeight;
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
@@ -33,11 +39,17 @@ namespace Chat_App
             {
                 WindowState = WindowState.Maximized;
                 MainGrid.Margin = new Thickness(7);
+                lvGroupList.MaxHeight = 840;
+                NewGroupControlMenus.Height = 700;
+                NewGroupControlMenus.lvListFreinds.MaxHeight = 550;
             }
             else
             {
                 WindowState = WindowState.Normal;
                 MainGrid.Margin = new Thickness(0);
+                lvGroupList.MaxHeight = lvGroupListOldMaxHeight;
+                NewGroupControlMenus.Height = NewGroupControlMenusOldHeight;
+                NewGroupControlMenus.lvListFreinds.MaxHeight = NewGroupControlMenusOldLvListFreindsMaxHeight;
             }
         }
 
@@ -62,18 +74,24 @@ namespace Chat_App
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Storyboard sb;
+            Storyboard sbShade;
 
 
              if (isPanelVisible)
             {
                 sb = (Storyboard)NewGroupControlMenus.FindResource("SlideAndFadeOut");
+                sbShade = (Storyboard)ShadeControlMenu.FindResource("ShadeOut");
+                ShadeControlMenu.Visibility = Visibility.Hidden;
             }
             else
             {
                 sb = (Storyboard)NewGroupControlMenus.FindResource("SlideAndFadeIn");
+                sbShade = (Storyboard)ShadeControlMenu.FindResource("ShadeIn");
+                ShadeControlMenu.Visibility = Visibility.Visible;
             }
 
             sb.Begin();
+            sbShade.Begin();
             isPanelVisible = !isPanelVisible; // Toggle state
         }
     }

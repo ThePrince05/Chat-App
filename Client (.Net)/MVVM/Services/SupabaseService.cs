@@ -6,32 +6,123 @@ using System.Text;
 
 public class SupabaseService
 {
-    // HttpClient instance for making HTTP requests
     private readonly HttpClient _httpClient;
+    private readonly string _supabaseUrl;
+    private readonly string _supabaseApiKey;
+
+    // Event to notify ViewModel when connection fails
+    public event Action<string> OnConnectionFailed;
+
+    // Flag to track if the error message has been displayed
+    private bool _hasConnectionFailed = false;
 
     public SupabaseService(SupabaseSettings settings)
     {
         Console.WriteLine("Initializing SupabaseService...");
 
-        if (settings == null)
-            throw new ArgumentNullException(nameof(settings), "Supabase settings cannot be null.");
+        // Check if Supabase settings are null or empty
+        if (settings == null || string.IsNullOrEmpty(settings.SupabaseUrl) || string.IsNullOrEmpty(settings.SupabaseApiKey))
+        {
+            // Trigger connection failure event if settings are invalid, only once
+            if (!_hasConnectionFailed)
+            {
+                OnConnectionFailed?.Invoke("Supabase URL or API Key is missing. Please enter the values in settings.");
+                _hasConnectionFailed = true; // Set the flag to true after showing the message
+            }
+            return;
+        }
 
-        // Set up the HttpClient with the base URL of the Supabase REST API
+        // Validate the Supabase URL format
+        if (!IsValidUrl(settings.SupabaseUrl))
+        {
+            // Trigger connection failure event if the URL is invalid
+            if (!_hasConnectionFailed)
+            {
+                OnConnectionFailed?.Invoke("The Supabase URL is invalid. Please enter a valid URL.");
+                _hasConnectionFailed = true; // Set the flag to true after showing the message
+            }
+            return;
+        }
+
+        _supabaseUrl = settings.SupabaseUrl;
+        _supabaseApiKey = settings.SupabaseApiKey;
+
         _httpClient = new HttpClient
         {
-            BaseAddress = new Uri($"{settings.SupabaseUrl}/rest/v1/")
+            BaseAddress = new Uri($"{_supabaseUrl}/rest/v1/")
         };
 
-        // Add required API key and authorization headers for authentication
-        _httpClient.DefaultRequestHeaders.Add("apikey", settings.SupabaseApiKey);
-        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {settings.SupabaseApiKey}");
+        _httpClient.DefaultRequestHeaders.Add("apikey", _supabaseApiKey);
+        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_supabaseApiKey}");
 
         Console.WriteLine("HttpClient initialized with base address and headers.");
+    }
+
+    // ✅ Add the Supabase validation method inside SupabaseService
+    public async Task<bool> ValidateSupabaseCredentials()
+    {
+        // Check if URL or API Key is null or empty before making the request
+        if (string.IsNullOrEmpty(_supabaseUrl) || string.IsNullOrEmpty(_supabaseApiKey))
+        {
+            // Trigger connection failure event only once
+            if (!_hasConnectionFailed)
+            {
+                OnConnectionFailed?.Invoke("Supabase URL or API Key is missing. Please enter the values in settings.");
+                _hasConnectionFailed = true; // Set the flag to true after showing the message
+            }
+            return false;
+        }
+
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("apikey", _supabaseApiKey);
+
+                HttpResponseMessage response = await client.GetAsync($"{_supabaseUrl}/auth/v1/settings");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    // Trigger connection failure event only once
+                    if (!_hasConnectionFailed)
+                    {
+                        OnConnectionFailed?.Invoke("Failed to connect to Supabase. Please check your credentials.");
+                        _hasConnectionFailed = true; // Set the flag to true after showing the message
+                    }
+                    return false;
+                }
+
+                return true;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error validating Supabase credentials: {ex.Message}");
+            // Trigger connection failure event only once
+            if (!_hasConnectionFailed)
+            {
+                OnConnectionFailed?.Invoke("Failed to connect to Supabase. Please check your credentials.");
+                _hasConnectionFailed = true; // Set the flag to true after showing the message
+            }
+            return false;
+        }
     }
 
     public async Task<List<Message>> GetMessagesAsync()
     {
         Console.WriteLine("Sending request to fetch messages...");
+
+        // Check if URL or API Key is null or empty before making the request
+        if (string.IsNullOrEmpty(_supabaseUrl) || string.IsNullOrEmpty(_supabaseApiKey))
+        {
+            // Trigger connection failure event only once
+            if (!_hasConnectionFailed)
+            {
+                OnConnectionFailed?.Invoke("Supabase URL or API Key is missing. Please enter the values in settings.");
+                _hasConnectionFailed = true; // Set the flag to true after showing the message
+            }
+            return new List<Message>(); // Return empty list if not connected
+        }
 
         try
         {
@@ -39,37 +130,26 @@ public class SupabaseService
 
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("Request successful. Parsing response...");
                 var json = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"Response JSON: {json}");
-
                 var messages = System.Text.Json.JsonSerializer.Deserialize<List<Message>>(json, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
 
-                Console.WriteLine($"Parsed {messages?.Count ?? 0} messages.");
-
-                // Sort messages by timestamp (using DateTime.ParseExact for the specific format)
-                var sortedMessages = messages?
-                    .OrderBy(msg =>
+                return messages?.OrderBy(msg =>
+                {
+                    try
                     {
-                        try
-                        {
-                            return DateTime.ParseExact(msg.timestamp, "dd/MM/yyyy HH:mm:ss", null);
-                        }
-                        catch (FormatException)
-                        {
-                            Console.WriteLine($"Invalid timestamp format for message: {msg.timestamp}");
-                            return DateTime.MinValue; // Fallback for invalid timestamps
-                        }
-                    })
-                    .ToList();
-
-                return sortedMessages ?? new List<Message>();
+                        return DateTime.ParseExact(msg.timestamp, "dd/MM/yyyy HH:mm:ss", null);
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine($"Invalid timestamp format for message: {msg.timestamp}");
+                        return DateTime.MinValue;
+                    }
+                }).ToList() ?? new List<Message>();
             }
 
-            // Log error response
             Console.WriteLine($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
             return new List<Message>();
         }
@@ -80,12 +160,22 @@ public class SupabaseService
         }
     }
 
-
     public async Task<bool> SaveMessageAsync(string username, string message, string timestamp)
     {
         Console.WriteLine("Saving message to Supabase...");
 
-        // Create the message object to be serialized and sent
+        // Check if URL or API Key is null or empty before making the request
+        if (string.IsNullOrEmpty(_supabaseUrl) || string.IsNullOrEmpty(_supabaseApiKey))
+        {
+            // Trigger connection failure event only once
+            if (!_hasConnectionFailed)
+            {
+                OnConnectionFailed?.Invoke("Supabase URL or API Key is missing. Please enter the values in settings.");
+                _hasConnectionFailed = true; // Set the flag to true after showing the message
+            }
+            return false;
+        }
+
         var messageData = new
         {
             username = username,
@@ -93,10 +183,8 @@ public class SupabaseService
             timestamp = timestamp
         };
 
-        // Serialize the message object into JSON format
         var content = new StringContent(JsonConvert.SerializeObject(messageData), Encoding.UTF8, "application/json");
 
-        // Send a POST request to the "Messages" endpoint
         var response = await _httpClient.PostAsync("Messages", content);
 
         if (response.IsSuccessStatusCode)
@@ -109,5 +197,13 @@ public class SupabaseService
             Console.WriteLine($"Failed to save message. Status code: {response.StatusCode}");
             return false;
         }
+
+    }
+
+    // Method to validate URL format
+    private bool IsValidUrl(string url)
+    {
+        // Try to create a Uri object and check if it's a valid URI
+        return Uri.TryCreate(url, UriKind.Absolute, out _);
     }
 }

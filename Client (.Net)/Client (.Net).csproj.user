@@ -13,6 +13,9 @@
     <Compile Update="MVVM\View\UserControls\NewGroupControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\View\UserControls\ShadeControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MVVM\View\UserProfile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -25,6 +28,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\UserControls\NewGroupControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\UserControls\ShadeControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\UserProfile.xaml">
