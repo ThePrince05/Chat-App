@@ -378,27 +378,7 @@ public class SQLiteDBService
         }
     }
 
-    public void UpdateUserLoginStatus(bool isLoggedIn)
-    {
-        try
-        {
-            using (var connection = new SQLiteConnection($"Data Source={_databaseFilePath};Version=3;"))
-            {
-                connection.Open();
-
-                string query = "UPDATE Login SET UserLogin = @UserLogin";
-                using (var command = new SQLiteCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@UserLogin", isLoggedIn ? 1 : 0);
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error updating UserLogin status: {ex.Message}");
-        }
-    }
+   
 
     public void InsertUserLoginStatus(string username, bool isLoggedIn)
     {
@@ -443,6 +423,32 @@ public class SQLiteDBService
         catch (Exception ex)
         {
             Debug.WriteLine($"Error inserting UserLogin status: {ex.Message}");
+        }
+    }
+
+    public void DeleteAllUserLogins()
+    {
+        try
+        {
+            using (var connection = new SQLiteConnection($"Data Source={_databaseFilePath};Version=3;"))
+            {
+                connection.Open();
+
+                // Delete all rows from the Login table
+                string query = "DELETE FROM Login";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    Debug.WriteLine(rowsAffected > 0
+                        ? "Deleted all login records"
+                        : "No login records to delete");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error deleting all UserLogins: {ex.Message}");
         }
     }
 

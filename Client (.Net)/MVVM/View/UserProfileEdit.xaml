@@ -8,7 +8,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
-        Height="800"
+        Height="820"
         Width="460"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{x:Null}"
@@ -116,6 +116,46 @@
                         Content="MODIFY"
                         Background="{Binding User.SelectedColor}"
                         Command="{Binding ModifyUserCommand}" />
+
+                <Button Width="120"
+                        Margin="0 20 10 0"
+                        FontSize="15"
+                        Content="Log out"
+                        HorizontalAlignment="Right"
+                        Foreground="Red"
+                        Command="{Binding LogoutCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <!-- Remove background and border -->
+                            <Setter Property="Background"
+                                    Value="Transparent" />
+                            <Setter Property="BorderBrush"
+                                    Value="Transparent" />
+                            <Setter Property="BorderThickness"
+                                    Value="0" />
+
+                            <Style.Triggers>
+                                <!-- Change foreground color on mouse hover -->
+                                <Trigger Property="IsMouseOver"
+                                         Value="True">
+                                    <Setter Property="Foreground"
+                                            Value="Black" />
+                                    <!-- Remove the background when hovering -->
+                                    <Setter Property="Background"
+                                            Value="DarkGray" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver"
+                                         Value="False">
+                                    <Setter Property="Foreground"
+                                            Value="Black" />
+                                    <!-- Ensure no background when mouse is not hovering -->
+                                    <Setter Property="Background"
+                                            Value="Transparent" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </StackPanel>
         </materialDesign:DialogHost>
     </materialDesign:Card>

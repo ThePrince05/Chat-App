@@ -15,6 +15,11 @@ namespace Client__.Net_
         private Settings _settingsWindow;
         private MainWindow _mainWindow;
 
+        public App()
+        {
+            // Prevent the app from shutting down when the main window closes.
+            this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

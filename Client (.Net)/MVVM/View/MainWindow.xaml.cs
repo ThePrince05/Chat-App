@@ -1,6 +1,7 @@
 ﻿using Chat_App.MVVM.ViewModel;
 
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,6 +13,7 @@ namespace Chat_App
         public MainWindow()
         {
             InitializeComponent();
+            this.Closing += Window_Closing;
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
@@ -50,10 +52,18 @@ namespace Chat_App
             // Handle key events here if needed
         }
 
-        private void Border_MouseDown_1(object sender, MouseButtonEventArgs e)
+   
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Debug.WriteLine("MainWindow is closing.");
+        }
+
+        private void Border_OpenEditProfile(object sender, MouseButtonEventArgs e)
         {
             var viewModel = (MainViewModel)DataContext;
             MainViewModel.OpenUserProfileEdit();
         }
+
+
     }
 }

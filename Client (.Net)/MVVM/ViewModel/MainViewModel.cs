@@ -9,6 +9,9 @@ using System.Windows;
 using System.Collections.Specialized;
 using Client__.Net_.MVVM.View;
 using Client__.Net_.MVVM.Helpers;
+using System.Diagnostics;
+using System.Reflection;
+using System.IO;
 
 namespace Chat_App.MVVM.ViewModel
 {
@@ -34,6 +37,8 @@ namespace Chat_App.MVVM.ViewModel
         private ICommand _saveSettingsCommand;
         private ICommand _saveUserCommand;
         private ICommand _modifyUserCommand;
+        private ICommand _logoutCommand;
+
 
 
         public ICommand SendMessageCommand => _sendMessageCommand;
@@ -45,6 +50,7 @@ namespace Chat_App.MVVM.ViewModel
         public ICommand SaveSettingsCommand => _saveSettingsCommand;
         public ICommand SaveUserCommand => _saveUserCommand;
         public ICommand ModifyUserCommand => _modifyUserCommand;
+        public ICommand LogoutCommand => _logoutCommand;
 
         // Events
         public event EventHandler OnUserLoginCompleted;
@@ -154,7 +160,44 @@ namespace Chat_App.MVVM.ViewModel
             _openUserProfileAddCommand = new RelayCommand(_ => OpenUserProfileAdd());
             _saveUserCommand = new RelayCommand(async _ => await SaveUserAsync(), _ => CanSaveUser());
             _modifyUserCommand = new RelayCommand(async _ => await ModifyUserAsync(), _ => CanSaveUser());
+            _logoutCommand = new RelayCommand(_ =>  ExecuteLogout());
         }
+        private void ExecuteLogout()
+        {
+            var result = MessageBox.Show("Are you sure you want to log out?",
+                                         "Confirm Logout",
+                                         MessageBoxButton.YesNo,
+                                         MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Step 1: Delete all user logins from SQLite
+                _sqliteDBService.DeleteAllUserLogins();
+
+                // Step 2: Get the correct application executable path
+                string exePath = Path.ChangeExtension(Assembly.GetExecutingAssembly().Location, ".exe");
+
+                if (File.Exists(exePath))  // Ensure the .exe file exists
+                {
+                    // Step 3: Start the application again
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = exePath, // Correct executable path
+                        UseShellExecute = true,
+                    });
+
+                    // Step 4: Exit the current application
+                    Application.Current.Shutdown();
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    MessageBox.Show($"Error: Could not find the application executable.\nExpected: {exePath}",
+                                    "Restart Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+
 
         private bool CanSaveUser()
         {
@@ -265,17 +308,61 @@ namespace Chat_App.MVVM.ViewModel
             }
         }
 
+        private bool _hasScrolledToBottom = false; // Flag to track if scrolling has happened
+
         public void ScrollToLastMessage()
         {
-            if (Messages.Count > 0)
+            if (Messages == null || Messages.Count == 0)
             {
-                Application.Current.Dispatcher.InvokeAsync(() =>
-                {
-                    var listView = Application.Current.MainWindow.FindName("lvMessageList") as System.Windows.Controls.ListView;
-                    listView?.ScrollIntoView(Messages[^1]);
-                });
+                Debug.WriteLine("Messages collection is null or empty. Skipping scroll.");
+                return;
             }
+
+            // If already scrolled once, do nothing
+            if (_hasScrolledToBottom)
+            {
+                Debug.WriteLine("Already scrolled to the bottom once. Skipping scroll.");
+                return;
+            }
+
+            // Ensure application and dispatcher are available
+            if (Application.Current?.Dispatcher == null)
+            {
+                Debug.WriteLine("Application or Dispatcher is null. Skipping scroll.");
+                return;
+            }
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                var mainWindow = Application.Current.MainWindow;
+                if (mainWindow == null)
+                {
+                    Debug.WriteLine("MainWindow is null. Skipping scroll.");
+                    return;
+                }
+
+                var listView = mainWindow.FindName("lvMessageList") as System.Windows.Controls.ListView;
+                if (listView == null)
+                {
+                    Debug.WriteLine("ListView 'lvMessageList' not found in MainWindow. Skipping scroll.");
+                    return;
+                }
+
+                // Ensure ListView has at least one item before scrolling
+                if (listView.Items.Count > 0)
+                {
+                    listView.ScrollIntoView(Messages[^1]);
+                    _hasScrolledToBottom = true; // Set flag to prevent future scrolling
+                    Debug.WriteLine("Scrolled to the last message.");
+                }
+                else
+                {
+                    Debug.WriteLine("ListView is empty. Skipping scroll.");
+                }
+            });
         }
+
+
 
         internal static void OpenUserProfileEdit()
         {
@@ -321,7 +408,6 @@ namespace Chat_App.MVVM.ViewModel
                 InitializeSupabaseService();
             }
         }
-
 
         private void InitializeSupabaseService()
         {
@@ -404,8 +490,6 @@ namespace Chat_App.MVVM.ViewModel
 
 
 
-
-
         private async Task SendMessageAsync()
         {
             if (string.IsNullOrEmpty(Message)) return;
@@ -457,17 +541,20 @@ namespace Chat_App.MVVM.ViewModel
                     return;
                 }
 
-                Application.Current.Dispatcher.Invoke(() =>
+                Application.Current?.Dispatcher?.Invoke(() =>
                 {
-                    if (Messages == null)  // Ensure Messages list is initialized
+                    if (Application.Current == null) return; // Ensure app is still running
+
+                    if (Messages == null)
                     {
                         Messages = new ObservableCollection<Message>();
                     }
 
                     Messages.Clear();
+
                     foreach (var msg in messages)
                     {
-                        if (msg != null)  // Ensure each message is not null
+                        if (msg != null)
                         {
                             Messages.Add(msg);
                         }
@@ -475,6 +562,7 @@ namespace Chat_App.MVVM.ViewModel
 
                     Console.WriteLine($"{Messages.Count} messages loaded.");
                 });
+
             }
             catch (Exception ex)
             {
@@ -506,8 +594,6 @@ namespace Chat_App.MVVM.ViewModel
                 SupabaseSettings.SupabaseApiKey
             );
 
-            //LoadSettings();
-            //await Task.Run(() => InitializeDatabaseAsync());
 
             MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             OnSettingsCompleted?.Invoke(this, EventArgs.Empty);
