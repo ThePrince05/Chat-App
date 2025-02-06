@@ -158,7 +158,7 @@ namespace Chat_App.MVVM.ViewModel
             _saveSettingsCommand = new RelayCommand(_ => ExecuteSaveSettings());
             _openUserProfileEditCommand = new RelayCommand(_ => OpenUserProfileEdit());
             _openUserProfileAddCommand = new RelayCommand(_ => OpenUserProfileAdd());
-            _saveUserCommand = new RelayCommand(async _ => await SaveUserAsync(), _ => CanSaveUser());
+            _saveUserCommand = new RelayCommand(async param => await SaveUserAsync(param as Window), _ => CanSaveUser());
             _modifyUserCommand = new RelayCommand(async _ => await ModifyUserAsync(), _ => CanSaveUser());
             _logoutCommand = new RelayCommand(_ =>  ExecuteLogout());
         }
@@ -206,7 +206,7 @@ namespace Chat_App.MVVM.ViewModel
                    SelectedColor != null;
         }
 
-        private async Task SaveUserAsync()
+        private async Task SaveUserAsync(Window userProfileAddWindow)
         {
             if (!CanSaveUser())
             {
@@ -216,21 +216,24 @@ namespace Chat_App.MVVM.ViewModel
 
             try
             {
-                // Encrypt the password using EncryptionHelper
+                // Encrypt the password
                 string encryptedPassword = EncryptionHelper.Encrypt(Password);
 
-                // Check if the SelectedColor is null and use green (#00FF00) as the default
-                string selectedColorHex = SelectedColorHex ?? "#00FF00"; // Default to green if null
+                // Use green (#00FF00) as default if SelectedColorHex is null
+                string selectedColorHex = SelectedColorHex ?? "#00FF00";
 
-                // Save to Supabase with the encrypted password
+                // Save to Supabase with encrypted password
                 bool isSaved = await _supabaseService.InsertUserAsync(Username, encryptedPassword, selectedColorHex);
 
                 if (isSaved)
                 {
-                    // Save to SQLite (consider if password should be stored here, usually not recommended)
+                    // Save to SQLite
                     _sqliteDBService.SaveUser(Username, selectedColorHex);
 
                     MessageBox.Show("User saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Close the UserProfileAdd window
+                    userProfileAddWindow?.Close();
                 }
                 else
                 {

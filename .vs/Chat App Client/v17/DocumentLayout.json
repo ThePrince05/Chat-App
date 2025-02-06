@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "D:\\Projects\\Visual Studio\\Chat App\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\view\\userprofileedit.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\view\\userprofileedit.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\services\\sqlitedbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\services\\sqlitedbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\view\\userprofileadd.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\view\\userprofileadd.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\view\\userprofileedit.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\view\\userprofileedit.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -29,14 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\view\\userprofileadd.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\view\\userprofileadd.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\services\\sqlitedbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\services\\sqlitedbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\model\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -90,7 +90,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -110,56 +110,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
-              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
-              "RelativeToolTip": "Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAD4vz4AAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-01T14:30:02.598Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\View\\MainWindow.xaml",
-              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml",
-              "RelativeToolTip": "Client (.Net)\\MVVM\\View\\MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-01-21T16:13:46.806Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainViewModel.cs",
-              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
-              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
-              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
-              "RelativeToolTip": "Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAAADQAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-23T15:03:45.623Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "User.cs",
-              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Model\\User.cs",
-              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\Model\\User.cs",
-              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Model\\User.cs",
-              "RelativeToolTip": "Client (.Net)\\MVVM\\Model\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-03T07:49:39.448Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 10,
               "Title": "SupabaseService.cs",
               "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Services\\SupabaseService.cs",
@@ -169,18 +119,6 @@
               "ViewState": "AgIAAJoBAAAAAAAAAAAswMMBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-02T14:56:51.59Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UserProfileEdit.xaml",
-              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\UserProfileEdit.xaml",
-              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\View\\UserProfileEdit.xaml",
-              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\UserProfileEdit.xaml",
-              "RelativeToolTip": "Client (.Net)\\MVVM\\View\\UserProfileEdit.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-04T13:39:42.348Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -196,7 +134,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "App.xaml",
               "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\App.xaml",
               "RelativeDocumentMoniker": "Client (.Net)\\App.xaml",
@@ -208,30 +146,103 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
+              "Title": "SQLiteDBService.cs",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Services\\SQLiteDBService.cs",
+              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\Services\\SQLiteDBService.cs",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Services\\SQLiteDBService.cs",
+              "RelativeToolTip": "Client (.Net)\\MVVM\\Services\\SQLiteDBService.cs",
+              "ViewState": "AgIAAJUAAAAAAAAAAAAlwJsAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-02T14:04:38.359Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainViewModel.cs",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
+              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
+              "RelativeToolTip": "Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
+              "ViewState": "AgIAAI4AAAAAAAAAAAAwwPcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-23T15:03:45.623Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "UserProfileAdd.xaml",
               "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\UserProfileAdd.xaml",
               "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\View\\UserProfileAdd.xaml",
               "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\UserProfileAdd.xaml",
               "RelativeToolTip": "Client (.Net)\\MVVM\\View\\UserProfileAdd.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-04T09:20:11.033Z"
+              "WhenOpened": "2025-02-04T09:20:11.033Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserProfileEdit.xaml",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\UserProfileEdit.xaml",
+              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\View\\UserProfileEdit.xaml",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\UserProfileEdit.xaml",
+              "RelativeToolTip": "Client (.Net)\\MVVM\\View\\UserProfileEdit.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-02-04T13:39:42.348Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
+              "RelativeToolTip": "Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAD4vz4AAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-01T14:30:02.598Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\View\\MainWindow.xaml",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml",
+              "RelativeToolTip": "Client (.Net)\\MVVM\\View\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-01-21T16:13:46.806Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Model\\User.cs",
+              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\Model\\User.cs",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Model\\User.cs",
+              "RelativeToolTip": "Client (.Net)\\MVVM\\Model\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-03T07:49:39.448Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "UserLogin.xaml",
               "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\UserLogin.xaml",
               "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\View\\UserLogin.xaml",
               "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\UserLogin.xaml",
               "RelativeToolTip": "Client (.Net)\\MVVM\\View\\UserLogin.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-03T12:04:49.272Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-03T12:04:49.272Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "App.xaml.cs",
               "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\App.xaml.cs",
               "RelativeDocumentMoniker": "Client (.Net)\\App.xaml.cs",
@@ -240,18 +251,6 @@
               "ViewState": "AgIAAEQAAAAAAAAAAAAkwGIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-02T20:40:50.853Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "SQLiteDBService.cs",
-              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Services\\SQLiteDBService.cs",
-              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\Services\\SQLiteDBService.cs",
-              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Services\\SQLiteDBService.cs",
-              "RelativeToolTip": "Client (.Net)\\MVVM\\Services\\SQLiteDBService.cs",
-              "ViewState": "AgIAAHwAAAAAAAAAAAAswJAAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-02T14:04:38.359Z"
             },
             {
               "$type": "Document",

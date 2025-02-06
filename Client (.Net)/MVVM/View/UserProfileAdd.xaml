@@ -115,7 +115,8 @@
                         FontSize="18"
                         Content="SAVE"
                         Background="{Binding User.SelectedColor}"
-                        Command="{Binding SaveUserCommand}"/>
+                        Command="{Binding SaveUserCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
             </StackPanel>
         </materialDesign:DialogHost>
     </materialDesign:Card>
