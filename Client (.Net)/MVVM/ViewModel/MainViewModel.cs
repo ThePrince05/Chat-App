@@ -117,8 +117,8 @@ namespace Chat_App.MVVM.ViewModel
         {
             Messages.CollectionChanged += Messages_CollectionChanged;
             _sqliteDBService = new SQLiteDBService();
+            _sqliteDBService.InitializeDatabase();
 
-          
             // Initialize Commands
             InitializeCommands();
 
@@ -147,7 +147,7 @@ namespace Chat_App.MVVM.ViewModel
         {
              await _supabaseService.InitializeDatabaseSchemaAsync();
         }
-
+       
 
         private void InitializeCommands()
         {
@@ -439,24 +439,34 @@ namespace Chat_App.MVVM.ViewModel
 
                 if (!isUserInSQLite)
                 {
-                    MessageBox.Show("Username not found in local database!", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    // Step 2: If not found, check Supabase for the user
+                    var userFromSupabase = await _supabaseService.GetUserByUsernameAsync(Username);
+
+                    if (userFromSupabase == null)
+                    {
+                        MessageBox.Show("Username not found in Supabase!", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Step 3: Save user in SQLite (only if found in Supabase)
+                    _sqliteDBService.SaveUser(userFromSupabase.Username, userFromSupabase.SelectedColor);
+                    Debug.WriteLine("User retrieved from Supabase and saved locally.");
                 }
 
-                // Step 2: Check if the username exists in Supabase
-                var userFromSupabase = await _supabaseService.GetUserByUsernameAsync(Username);
+                // Step 4: Retrieve user from Supabase again to validate credentials
+                var verifiedUser = await _supabaseService.GetUserByUsernameAsync(Username);
 
-                if (userFromSupabase == null)
+                if (verifiedUser == null)
                 {
                     MessageBox.Show("Username not found in Supabase!", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
-                // Step 3: Decrypt the stored password and compare with entered password
+                // Step 5: Decrypt stored password and compare with entered password
                 string decryptedPassword;
                 try
                 {
-                    decryptedPassword = EncryptionHelper.Decrypt(userFromSupabase.UserPassword);
+                    decryptedPassword = EncryptionHelper.Decrypt(verifiedUser.UserPassword);
                 }
                 catch (Exception)
                 {
@@ -470,16 +480,16 @@ namespace Chat_App.MVVM.ViewModel
                     return;
                 }
 
-                // Step 4: Insert a new UserLogin record with status set to true
+                // Step 6: Insert a new UserLogin record with status set to true
                 _sqliteDBService.InsertUserLoginStatus(Username, true);
 
-                // Step 5: Hide the current login window
+                // Step 7: Hide the current login window
                 if (Application.Current.Windows.OfType<UserLogin>().FirstOrDefault() is UserLogin loginWindow)
                 {
                     loginWindow.Hide();
                 }
 
-                // Step 6: Open the MainWindow
+                // Step 8: Open the MainWindow
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
                 mainWindow.WindowState = WindowState.Normal;

@@ -25,7 +25,7 @@ namespace Client__.Net_
             base.OnStartup(e);
 
             var dbService = new SQLiteDBService();
-            dbService.InitializeDatabase();
+          //  dbService.InitializeDatabase();
 
             var viewModel = new MainViewModel();
             viewModel.OnSettingsCompleted += OnSettingsCompleted;
