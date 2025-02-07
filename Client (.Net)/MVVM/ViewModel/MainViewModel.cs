@@ -8,6 +8,10 @@ using System.Windows.Media;
 using System.Windows;
 using System.Collections.Specialized;
 using Client__.Net_.MVVM.View;
+using Client__.Net_.MVVM.Helpers;
+using System.Diagnostics;
+using System.Reflection;
+using System.IO;
 
 namespace Chat_App.MVVM.ViewModel
 {
@@ -19,30 +23,38 @@ namespace Chat_App.MVVM.ViewModel
 
         // Properties
         public SupabaseSettings SupabaseSettings { get; set; }
-        public UserModel User { get; set; }
-        public ObservableCollection<UserModel> Users { get; } = new ObservableCollection<UserModel>();
-        public ObservableCollection<Message> Messages { get; } = new ObservableCollection<Message>();
+        public User User { get; set; }
+        public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
+        public ObservableCollection<Message> Messages { get; set; } = new ObservableCollection<Message>();
 
         // Commands
         private ICommand _sendMessageCommand;
         private ICommand _loadMessagesCommand;
         private ICommand _loginCommand;
-        private ICommand _nextSettingsCommand;
-        private ICommand _openUserProfileCommand;
+        private ICommand _openUserProfileEditCommand;
+        private ICommand _openUserProfileAddCommand;
         private ICommand _openSettingsCommand;
         private ICommand _saveSettingsCommand;
+        private ICommand _saveUserCommand;
+        private ICommand _modifyUserCommand;
+        private ICommand _logoutCommand;
+
+
 
         public ICommand SendMessageCommand => _sendMessageCommand;
         public ICommand LoadMessagesCommand => _loadMessagesCommand;
         public ICommand LoginCommand => _loginCommand;
-        public ICommand NextSettingsCommand => _nextSettingsCommand;
-        public ICommand OpenUserProfileCommand => _openUserProfileCommand;
+        public ICommand OpenUserProfileEditCommand => _openUserProfileEditCommand;
+        public ICommand OpenUserProfileAddCommand => _openUserProfileAddCommand;
         public ICommand OpenSettingsCommand => _openSettingsCommand;
         public ICommand SaveSettingsCommand => _saveSettingsCommand;
+        public ICommand SaveUserCommand => _saveUserCommand;
+        public ICommand ModifyUserCommand => _modifyUserCommand;
+        public ICommand LogoutCommand => _logoutCommand;
 
         // Events
-        public event EventHandler ProfileCompleted;
-        public event EventHandler SettingsCompleted;
+        public event EventHandler OnUserLoginCompleted;
+        public event EventHandler OnSettingsCompleted;
 
         // Properties for binding
         public string Username
@@ -54,6 +66,19 @@ namespace Chat_App.MVVM.ViewModel
                 {
                     User.Username = value;
                     OnPropertyChanged(nameof(Username));
+                }
+            }
+        }
+
+        public string Password
+        {
+            get => User?.UserPassword;
+            set
+            {
+                if (User != null)
+                {
+                    User.UserPassword = value;
+                    OnPropertyChanged(nameof(Password));
                 }
             }
         }
@@ -72,26 +97,28 @@ namespace Chat_App.MVVM.ViewModel
             set => SetProperty(ref _selectedTabIndex, value);
         }
 
-        private SolidColorBrush selectedColor;
+        private SolidColorBrush _selectedColor = new SolidColorBrush(Colors.Green); // Default to Green
         public SolidColorBrush SelectedColor
         {
-            get => selectedColor;
+            get { return _selectedColor; }
             set
             {
-                if (SetProperty(ref selectedColor, value) && User != null)
-                {
-                    User.SelectedColor = value;
-                }
+                _selectedColor = value;
+                OnPropertyChanged(nameof(SelectedColor));
+                OnPropertyChanged(nameof(SelectedColorHex)); // Notify UI
             }
         }
+
+        // Convert to hex string when needed
+        public string SelectedColorHex => SelectedColor.Color.ToString();
 
         // Constructor
         public MainViewModel()
         {
             Messages.CollectionChanged += Messages_CollectionChanged;
             _sqliteDBService = new SQLiteDBService();
+            _sqliteDBService.InitializeDatabase();
 
-          
             // Initialize Commands
             InitializeCommands();
 
@@ -109,9 +136,18 @@ namespace Chat_App.MVVM.ViewModel
             });
 
             _supabaseService.OnConnectionFailed += HandleConnectionFailure;
+            
+            // Explicitly running the async method in a background thread
+            Task.Run(() => InitializeDatabaseAsync());
 
             LoadUserData();
         }
+
+        public async Task InitializeDatabaseAsync()
+        {
+             await _supabaseService.InitializeDatabaseSchemaAsync();
+        }
+       
 
         private void InitializeCommands()
         {
@@ -120,6 +156,151 @@ namespace Chat_App.MVVM.ViewModel
             _loginCommand = new RelayCommand(async _ => await LogInUser(), _ => !string.IsNullOrEmpty(Username));
             _openSettingsCommand = new RelayCommand(_ => OpenSettings());
             _saveSettingsCommand = new RelayCommand(_ => ExecuteSaveSettings());
+            _openUserProfileEditCommand = new RelayCommand(_ => OpenUserProfileEdit());
+            _openUserProfileAddCommand = new RelayCommand(_ => OpenUserProfileAdd());
+            _saveUserCommand = new RelayCommand(async param => await SaveUserAsync(param as Window), _ => CanSaveUser());
+            _modifyUserCommand = new RelayCommand(async _ => await ModifyUserAsync(), _ => CanSaveUser());
+            _logoutCommand = new RelayCommand(_ =>  ExecuteLogout());
+        }
+        private void ExecuteLogout()
+        {
+            var result = MessageBox.Show("Are you sure you want to log out?",
+                                         "Confirm Logout",
+                                         MessageBoxButton.YesNo,
+                                         MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Step 1: Delete all user logins from SQLite
+                _sqliteDBService.DeleteAllUserLogins();
+
+                // Step 2: Get the correct application executable path
+                string exePath = Path.ChangeExtension(Assembly.GetExecutingAssembly().Location, ".exe");
+
+                if (File.Exists(exePath))  // Ensure the .exe file exists
+                {
+                    // Step 3: Start the application again
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = exePath, // Correct executable path
+                        UseShellExecute = true,
+                    });
+
+                    // Step 4: Exit the current application
+                    Application.Current.Shutdown();
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    MessageBox.Show($"Error: Could not find the application executable.\nExpected: {exePath}",
+                                    "Restart Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+
+
+        private bool CanSaveUser()
+        {
+            return !string.IsNullOrWhiteSpace(Username) &&
+                   !string.IsNullOrWhiteSpace(Password) &&
+                   SelectedColor != null;
+        }
+
+        private async Task SaveUserAsync(Window userProfileAddWindow)
+        {
+            if (!CanSaveUser())
+            {
+                MessageBox.Show("Please fill in all fields!", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                // Encrypt the password
+                string encryptedPassword = EncryptionHelper.Encrypt(Password);
+
+                // Use green (#00FF00) as default if SelectedColorHex is null
+                string selectedColorHex = SelectedColorHex ?? "#00FF00";
+
+                // Save to Supabase with encrypted password
+                bool isSaved = await _supabaseService.InsertUserAsync(Username, encryptedPassword, selectedColorHex);
+
+                if (isSaved)
+                {
+                    // Save to SQLite
+                    _sqliteDBService.SaveUser(Username, selectedColorHex);
+
+                    MessageBox.Show("User saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Close the UserProfileAdd window
+                    userProfileAddWindow?.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to save user to Supabase!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving user: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async Task ModifyUserAsync()
+        {
+            if (!CanSaveUser())
+            {
+                MessageBox.Show("Please fill in all fields!", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            try
+            {
+                // Encrypt the new password
+                string encryptedPassword = EncryptionHelper.Encrypt(Password);
+
+                // Default to green (#00FF00) if no color is selected
+                string selectedColorHex = SelectedColorHex ?? "#00FF00";
+
+                // Step 1: Check if user exists in SQLite
+                bool isUserInSQLite = _sqliteDBService.CheckUserExists(Username);
+                if (!isUserInSQLite)
+                {
+                    MessageBox.Show("User not found in local database!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Step 2: Check if user exists in Supabase
+                var userFromSupabase = await _supabaseService.GetUserByUsernameAsync(Username);
+                if (userFromSupabase == null)
+                {
+                    MessageBox.Show("User not found in Supabase!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Step 3: Update the user's details in Supabase
+                bool isUpdatedInSupabase = await _supabaseService.UpdateUserAsync(Username, encryptedPassword, selectedColorHex);
+                if (!isUpdatedInSupabase)
+                {
+                    MessageBox.Show("Failed to update user in Supabase!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Step 4: Update the user's details in SQLite
+                bool isUpdatedInSQLite = _sqliteDBService.UpdateUser(Username, selectedColorHex);
+                if (!isUpdatedInSQLite)
+                {
+                    MessageBox.Show("Failed to update user in local database!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Step 5: Show success message
+                MessageBox.Show("User updated successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating user: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Messages_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -130,25 +311,74 @@ namespace Chat_App.MVVM.ViewModel
             }
         }
 
+        private bool _hasScrolledToBottom = false; // Flag to track if scrolling has happened
+
         public void ScrollToLastMessage()
         {
-            if (Messages.Count > 0)
+            if (Messages == null || Messages.Count == 0)
             {
-                Application.Current.Dispatcher.InvokeAsync(() =>
-                {
-                    var listView = Application.Current.MainWindow.FindName("lvMessageList") as System.Windows.Controls.ListView;
-                    listView?.ScrollIntoView(Messages[^1]);
-                });
+                Debug.WriteLine("Messages collection is null or empty. Skipping scroll.");
+                return;
             }
+
+            // If already scrolled once, do nothing
+            if (_hasScrolledToBottom)
+            {
+                Debug.WriteLine("Already scrolled to the bottom once. Skipping scroll.");
+                return;
+            }
+
+            // Ensure application and dispatcher are available
+            if (Application.Current?.Dispatcher == null)
+            {
+                Debug.WriteLine("Application or Dispatcher is null. Skipping scroll.");
+                return;
+            }
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                var mainWindow = Application.Current.MainWindow;
+                if (mainWindow == null)
+                {
+                    Debug.WriteLine("MainWindow is null. Skipping scroll.");
+                    return;
+                }
+
+                var listView = mainWindow.FindName("lvMessageList") as System.Windows.Controls.ListView;
+                if (listView == null)
+                {
+                    Debug.WriteLine("ListView 'lvMessageList' not found in MainWindow. Skipping scroll.");
+                    return;
+                }
+
+                // Ensure ListView has at least one item before scrolling
+                if (listView.Items.Count > 0)
+                {
+                    listView.ScrollIntoView(Messages[^1]);
+                    _hasScrolledToBottom = true; // Set flag to prevent future scrolling
+                    Debug.WriteLine("Scrolled to the last message.");
+                }
+                else
+                {
+                    Debug.WriteLine("ListView is empty. Skipping scroll.");
+                }
+            });
         }
 
-        internal void OpenUserProfile()
+
+
+        internal static void OpenUserProfileEdit()
         {
-            UserProfile userProfileWindow = new UserProfile();
-            userProfileWindow.ShowDialog();
+            UserProfileEdit userProfileEditWindow = new();
+            userProfileEditWindow.ShowDialog();
+        }
+        internal static void OpenUserProfileAdd()
+        {
+            UserProfile userProfileAddWindow = new UserProfile();
+            userProfileAddWindow.ShowDialog();
         }
 
-        private void OpenSettings()
+        private static void OpenSettings()
         {
             var settingsWindow = new Settings();
             settingsWindow.ShowDialog();
@@ -182,7 +412,6 @@ namespace Chat_App.MVVM.ViewModel
             }
         }
 
-
         private void InitializeSupabaseService()
         {
             _supabaseService = new SupabaseService(SupabaseSettings);
@@ -191,21 +420,87 @@ namespace Chat_App.MVVM.ViewModel
 
         private async Task LogInUser()
         {
-            if (string.IsNullOrEmpty(Username))
+            // Load settings and user data
+            LoadSettings();
+
+            // Initialize SupabaseService
+            _supabaseService = new SupabaseService(SupabaseSettings);
+
+            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
             {
-                MessageBox.Show("Username is required.");
+                MessageBox.Show("Please enter both Username and Password!", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // Check if the SelectedColor is null and use green (#00FF00) as the default
-            string selectedColorHex = SelectedColor?.Color.ToString() ?? "#00FF00"; // Default to green if null
+            try
+            {
+                // Step 1: Check if the username exists in SQLite
+                bool isUserInSQLite = _sqliteDBService.CheckUserExists(Username);
 
-            // Save the user with the selected color
-            _sqliteDBService.SaveUser(Username, selectedColorHex);
+                if (!isUserInSQLite)
+                {
+                    // Step 2: If not found, check Supabase for the user
+                    var userFromSupabase = await _supabaseService.GetUserByUsernameAsync(Username);
 
-            MessageBox.Show("User logged in successfully.");
-            ProfileCompleted?.Invoke(this, EventArgs.Empty);
+                    if (userFromSupabase == null)
+                    {
+                        MessageBox.Show("Username not found in Supabase!", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Step 3: Save user in SQLite (only if found in Supabase)
+                    _sqliteDBService.SaveUser(userFromSupabase.Username, userFromSupabase.SelectedColor);
+                    Debug.WriteLine("User retrieved from Supabase and saved locally.");
+                }
+
+                // Step 4: Retrieve user from Supabase again to validate credentials
+                var verifiedUser = await _supabaseService.GetUserByUsernameAsync(Username);
+
+                if (verifiedUser == null)
+                {
+                    MessageBox.Show("Username not found in Supabase!", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Step 5: Decrypt stored password and compare with entered password
+                string decryptedPassword;
+                try
+                {
+                    decryptedPassword = EncryptionHelper.Decrypt(verifiedUser.UserPassword);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Error decrypting password!", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (Password != decryptedPassword)
+                {
+                    MessageBox.Show("Incorrect password!", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                // Step 6: Insert a new UserLogin record with status set to true
+                _sqliteDBService.InsertUserLoginStatus(Username, true);
+
+                // Step 7: Hide the current login window
+                if (Application.Current.Windows.OfType<UserLogin>().FirstOrDefault() is UserLogin loginWindow)
+                {
+                    loginWindow.Hide();
+                }
+
+                // Step 8: Open the MainWindow
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                mainWindow.WindowState = WindowState.Normal;
+                mainWindow.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error during login: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
 
 
         private async Task SendMessageAsync()
@@ -250,26 +545,44 @@ namespace Chat_App.MVVM.ViewModel
 
             try
             {
+                Console.WriteLine("Fetching messages from Supabase...");
                 var messages = await _supabaseService.GetMessagesAsync();
-                if (messages != null)
+
+                if (messages == null || !messages.Any())  // Check for null or empty list
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
+                    Console.WriteLine("No messages found or received null response.");
+                    return;
+                }
+
+                Application.Current?.Dispatcher?.Invoke(() =>
+                {
+                    if (Application.Current == null) return; // Ensure app is still running
+
+                    if (Messages == null)
                     {
-                        Messages.Clear();
-                        foreach (var msg in messages)
+                        Messages = new ObservableCollection<Message>();
+                    }
+
+                    Messages.Clear();
+
+                    foreach (var msg in messages)
+                    {
+                        if (msg != null)
                         {
                             Messages.Add(msg);
                         }
-                    });
+                    }
 
                     Console.WriteLine($"{Messages.Count} messages loaded.");
-                }
+                });
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading messages: {ex.Message}");
             }
         }
+
 
         private async void ExecuteSaveSettings()
         {
@@ -294,8 +607,9 @@ namespace Chat_App.MVVM.ViewModel
                 SupabaseSettings.SupabaseApiKey
             );
 
+
             MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            SettingsCompleted?.Invoke(this, EventArgs.Empty);
+            OnSettingsCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         private void HandleConnectionFailure(string message)

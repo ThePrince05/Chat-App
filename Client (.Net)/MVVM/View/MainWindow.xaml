@@ -14,20 +14,16 @@
         MinWidth="500"
         Background="#36393F"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen" 
-        ResizeMode="CanResize">
+        WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing">
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="0"
-                  CornerRadius="15"
-                  GlassFrameThickness="5"/>
-    </WindowChrome.WindowChrome>
+
 
     <Window.DataContext>
         <viewmodel:MainViewModel />
     </Window.DataContext>
-    
-    
+
+
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -35,7 +31,7 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200" />
             <ColumnDefinition Width="8*" />
         </Grid.ColumnDefinitions>
 
@@ -55,7 +51,7 @@
 
                 <StackPanel HorizontalAlignment="Right"
                             Orientation="Horizontal">
-                    
+
                     <Button Margin="0,5,0,5"
                             Background="Transparent"
                             Width="50"
@@ -66,7 +62,7 @@
                         <fa:IconImage Icon="WindowMinimize"
                                       Foreground="LightGray" />
                     </Button>
-                    
+
                     <Button Margin="0,5,0,5"
                             Background="Transparent"
                             Width="50"
@@ -77,7 +73,7 @@
                         <fa:IconImage Icon="WindowMaximize"
                                       Foreground="LightGray" />
                     </Button>
-                    
+
                     <Button Margin="0,5,0,5"
                             Background="Transparent"
                             Width="50"
@@ -86,7 +82,7 @@
                             Click="Exit_Click"
                             Style="{StaticResource MaterialDesignFlatButton}">
                         <fa:IconImage Icon="Xmark"
-                                      Foreground="LightGray"/>
+                                      Foreground="LightGray" />
                     </Button>
 
                 </StackPanel>
@@ -109,7 +105,7 @@
                     <ColumnDefinition Width="25*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0" 
+                <TextBox Grid.Column="0"
                          Height="35"
                          materialDesign:HintAssist.Hint="Search"
                          FontSize="18"
@@ -130,12 +126,12 @@
                                   Foreground="LightGray" />
                 </Button>
             </Grid>
-                
-                <!--<Button Height="25"
+
+            <!--<Button Height="25"
                         Content="Connect"
                         Command="{Binding ConnectToServerCommand}" />-->
-                
-            
+
+
 
             <StackPanel Grid.Row="1">
 
@@ -171,9 +167,8 @@
                             Height="30"
                             Background="{Binding User.SelectedColor}"
                             HorizontalAlignment="Center"
-                            MouseDown="Border_MouseDown_1"
                             Cursor="Hand"
-                            />
+                            MouseDown="Border_OpenEditProfile" />
                 </Grid>
 
                 <Grid Grid.Column="1"
@@ -190,8 +185,9 @@
                                FontWeight="SemiBold"
                                FontSize="14"
                                Margin="0,0,0,10" />
+
                     </StackPanel>
-                    
+
                 </Grid>
 
                 <Grid Grid.Column="2">
@@ -210,7 +206,7 @@
                 </Grid>
 
             </Grid>
-            
+
         </Grid>
 
 
@@ -234,7 +230,7 @@
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical">
 
-                
+
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Border Margin="5"
@@ -270,7 +266,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            
+
             <!--Message box-->
             <Grid Grid.Row="1"
                   VerticalAlignment="Bottom">
@@ -281,7 +277,7 @@
                 <Rectangle Grid.ColumnSpan="2"
                            Height="58"
                            Fill="#36393F"
-                           VerticalAlignment="Bottom"/>
+                           VerticalAlignment="Bottom" />
                 <TextBox Height="50"
                          FontSize="14"
                          BorderThickness="0"
@@ -302,10 +298,9 @@
                             Command="{Binding SendMessageCommand}"
                             Background="{Binding User.SelectedColor}"
                             BorderThickness="0"
-                            Height="50"
-                             />
+                            Height="50" />
                 </StackPanel>
-                
+
             </Grid>
         </Grid>
     </Grid>
