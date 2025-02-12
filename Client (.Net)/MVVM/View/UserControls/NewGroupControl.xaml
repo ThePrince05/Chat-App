@@ -7,10 +7,15 @@
              xmlns:local="clr-namespace:Client__.Net_.MVVM.View.UserControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:viewmodel="clr-namespace:Client__.Net_.MVVM.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="430" d:DesignWidth="200"
              RenderTransformOrigin="0.5,0.5"
              Opacity="1">
+
+    <UserControl.DataContext>
+        <viewmodel:NewGroupViewModel/>
+    </UserControl.DataContext>
 
     <UserControl.Resources>
         <Storyboard x:Key="SlideAndFadeIn">

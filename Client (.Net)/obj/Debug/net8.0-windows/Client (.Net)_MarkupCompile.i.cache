@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\App.xaml
-7-989413898
+10-479839363
 
-20-878732107
+24529949198
 216419201133
-MVVM\View\MainWindow.xaml;MVVM\View\Settings.xaml;MVVM\View\UserLogin.xaml;MVVM\View\UserProfileAdd.xaml;MVVM\View\UserProfileEdit.xaml;Themes\MessageBox.xaml;Themes\StylishCrollbar.xaml;
+MVVM\View\MainWindow.xaml;MVVM\View\Settings.xaml;MVVM\View\UserControls\NewGroupControl.xaml;MVVM\View\UserControls\ShadeControl.xaml;MVVM\View\UserLogin.xaml;MVVM\View\UserProfileAdd.xaml;MVVM\View\UserProfileEdit.xaml;Themes\GroupsCard.xaml;Themes\MessageBox.xaml;Themes\StylishCrollbar.xaml;
 
-False
+True
 

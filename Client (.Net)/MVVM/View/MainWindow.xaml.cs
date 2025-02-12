@@ -28,19 +28,20 @@ namespace Chat_App
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            DragMove();
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
         }
         private void Minimise_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = WindowState.Minimized;
+            this.WindowState = WindowState.Minimized;
         }
 
         private void Maximise_Click(object sender, RoutedEventArgs e)
         {
             if (WindowState != WindowState.Maximized)
             {
-                this.WindowState = WindowState.Maximized;
-
                 WindowState = WindowState.Maximized;
                 MainGrid.Margin = new Thickness(7);
                 lvGroupList.MaxHeight = 840;
@@ -49,21 +50,11 @@ namespace Chat_App
             }
             else
             {
-                this.WindowState = WindowState.Normal;
-
                 WindowState = WindowState.Normal;
                 MainGrid.Margin = new Thickness(0);
                 lvGroupList.MaxHeight = lvGroupListOldMaxHeight;
                 NewGroupControlMenus.Height = NewGroupControlMenusOldHeight;
                 NewGroupControlMenus.lvListFreinds.MaxHeight = NewGroupControlMenusOldLvListFreindsMaxHeight;
-                // left panel
-                //var grid = (Grid)FindName("MainGrid");
-                //var row1 = (UIElement)grid.Children[1];
-                //row1.SetValue(MarginProperty, new Thickness(0));  // Default margin
-                // left panel
-                //var grid = (Grid)FindName("MainGrid");
-                //var row1 = (UIElement)grid.Children[1];
-                //row1.SetValue(MarginProperty, new Thickness(0));  // Default margin
             }
         }
 
@@ -77,9 +68,11 @@ namespace Chat_App
             // Handle key events here if needed
         }
 
-   
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            Debug.WriteLine("MainWindow is closing.");
+        }
 
         private bool isPanelVisible = false; // Track visibility state
 
@@ -89,7 +82,7 @@ namespace Chat_App
             Storyboard sbShade;
 
 
-             if (isPanelVisible)
+            if (isPanelVisible)
             {
                 sb = (Storyboard)NewGroupControlMenus.FindResource("SlideAndFadeOut");
                 sbShade = (Storyboard)ShadeControlMenu.FindResource("ShadeOut");
@@ -105,8 +98,6 @@ namespace Chat_App
             sb.Begin();
             sbShade.Begin();
             isPanelVisible = !isPanelVisible; // Toggle state
-        }
-            Debug.WriteLine("MainWindow is closing.");
         }
 
         private void Border_OpenEditProfile(object sender, MouseButtonEventArgs e)
