@@ -11,108 +11,88 @@ namespace Client__.Net_
     /// </summary>
     public partial class App : Application
     {
-        private UserProfile _userProfileWindow;
+        private UserLogin _userLoginWindow;
         private Settings _settingsWindow;
         private MainWindow _mainWindow;
 
+        public App()
+        {
+            // Prevent the app from shutting down when the main window closes.
+            this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             var dbService = new SQLiteDBService();
-            dbService.InitializeDatabase();
-
-            // Check if user data and settings are present
-            var (isUserDataPresent, isSettingsDataPresent) = dbService.CheckInitializationState();
+          //  dbService.InitializeDatabase();
 
             var viewModel = new MainViewModel();
-            viewModel.ProfileCompleted += OnProfileCompleted;
-            viewModel.SettingsCompleted += OnSettingsCompleted;
+            viewModel.OnSettingsCompleted += OnSettingsCompleted;
+            viewModel.OnUserLoginCompleted += OnUserLoginCompleted;
 
-            // Check if user data is present, if not show the UserProfile window
-            if (!isUserDataPresent)
+            // Step 1: Check if Settings table has data
+            bool settingsDataPresent = dbService.TableHasData("settings");
+
+            if (!settingsDataPresent)
             {
-                _userProfileWindow = new UserProfile
-                {
-                    DataContext = viewModel
-                };
-                _userProfileWindow.ShowDialog();  // Show the UserProfile window
-
-                // After the UserProfile window is completed, check again
-                (isUserDataPresent, isSettingsDataPresent) = dbService.CheckInitializationState();
-            }
-
-            // Check if settings data is present, if not show the Settings window
-            if (!isSettingsDataPresent)
-            {
+                // Open Settings window if no settings data is present
                 _settingsWindow = new Settings
                 {
                     DataContext = viewModel
-                };
-                _settingsWindow.ShowDialog();  // Show the Settings window
-
-                // After the Settings window is completed, check again
-                (isUserDataPresent, isSettingsDataPresent) = dbService.CheckInitializationState();
-            }
-
-            // After user data and settings are completed, show the main window
-            if (isUserDataPresent && isSettingsDataPresent)
-            {
-                // Ensure the MainWindow is only created once
-                if (_mainWindow == null)
-                {
-                    _mainWindow = new MainWindow();
-                    _mainWindow.Show();  // Show the main window
-
-                    // Explicitly set the MainWindow state to Normal and focus it
-                    _mainWindow.WindowState = WindowState.Normal;
-                    _mainWindow.Focus();  // Set focus to the main window to ensure it's active
-                }
-            }
-        }
-
-        private void OnProfileCompleted(object sender, EventArgs e)
-        {
-            // Handle ProfileCompleted: Show the Settings window
-            var dbService = new SQLiteDBService();
-            var (isUserDataPresent, isSettingsDataPresent) = dbService.CheckInitializationState();
-
-            // Hide the UserProfile window before opening Settings window
-            if (_userProfileWindow != null && _userProfileWindow.IsVisible)
-            {
-                _userProfileWindow.Hide();  // Hide the UserProfile window
-            }
-
-            // Open Settings window if settings are not completed
-            if (!isSettingsDataPresent)
-            {
-                _settingsWindow = new Settings
-                {
-                    DataContext = (MainViewModel)sender
                 };
                 _settingsWindow.ShowDialog();
             }
+
+            // Step 2: Check if user data exists in users table
+            var (isUserDataPresent, _) = dbService.CheckInitializationState();
+
+            if (isUserDataPresent)
+            {
+                // Step 3: Check if UserLogin is true (1) in login table
+                bool isUserLoggedIn = dbService.IsUserLoggedIn();
+
+                if (isUserLoggedIn)
+                {
+                    // Open MainWindow if user is already logged in
+                    OpenMainWindow();
+                    return;
+                }
+            }
+
+            // If user is not logged in or no user exists, open UserLogin window
+            _userLoginWindow = new UserLogin
+            {
+                DataContext = viewModel
+            };
+            _userLoginWindow.ShowDialog();
         }
 
         private void OnSettingsCompleted(object sender, EventArgs e)
         {
-            // Handle SettingsCompleted: Hide the Settings window and show MainWindow
             if (_settingsWindow != null && _settingsWindow.IsVisible)
             {
-                _settingsWindow.Hide();  // Hide the Settings window
+                _settingsWindow.Hide();
             }
+        }
 
-            // Open the MainWindow after Settings is completed
-            // Ensure that the MainWindow is only created once
-            if (_mainWindow == null)
+        private void OnUserLoginCompleted(object sender, EventArgs e)
+        {
+            if (_userLoginWindow != null && _userLoginWindow.IsVisible)
             {
-                _mainWindow = new MainWindow();
-                _mainWindow.Show();
-
-                // Explicitly set the MainWindow state to Normal and focus it
-                _mainWindow.WindowState = WindowState.Normal;
-                _mainWindow.Focus();  // Set focus to the main window to ensure it's active
+                _userLoginWindow.Hide();
             }
+
+            // Open MainWindow after login is completed
+            OpenMainWindow();
+        }
+
+        private void OpenMainWindow()
+        {
+            _mainWindow = new MainWindow();
+            _mainWindow.Show();
+            _mainWindow.WindowState = WindowState.Normal;
+            _mainWindow.Focus();
         }
     }
 }

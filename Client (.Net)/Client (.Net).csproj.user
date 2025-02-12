@@ -10,7 +10,13 @@
     <Compile Update="MVVM\View\Settings.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MVVM\View\UserProfile.xaml.cs">
+    <Compile Update="MVVM\View\UserLogin.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\UserProfileAdd.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\UserProfileEdit.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -21,7 +27,13 @@
     <Page Update="MVVM\View\Settings.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\View\UserProfile.xaml">
+    <Page Update="MVVM\View\UserLogin.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\UserProfileAdd.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\UserProfileEdit.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\MessageBox.xaml">
