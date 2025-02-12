@@ -7,6 +7,7 @@
         xmlns:viewmodel="clr-namespace:Chat_App.MVVM.ViewModel"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:userControls="clr-namespace:Client__.Net_.MVVM.View.UserControls"
         mc:Ignorable="d"
         Height="500"
         MinHeight="300"
@@ -14,6 +15,13 @@
         MinWidth="500"
         Background="#36393F"
         WindowStyle="None"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"
+                      CornerRadius="15"
+                      GlassFrameThickness="5"/>
+    </WindowChrome.WindowChrome>
         WindowStartupLocation="CenterScreen"
         Closing="Window_Closing">
 
@@ -22,7 +30,6 @@
     <Window.DataContext>
         <viewmodel:MainViewModel />
     </Window.DataContext>
-
 
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
@@ -91,6 +98,7 @@
 
         <!-- Main Content Area -->
         <Grid Grid.Row="1"
+              Panel.ZIndex="2"
               Background="#2f3136">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
@@ -135,20 +143,57 @@
 
             <StackPanel Grid.Row="1">
 
-                <!--Use for underlined text-->
-                <TextBlock Margin="10,15,0,0"
-                           FontSize="17"
-                           Foreground="White">
-                 <Underline>
-                     <Run Text="Groups" />
-                 </Underline>
-                </TextBlock>
+                <Grid>
+                    <!--Use for underlined text-->
+                    <TextBlock Margin="10,5,0,0"
+                               FontSize="17"
+                               Foreground="White"
+                               HorizontalAlignment="Left">
+                        <Underline>
+                            <Run Text="Groups" />
+                        </Underline>
+                    </TextBlock>
 
-                <ListBox x:Name="groupChats"
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                        <Button Margin="5"
+                                Click="Button_Click"
+                                Background="Transparent"
+                                Padding="0"
+                                Width="30"
+                                Height="25"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                Command="{Binding OpenAddGroupCommand}">
+                            <fa:IconImage Icon="Edit"
+                                          Height="15"
+                                          Width="15"
+                                          Foreground="LightGray"
+                                          HorizontalAlignment="Center" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!--<ListBox x:Name="groupChats"
                          Margin="5,5,5,0"
                          Width="auto"
                          Height="250"
-                         Background="Transparent" />
+                         Background="Transparent" />-->
+
+                <ListView x:Name="lvGroupList" 
+                          Margin="5"
+                          Width="auto"
+                          Height="auto"
+                          MaxHeight="310"
+                          Foreground="White"
+                          ItemsSource="{Binding Groups}"
+                          IsSynchronizedWithCurrentItem="True"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                          ItemContainerStyle="{StaticResource GroupCard}">
+                    
+                </ListView>
             </StackPanel>
 
             <!-- Footer Section -->
@@ -216,8 +261,25 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="15" />
             </Grid.RowDefinitions>
+
+            
+
+            <userControls:ShadeControl
+                Panel.ZIndex="1"
+                x:Name="ShadeControlMenu"
+                Opacity="0"
+                Visibility="Hidden"
+                Grid.RowSpan="2"/>
+            
+            <userControls:NewGroupControl
+                Panel.ZIndex="1"
+                Grid.RowSpan="2"
+                x:Name="NewGroupControlMenus"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Width="250"
+                Height="430"/>
 
             <!--message feed-->
             <ListView x:Name="lvMessageList"
@@ -269,7 +331,8 @@
 
             <!--Message box-->
             <Grid Grid.Row="1"
-                  VerticalAlignment="Bottom">
+                  VerticalAlignment="Bottom"
+                  Panel.ZIndex="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="630*" />
                     <ColumnDefinition Width="100" />
@@ -288,7 +351,7 @@
                          KeyDown="TextBox_KeyDown"
                          TextWrapping="Wrap"
                          AcceptsReturn="True"
-                         Margin="8,8,8,8" />
+                         Margin="8,8,8,10" />
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Left"
                             Grid.Column="2"

@@ -10,6 +10,13 @@
     <Compile Update="MVVM\View\Settings.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\View\UserControls\NewGroupControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\UserControls\ShadeControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\UserProfile.xaml.cs">
     <Compile Update="MVVM\View\UserLogin.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -27,6 +34,13 @@
     <Page Update="MVVM\View\Settings.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="MVVM\View\UserControls\NewGroupControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\UserControls\ShadeControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\UserProfile.xaml">
     <Page Update="MVVM\View\UserLogin.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -34,6 +48,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\UserProfileEdit.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\GroupsCard.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\MessageBox.xaml">

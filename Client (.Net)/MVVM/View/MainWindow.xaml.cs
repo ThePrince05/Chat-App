@@ -5,40 +5,65 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace Chat_App
 {
     public partial class MainWindow : Window
     {
+        private double lvGroupListOldMaxHeight;
+        private double NewGroupControlMenusOldHeight;
+        private double NewGroupControlMenusOldLvListFreindsMaxHeight;
         public MainWindow()
         {
             InitializeComponent();
+
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            this.MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+            lvGroupListOldMaxHeight = lvGroupList.MaxHeight;
+            NewGroupControlMenusOldHeight = NewGroupControlMenus.Height;
+            NewGroupControlMenusOldLvListFreindsMaxHeight = NewGroupControlMenus.lvListFreinds.MaxHeight;
             this.Closing += Window_Closing;
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                DragMove();
-            }
+            DragMove();
         }
         private void Minimise_Click(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Minimized;
+            WindowState = WindowState.Minimized;
         }
 
         private void Maximise_Click(object sender, RoutedEventArgs e)
         {
-            if (this.WindowState != WindowState.Maximized)
+            if (WindowState != WindowState.Maximized)
             {
                 this.WindowState = WindowState.Maximized;
 
+                WindowState = WindowState.Maximized;
+                MainGrid.Margin = new Thickness(7);
+                lvGroupList.MaxHeight = 840;
+                NewGroupControlMenus.Height = 700;
+                NewGroupControlMenus.lvListFreinds.MaxHeight = 550;
             }
             else
             {
                 this.WindowState = WindowState.Normal;
 
+                WindowState = WindowState.Normal;
+                MainGrid.Margin = new Thickness(0);
+                lvGroupList.MaxHeight = lvGroupListOldMaxHeight;
+                NewGroupControlMenus.Height = NewGroupControlMenusOldHeight;
+                NewGroupControlMenus.lvListFreinds.MaxHeight = NewGroupControlMenusOldLvListFreindsMaxHeight;
+                // left panel
+                //var grid = (Grid)FindName("MainGrid");
+                //var row1 = (UIElement)grid.Children[1];
+                //row1.SetValue(MarginProperty, new Thickness(0));  // Default margin
+                // left panel
+                //var grid = (Grid)FindName("MainGrid");
+                //var row1 = (UIElement)grid.Children[1];
+                //row1.SetValue(MarginProperty, new Thickness(0));  // Default margin
             }
         }
 
@@ -55,6 +80,32 @@ namespace Chat_App
    
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+
+        private bool isPanelVisible = false; // Track visibility state
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Storyboard sb;
+            Storyboard sbShade;
+
+
+             if (isPanelVisible)
+            {
+                sb = (Storyboard)NewGroupControlMenus.FindResource("SlideAndFadeOut");
+                sbShade = (Storyboard)ShadeControlMenu.FindResource("ShadeOut");
+                ShadeControlMenu.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                sb = (Storyboard)NewGroupControlMenus.FindResource("SlideAndFadeIn");
+                sbShade = (Storyboard)ShadeControlMenu.FindResource("ShadeIn");
+                ShadeControlMenu.Visibility = Visibility.Visible;
+            }
+
+            sb.Begin();
+            sbShade.Begin();
+            isPanelVisible = !isPanelVisible; // Toggle state
+        }
             Debug.WriteLine("MainWindow is closing.");
         }
 
@@ -63,7 +114,5 @@ namespace Chat_App
             var viewModel = (MainViewModel)DataContext;
             MainViewModel.OpenUserProfileEdit();
         }
-
-
     }
 }

@@ -17,17 +17,22 @@ namespace Chat_App.MVVM.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged, IDisposable
     {
+       
         private System.Timers.Timer _pollingTimer;
-        private SupabaseService _supabaseService;
+        private  SupabaseService _supabaseService;
+        private Server _server;
         private readonly SQLiteDBService _sqliteDBService;
 
         // Properties
+        public ServerSettings ServerSettings { get; set; }
         public SupabaseSettings SupabaseSettings { get; set; }
         public User User { get; set; }
         public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
         public ObservableCollection<Message> Messages { get; set; } = new ObservableCollection<Message>();
 
         // Commands
+        private ICommand _finishSettingsCommand;
+        private ICommand _connectToServerCommand;
         private ICommand _sendMessageCommand;
         private ICommand _loadMessagesCommand;
         private ICommand _loginCommand;
@@ -38,6 +43,7 @@ namespace Chat_App.MVVM.ViewModel
         private ICommand _saveUserCommand;
         private ICommand _modifyUserCommand;
         private ICommand _logoutCommand;
+        private ICommand _openAddGroupCommand;
 
 
 
@@ -52,20 +58,23 @@ namespace Chat_App.MVVM.ViewModel
         public ICommand ModifyUserCommand => _modifyUserCommand;
         public ICommand LogoutCommand => _logoutCommand;
 
+        public ICommand OpenAddGroupCommand => _openAddGroupCommand;
+
         // Events
         public event EventHandler OnUserLoginCompleted;
         public event EventHandler OnSettingsCompleted;
 
         // Properties for binding
+        private string username;
         public string Username
         {
-            get => User?.Username;
+            get => User?.Username; // Reflect the value from UserModel
             set
             {
                 if (User != null)
                 {
-                    User.Username = value;
-                    OnPropertyChanged(nameof(Username));
+                    User.Username = value; // Update the UserModel
+                    OnPropertyChanged(nameof(Username)); // Notify UI of the change
                 }
             }
         }
@@ -116,6 +125,7 @@ namespace Chat_App.MVVM.ViewModel
         public MainViewModel()
         {
             Messages.CollectionChanged += Messages_CollectionChanged;
+
             _sqliteDBService = new SQLiteDBService();
             _sqliteDBService.InitializeDatabase();
 
@@ -154,6 +164,8 @@ namespace Chat_App.MVVM.ViewModel
             _sendMessageCommand = new RelayCommand(async _ => await SendMessageAsync(), _ => !string.IsNullOrEmpty(Message));
             _loadMessagesCommand = new RelayCommand(async _ => await LoadMessagesAsync());
             _loginCommand = new RelayCommand(async _ => await LogInUser(), _ => !string.IsNullOrEmpty(Username));
+            _finishSettingsCommand = new RelayCommand(ExecuteFinishSettings, CanExecuteFinishSettings);
+            _nextSettingsCommand = new RelayCommand(ExecuteNextSettings, CanExecuteNextSettings);
             _openSettingsCommand = new RelayCommand(_ => OpenSettings());
             _saveSettingsCommand = new RelayCommand(_ => ExecuteSaveSettings());
             _openUserProfileEditCommand = new RelayCommand(_ => OpenUserProfileEdit());
@@ -161,7 +173,15 @@ namespace Chat_App.MVVM.ViewModel
             _saveUserCommand = new RelayCommand(async param => await SaveUserAsync(param as Window), _ => CanSaveUser());
             _modifyUserCommand = new RelayCommand(async _ => await ModifyUserAsync(), _ => CanSaveUser());
             _logoutCommand = new RelayCommand(_ =>  ExecuteLogout());
+            _openAddGroupCommand = new RelayCommand(OpenAddGroup);
         }
+
+        private void OpenAddGroup(object obj)
+        {
+            AddGroup addGroup = new AddGroup();
+            addGroup.ShowDialog();
+        }
+
         private void ExecuteLogout()
         {
             var result = MessageBox.Show("Are you sure you want to log out?",
@@ -401,10 +421,12 @@ namespace Chat_App.MVVM.ViewModel
         private void LoadSettings()
         {
             var settingsService = new SQLiteDBService();
-            var supabaseSettings = settingsService.LoadSettings();
+            var (serverSettings, supabaseSettings) = settingsService.LoadSettings();
 
+            ServerSettings = serverSettings ?? new ServerSettings();
             SupabaseSettings = supabaseSettings ?? new SupabaseSettings();
 
+            // Validate Supabase settings
             if (!string.IsNullOrEmpty(SupabaseSettings.SupabaseUrl) &&
                 Uri.TryCreate(SupabaseSettings.SupabaseUrl, UriKind.Absolute, out _))
             {
@@ -414,6 +436,7 @@ namespace Chat_App.MVVM.ViewModel
 
         private void InitializeSupabaseService()
         {
+            // Initialize SupabaseService only after valid settings are loaded
             _supabaseService = new SupabaseService(SupabaseSettings);
             Console.WriteLine("SupabaseService initialized successfully.");
         }
@@ -509,10 +532,17 @@ namespace Chat_App.MVVM.ViewModel
 
             var timestamp = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
 
+            if (IsDedicatedServerEnabled)
+            {
+                _server.SendMessageToServer(Message);
+            }
+
+            // Save message to Supabase
             bool isSaved = await _supabaseService.SaveMessageAsync(Username, Message, timestamp);
 
             if (isSaved)
             {
+                //MessageBox.Show("Message saved successfully.");
                 await LoadMessagesAsync();
             }
             else
@@ -547,13 +577,25 @@ namespace Chat_App.MVVM.ViewModel
             {
                 Console.WriteLine("Fetching messages from Supabase...");
                 var messages = await _supabaseService.GetMessagesAsync();
-
-                if (messages == null || !messages.Any())  // Check for null or empty list
+                if (messages != null)
                 {
-                    Console.WriteLine("No messages found or received null response.");
-                    return;
-                }
-
+                    // Update messages collection on UI thread
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Messages.Clear();
+                        foreach (var msg in messages)
+                        {
+                            // Add messages as Message objects
+                            Messages.Add(msg);
+                        }
+                    });
+                        }
+                    });
+                        }
+                    });
+                        }
+                    });
+                        }
                 Application.Current?.Dispatcher?.Invoke(() =>
                 {
                     if (Application.Current == null) return; // Ensure app is still running
@@ -582,7 +624,7 @@ namespace Chat_App.MVVM.ViewModel
                 Console.WriteLine($"Error loading messages: {ex.Message}");
             }
         }
-
+            {
 
         private async void ExecuteSaveSettings()
         {
@@ -596,7 +638,17 @@ namespace Chat_App.MVVM.ViewModel
             bool isValid = await supabaseService.ValidateSupabaseCredentials();
 
             if (!isValid)
+        {
+                MessageBox.Show("Please fill in all server fields when the dedicated server is enabled.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             {
+                MessageBox.Show("Please fill in all Supabase fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+
+            if (!ServerSettings.ValidateServerSettings())
+                SupabaseSettings.SupabaseApiKey,
+                IsDedicatedServerEnabled,
+                ServerSettings.ServerIp,
+                Convert.ToInt32(ServerSettings.ServerPort)
                 MessageBox.Show("Invalid Supabase credentials. Please check your URL and API key.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -604,17 +656,13 @@ namespace Chat_App.MVVM.ViewModel
             // Save settings in SQLite
             _sqliteDBService.SaveSettings(
                 SupabaseSettings.SupabaseUrl,
-                SupabaseSettings.SupabaseApiKey
-            );
-
-
+        private bool CanExecuteFinishSettings(object parameter) => true; // Always enabled
             MessageBox.Show("Settings saved successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            OnSettingsCompleted?.Invoke(this, EventArgs.Empty);
-        }
-
         private void HandleConnectionFailure(string message)
         {
-            // Show the settings window with the failure message
+            _server.connectedEvent -= UserConnected;
+            _server.msgReceivedEvent -= MessageReceived;
+            _server.userDisconnectEvent -= RemoveUser;
             MessageBox.Show(message, "Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
             // Optionally, open settings window here
