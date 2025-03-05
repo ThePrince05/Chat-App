@@ -64,8 +64,19 @@ namespace Chat_App.MVVM.ViewModel
                 }
             }
         }
-   
 
+        public string SelectedColor
+        {
+            get => User?.SelectedColor;
+            set
+            {
+                if (User != null)
+                {
+                    User.Username = value;
+                    OnPropertyChanged(nameof(Username));
+                }
+            }
+        }
         private string _message;
         public string Message
         {
@@ -73,21 +84,7 @@ namespace Chat_App.MVVM.ViewModel
             set => SetProperty(ref _message, value);
         }
 
-        private SolidColorBrush _selectedColor = new SolidColorBrush(Colors.Green); // Default to Green
-        public SolidColorBrush SelectedColor
-        {
-            get { return _selectedColor; }
-            set
-            {
-                _selectedColor = value;
-                OnPropertyChanged(nameof(SelectedColor));
-                OnPropertyChanged(nameof(SelectedColorHex)); // Notify UI
-            }
-        }
-
-        // Convert to hex string when needed
-        public string SelectedColorHex => SelectedColor.Color.ToString();
-
+      
         // Constructor
         public MainViewModel()
         {
@@ -118,9 +115,11 @@ namespace Chat_App.MVVM.ViewModel
             Task.Run(() => InitializeDatabaseAsync());
 
             LoadUserData();
-            NewGroupViewModel = new NewGroupViewModel();
+
+           
         }
 
+     
         public async Task InitializeDatabaseAsync()
         {
              await _supabaseService.InitializeDatabaseSchemaAsync();
@@ -140,7 +139,6 @@ namespace Chat_App.MVVM.ViewModel
         private void OpenAddGroup(object parameter)
         {
             //Open the AddGroup window
-
 
             Groups.Add(new Group
             {

@@ -15,42 +15,21 @@ namespace Client__.Net_.MVVM.ViewModel
 {
     public class NewGroupViewModel: INotifyPropertyChanged
     {
-        private string _selectedColour;
-      
-        
-        private User _user;
+        private readonly SQLiteDBService _sqliteDBService;
+        public User User { get; set; }
 
-        public User User
-        {
-            get => _user;
-            set
-            {
-                if (_user != value)
-                {
-                    _user = value;
-                    OnPropertyChanged(nameof(User));
-                    OnPropertyChanged(nameof(SelectedColour)); // Ensure UI updates when User changes
-                }
-            }
-        }
-
-        public string SelectedColour
-        {
-            get => User?.SelectedColor ?? "Gray"; // Provide a default color
-            set
-            {
-                if (User != null && User.SelectedColor != value)
-                {
-                    User.SelectedColor = value;
-                    OnPropertyChanged(nameof(SelectedColour));
-                    Debug.WriteLine($"Background Colour: {value}");
-                }
-            }
-        }
         public NewGroupViewModel() 
         {
-            User = User ?? new User { SelectedColor = "Gray" }; // Ensure User is never null
+            _sqliteDBService = new SQLiteDBService();
+            LoadUserData();
         }
+
+        private void LoadUserData()
+        {
+            User = _sqliteDBService.LoadUser();
+            OnPropertyChanged(nameof(User));
+        }
+
 
         // INotifyProperty
         public event PropertyChangedEventHandler PropertyChanged;
