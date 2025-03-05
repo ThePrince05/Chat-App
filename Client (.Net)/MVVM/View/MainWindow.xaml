@@ -15,12 +15,13 @@
         MinWidth="500"
         Background="#36393F"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize">
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0"
                       CornerRadius="15"
-                      GlassFrameThickness="5"/>
+                      GlassFrameThickness="5" />
     </WindowChrome.WindowChrome>
 
 
@@ -158,13 +159,11 @@
                                 Click="Button_Click"
                                 Background="Transparent"
                                 Padding="0"
-                                Width="30"
-                                Height="25"
+                                Width="20"
+                                Height="20"
                                 Style="{StaticResource MaterialDesignFlatButton}"
                                 Command="{Binding OpenAddGroupCommand}">
                             <fa:IconImage Icon="Edit"
-                                          Height="15"
-                                          Width="15"
                                           Foreground="LightGray"
                                           HorizontalAlignment="Center" />
                         </Button>
@@ -177,7 +176,7 @@
                          Height="250"
                          Background="Transparent" />-->
 
-                <ListView x:Name="lvGroupList" 
+                <ListView x:Name="lvGroupList"
                           Margin="5"
                           Width="auto"
                           Height="auto"
@@ -190,7 +189,7 @@
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
                           SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
                           ItemContainerStyle="{StaticResource GroupCard}">
-                    
+
                 </ListView>
             </StackPanel>
 
@@ -258,26 +257,25 @@
               Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="35.4" />
+                <RowDefinition Height="32.6" />
             </Grid.RowDefinitions>
 
-            
 
-            <userControls:ShadeControl
-                Panel.ZIndex="1"
-                x:Name="ShadeControlMenu"
-                Opacity="0"
-                Visibility="Hidden"
-                Grid.RowSpan="2"/>
-            
-            <userControls:NewGroupControl
-                Panel.ZIndex="1"
-                Grid.RowSpan="2"
-                x:Name="NewGroupControlMenus"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Left"
-                Width="250"
-                Height="430"/>
+
+            <userControls:ShadeControl Panel.ZIndex="1"
+                                       x:Name="ShadeControlMenu"
+                                       Opacity="0"
+                                       Visibility="Hidden"
+                                       Grid.RowSpan="3" />
+
+            <userControls:NewGroupControl Panel.ZIndex="1"
+                                          Grid.RowSpan="3"
+                                          x:Name="NewGroupControlMenus"
+                                          VerticalAlignment="Top"
+                                          HorizontalAlignment="Left"
+                                          Width="250"
+                                          Height="430" />
 
             <!--message feed-->
             <ListView x:Name="lvMessageList"
@@ -289,7 +287,6 @@
                       Margin="8,0,0,0"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical">
-
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -329,8 +326,9 @@
 
             <!--Message box-->
             <Grid Grid.Row="1"
-                  VerticalAlignment="Bottom"
-                  Panel.ZIndex="0">
+                  VerticalAlignment="Top"
+                  Panel.ZIndex="0"
+                  Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="630*" />
                     <ColumnDefinition Width="100" />

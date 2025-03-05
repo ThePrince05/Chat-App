@@ -1,6 +1,7 @@
 ﻿using Chat_App;
 using Chat_App.MVVM.ViewModel;
 using Client__.Net_.MVVM.View;
+using Client__.Net_.MVVM.ViewModel;
 using System;
 using System.Windows;
 
@@ -27,7 +28,7 @@ namespace Client__.Net_
             var dbService = new SQLiteDBService();
           //  dbService.InitializeDatabase();
 
-            var viewModel = new MainViewModel();
+            var viewModel = new LoginViewModel();
             viewModel.OnSettingsCompleted += OnSettingsCompleted;
             viewModel.OnUserLoginCompleted += OnUserLoginCompleted;
 

@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Client__.Net_.MVVM.View"
-        xmlns:viewmodel="clr-namespace:Chat_App.MVVM.ViewModel"
+        xmlns:local="clr-namespace:Client__.Net_.MVVM.ViewModel"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
@@ -17,8 +16,9 @@
         WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
-        <viewmodel:MainViewModel />
+        <local:LoginViewModel/>
     </Window.DataContext>
+    
     <materialDesign:Card UniformCornerRadius="15"
                          Background="#333333"
                          Margin="25">
@@ -62,7 +62,7 @@
                          Foreground="LightGray"
                          materialDesign:HintAssist.Hint="Enter Username"
                          BorderThickness="2"
-                         Text="{Binding Username}"
+                         Text="{Binding User.Username}"
                          BorderBrush="{DynamicResource MaterialDesignDivider}"
                          Style="{StaticResource MaterialDesignOutlinedTextBox}" 
                          IsReadOnly="True"/>

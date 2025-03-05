@@ -1,5 +1,6 @@
 ﻿using Chat_App.MVVM.ViewModel;
 using Client__.Net_.MVVM.Model;
+using Client__.Net_.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -48,7 +49,7 @@ namespace Client__.Net_.MVVM.View
             var selectedItem = ColorComboBox.SelectedItem as ColorItem;
             if (selectedItem != null)
             {
-                var viewModel = this.DataContext as MainViewModel;
+                var viewModel = this.DataContext as LoginViewModel;
                 if (viewModel != null)
                 {
                     viewModel.SelectedColor = selectedItem.Color; // Updates Hex automatically
