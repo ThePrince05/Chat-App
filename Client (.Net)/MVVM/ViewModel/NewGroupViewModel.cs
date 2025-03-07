@@ -18,21 +18,30 @@ namespace Client__.Net_.MVVM.ViewModel
 {
     public class NewGroupViewModel: INotifyPropertyChanged
     {
+        private readonly MainViewModel _mainViewModel;
         private readonly SQLiteDBService _sqliteDBService;
         public User User { get; set; }
-        public ICommand HidePanelCommand { get; }
+        public ICommand TogglePanelCommand { get; }
 
        
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler RequestPanelClose; // Event for hiding the panel
-
-        public NewGroupViewModel() 
+       
+        public NewGroupViewModel(MainViewModel mainViewModel) 
         {
-            HidePanelCommand = new RelayCommand(_ => RequestPanelClose?.Invoke(this, EventArgs.Empty));
+            _mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
+            TogglePanelCommand = new RelayCommand(_ => TriggerTogglePanel());
+           
             _sqliteDBService = new SQLiteDBService();
             LoadUserData();
+
+
         }
 
+        public void TriggerTogglePanel()
+        {
+            _mainViewModel.TogglePanel();
+        }
+
+       
         private void LoadUserData()
         {
             User = _sqliteDBService.LoadUser();
@@ -41,6 +50,7 @@ namespace Client__.Net_.MVVM.ViewModel
 
 
         // INotifyProperty
+        public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 

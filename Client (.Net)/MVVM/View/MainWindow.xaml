@@ -274,7 +274,8 @@
                                           VerticalAlignment="Top"
                                           HorizontalAlignment="Left"
                                           Width="250"
-                                          Height="450" />
+                                          Height="450"
+                                          DataContext="{Binding NewGroupViewModel}"/>
 
            
 

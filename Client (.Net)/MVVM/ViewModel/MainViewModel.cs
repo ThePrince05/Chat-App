@@ -28,7 +28,7 @@ namespace Client__.Net_.MVVM.ViewModel
         public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
         public ObservableCollection<Message> Messages { get; set; } = new ObservableCollection<Message>();
         public ObservableCollection<Group> Groups { get; set; } = new ObservableCollection<Group>();
-        public NewGroupViewModel NewGroupViewModel { get; set; }
+        public NewGroupViewModel NewGroupViewModel { get; }
 
         // Commands
         private ICommand _sendMessageCommand;
@@ -50,7 +50,7 @@ namespace Client__.Net_.MVVM.ViewModel
         // Events
         public event EventHandler OnUserLoginCompleted;
         public event EventHandler OnSettingsCompleted;
-
+        
         public string Username
         {
             get => User?.Username;
@@ -115,10 +115,15 @@ namespace Client__.Net_.MVVM.ViewModel
 
             LoadUserData();
 
+            NewGroupViewModel = new NewGroupViewModel(this);
 
         }
 
-
+        public event Action ToggleNewGroupPanel;
+        public void TogglePanel()
+        {
+            ToggleNewGroupPanel?.Invoke();
+        }
         public async Task InitializeDatabaseAsync()
         {
             await _supabaseService.InitializeDatabaseSchemaAsync();

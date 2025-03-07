@@ -25,7 +25,12 @@ namespace Chat_App
             NewGroupControlMenusOldHeight = NewGroupControlMenus.Height;
             NewGroupControlMenusOldLvListFreindsMaxHeight = NewGroupControlMenus.lvListFreinds.MaxHeight;
             this.Closing += Window_Closing;
-         
+
+            if (DataContext is MainViewModel mainVM)
+            {
+                mainVM.ToggleNewGroupPanel += TogglePanel;
+            }
+
         }
 
        
