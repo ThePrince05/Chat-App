@@ -1,6 +1,5 @@
-﻿using Chat_App.MVVM.Core;
+﻿using Chat_App.Core;
 using Chat_App;
-using Client__.Net_.MVVM.Helpers;
 using Client__.Net_.MVVM.Model;
 using Client__.Net_.MVVM.View;
 using System;
@@ -16,8 +15,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows;
-using Chat_App.MVVM.Model;
+using Chat_App.Core.Model;
 using System.IO;
+using Client__.Net_.Core;
+using Client__.Net_.Helpers;
 
 namespace Client__.Net_.MVVM.ViewModel
 {

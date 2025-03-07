@@ -10,10 +10,10 @@
     <Compile Update="MVVM\View\Settings.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MVVM\View\UserControls\NewGroupControl.xaml.cs">
+    <Compile Update="UserControls\NewGroupControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MVVM\View\UserControls\ShadeControl.xaml.cs">
+    <Compile Update="UserControls\ShadeControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="MVVM\View\UserLogin.xaml.cs">
@@ -33,10 +33,10 @@
     <Page Update="MVVM\View\Settings.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\View\UserControls\NewGroupControl.xaml">
+    <Page Update="UserControls\NewGroupControl.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\View\UserControls\ShadeControl.xaml">
+    <Page Update="UserControls\ShadeControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\UserLogin.xaml">

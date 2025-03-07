@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Media;
 
-namespace Chat_App.MVVM.Model
+namespace Chat_App.Core.Model
 {
     public class User : INotifyPropertyChanged
     {

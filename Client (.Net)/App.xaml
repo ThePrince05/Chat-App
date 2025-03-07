@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Client__.Net_"
              xmlns:viewmodels="clr-namespace:Client__.Net_.MVVM.ViewModel"
-             xmlns:views="clr-namespace:Client__.Net_.MVVM.View.UserControls">
-    
+             xmlns:views="clr-namespace:Client__.Net_.UserControls"
+             xmlns:Converters="clr-namespace:Client__.Net_.Converters">
+
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-
                 <ResourceDictionary Source="./Themes/MessageBox.xaml" />
                 <ResourceDictionary Source="./Themes/StylishCrollbar.xaml" />
                 <ResourceDictionary Source="./Themes/GroupsCard.xaml" />
@@ -19,9 +19,15 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate x:Key="test" DataType="{x:Type viewmodels:NewGroupViewModel}">
-                <views:NewGroupControl/>
+            
+            <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+            <DataTemplate x:Key="test"
+                          DataType="{x:Type viewmodels:NewGroupViewModel}">
+                <views:NewGroupControl />
             </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
+

@@ -1,4 +1,6 @@
-﻿using Chat_App.MVVM.Model;
+﻿
+using Chat_App.Core.Model;
+using Client__.Net_.Core;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
@@ -8,8 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using User = Chat_App.MVVM.Model.User;
+using User = Chat_App.Core.Model.User;
 
 namespace Client__.Net_.MVVM.ViewModel
 {
@@ -17,9 +20,15 @@ namespace Client__.Net_.MVVM.ViewModel
     {
         private readonly SQLiteDBService _sqliteDBService;
         public User User { get; set; }
+        public ICommand HidePanelCommand { get; }
+
+       
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler RequestPanelClose; // Event for hiding the panel
 
         public NewGroupViewModel() 
         {
+            HidePanelCommand = new RelayCommand(_ => RequestPanelClose?.Invoke(this, EventArgs.Empty));
             _sqliteDBService = new SQLiteDBService();
             LoadUserData();
         }
@@ -32,8 +41,6 @@ namespace Client__.Net_.MVVM.ViewModel
 
 
         // INotifyProperty
-        public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
@@ -44,5 +51,6 @@ namespace Client__.Net_.MVVM.ViewModel
             OnPropertyChanged(propertyName);
             return true;
         }
+
     }
 }

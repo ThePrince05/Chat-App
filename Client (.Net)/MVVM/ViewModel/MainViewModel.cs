@@ -1,5 +1,4 @@
-﻿using Chat_App.MVVM.Core;
-using Chat_App.MVVM.Model;
+﻿
 using Client__.Net_.MVVM.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,19 +7,19 @@ using System.Windows.Media;
 using System.Windows;
 using System.Collections.Specialized;
 using Client__.Net_.MVVM.View;
-using Client__.Net_.MVVM.Helpers;
 using System.Diagnostics;
 using System.Reflection;
 using System.IO;
-using Client__.Net_.MVVM.ViewModel;
+using Client__.Net_.Core;
+using Chat_App.Core.Model;
 
-namespace Chat_App.MVVM.ViewModel
+namespace Client__.Net_.MVVM.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged, IDisposable
     {
-       
+
         private System.Timers.Timer _pollingTimer;
-        private  SupabaseService _supabaseService;
+        private SupabaseService _supabaseService;
         private readonly SQLiteDBService _sqliteDBService;
 
         // Properties
@@ -84,7 +83,7 @@ namespace Chat_App.MVVM.ViewModel
             set => SetProperty(ref _message, value);
         }
 
-      
+
         // Constructor
         public MainViewModel()
         {
@@ -110,21 +109,21 @@ namespace Chat_App.MVVM.ViewModel
             });
 
             _supabaseService.OnConnectionFailed += HandleConnectionFailure;
-            
+
             // Explicitly running the async method in a background thread
             Task.Run(() => InitializeDatabaseAsync());
 
             LoadUserData();
 
-           
+
         }
 
-     
+
         public async Task InitializeDatabaseAsync()
         {
-             await _supabaseService.InitializeDatabaseSchemaAsync();
+            await _supabaseService.InitializeDatabaseSchemaAsync();
         }
-       
+
 
         private void InitializeCommands()
         {
@@ -147,9 +146,10 @@ namespace Chat_App.MVVM.ViewModel
                 Messages = Messages.DefaultIfEmpty(new Message { message = "Hi" }).Last().message,
                 ImageSource = "https://img.freepik.com/free-photo/people-posing-together-registration-day_23-2149096794.jpg"
             });
+
         }
 
-        
+
         private void Messages_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)

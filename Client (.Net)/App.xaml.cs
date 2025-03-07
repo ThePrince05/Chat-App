@@ -1,5 +1,4 @@
 ﻿using Chat_App;
-using Chat_App.MVVM.ViewModel;
 using Client__.Net_.MVVM.View;
 using Client__.Net_.MVVM.ViewModel;
 using System;

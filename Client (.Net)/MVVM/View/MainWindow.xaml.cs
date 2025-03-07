@@ -1,5 +1,4 @@
-﻿using Chat_App.MVVM.ViewModel;
-
+﻿using Client__.Net_.MVVM.ViewModel;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -14,6 +13,8 @@ namespace Chat_App
         private double lvGroupListOldMaxHeight;
         private double NewGroupControlMenusOldHeight;
         private double NewGroupControlMenusOldLvListFreindsMaxHeight;
+
+        private NewGroupViewModel _viewModel;
         public MainWindow()
         {
             InitializeComponent();
@@ -24,8 +25,11 @@ namespace Chat_App
             NewGroupControlMenusOldHeight = NewGroupControlMenus.Height;
             NewGroupControlMenusOldLvListFreindsMaxHeight = NewGroupControlMenus.lvListFreinds.MaxHeight;
             this.Closing += Window_Closing;
+         
         }
 
+       
+       
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -75,8 +79,7 @@ namespace Chat_App
         }
 
         private bool isPanelVisible = false; // Track visibility state
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void TogglePanel() 
         {
             Storyboard sb;
             Storyboard sbShade;
@@ -98,6 +101,10 @@ namespace Chat_App
             sb.Begin();
             sbShade.Begin();
             isPanelVisible = !isPanelVisible; // Toggle state
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            TogglePanel();
         }
 
         private void Border_OpenEditProfile(object sender, MouseButtonEventArgs e)

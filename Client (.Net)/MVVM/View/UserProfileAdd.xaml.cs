@@ -1,5 +1,4 @@
-﻿using Chat_App.MVVM.ViewModel;
-using Client__.Net_.MVVM.Model;
+﻿using Client__.Net_.MVVM.Model;
 using Client__.Net_.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
