@@ -45,7 +45,7 @@ namespace Client__.Net_.MVVM.ViewModel
         public ICommand OpenUserProfileEditCommand => _openUserProfileEditCommand;
         public ICommand OpenUserProfileAddCommand => _openUserProfileAddCommand;
         public ICommand OpenSettingsCommand => _openSettingsCommand;
-        public ICommand OpenAddGroupCommand => _openAddGroupCommand;
+ 
 
         // Events
         public event EventHandler OnUserLoginCompleted;
@@ -137,10 +137,10 @@ namespace Client__.Net_.MVVM.ViewModel
             _openSettingsCommand = new RelayCommand(_ => OpenSettings());
             _openUserProfileEditCommand = new RelayCommand(_ => OpenUserProfileEdit());
             _openUserProfileAddCommand = new RelayCommand(_ => OpenUserProfileAdd());
-            _openAddGroupCommand = new RelayCommand(OpenAddGroup);
+            
         }
 
-        private void OpenAddGroup(object parameter)
+        internal void SaveGroup(object parameter)
         {
             //Open the AddGroup window
 

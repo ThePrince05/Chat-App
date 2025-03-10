@@ -1,9 +1,11 @@
 ﻿
 using Chat_App.Core.Model;
 using Client__.Net_.Core;
+using Client__.Net_.MVVM.Model;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -20,11 +22,14 @@ namespace Client__.Net_.MVVM.ViewModel
     {
         private readonly MainViewModel _mainViewModel;
         private readonly SQLiteDBService _sqliteDBService;
+        private ICommand _saveGroupCommand;
+
         public User User { get; set; }
         public ICommand TogglePanelCommand { get; }
+        public ICommand SaveGroupCommand => _saveGroupCommand;
 
-       
-       
+
+
         public NewGroupViewModel(MainViewModel mainViewModel) 
         {
             _mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
@@ -32,8 +37,13 @@ namespace Client__.Net_.MVVM.ViewModel
            
             _sqliteDBService = new SQLiteDBService();
             LoadUserData();
+            InitializeCommands();
 
+        }
 
+        private void InitializeCommands()
+        {
+            _saveGroupCommand = new RelayCommand(SaveGroup);
         }
 
         public void TriggerTogglePanel()
@@ -41,12 +51,18 @@ namespace Client__.Net_.MVVM.ViewModel
             _mainViewModel.TogglePanel();
         }
 
-       
         private void LoadUserData()
         {
             User = _sqliteDBService.LoadUser();
             OnPropertyChanged(nameof(User));
         }
+
+        private void SaveGroup(object parameter)
+        {
+           _mainViewModel.SaveGroup(parameter);
+
+        }
+
 
 
         // INotifyProperty

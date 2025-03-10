@@ -114,7 +114,7 @@
                                    FontSize="14"
                                    Margin="2 3 0 0"/>
 
-                            <ListView x:Name="lvListFreinds"
+                            <ListView x:Name="lvListFriends"
                                       Margin="5"
                                       Width="auto"
                                       Height="auto"
@@ -143,7 +143,8 @@
                                 Foreground="Black"
                                 Background="{Binding User.SelectedColor}"
                                 BorderThickness="0"
-                                Style="{StaticResource MaterialDesignFlatAccentButton}" />
+                                Style="{StaticResource MaterialDesignFlatAccentButton}" 
+                                Command="{Binding SaveGroupCommand}"/>
                     </Grid>
                 </Border>
             </Grid>

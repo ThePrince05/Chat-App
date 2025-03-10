@@ -133,12 +133,7 @@
                 </Button>
             </Grid>
 
-            <!--<Button Height="25"
-                        Content="Connect"
-                        Command="{Binding ConnectToServerCommand}" />-->
-
-
-
+          
             <StackPanel Grid.Row="1">
 
                 <Grid>
