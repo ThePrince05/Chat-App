@@ -26,7 +26,7 @@
 
 
     <Window.DataContext>
-        <viewmodel:MainViewModel/>
+        <viewmodel:MainViewModel />
     </Window.DataContext>
 
     <Grid x:Name="MainGrid">
@@ -121,12 +121,12 @@
                          Foreground="White" />
 
                 <Button Grid.Column="2"
-                        Background="Transparent"
-                        Width="35"
-                        Height="20"
+                        Width="22"
+                        Height="22"
+                        Margin="0 0 0 0"
                         Padding="0"
-                        Margin="0 3 2 3"
-                        HorizontalAlignment="Right"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Style="{StaticResource MaterialDesignFlatButton}">
                     <fa:IconImage Icon="MagnifyingGlass"
                                   Foreground="LightGray" />
@@ -154,12 +154,12 @@
 
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Right">
-                        <Button Margin="5"
+                        <Button 
                                 Click="Button_Click"
-                                Background="Transparent"
                                 Padding="0"
-                                Width="20"
-                                Height="20"
+                                Width="22"
+                                Height="22"
+                                Margin="0 4 9 0"
                                 Style="{StaticResource MaterialDesignFlatButton}"
                                 Command="{Binding OpenAddGroupCommand}">
                             <fa:IconImage Icon="Edit"
@@ -168,12 +168,6 @@
                         </Button>
                     </StackPanel>
                 </Grid>
-
-                <!--<ListBox x:Name="groupChats"
-                         Margin="5,5,5,0"
-                         Width="auto"
-                         Height="250"
-                         Background="Transparent" />-->
 
                 <ListView x:Name="lvGroupList"
                           Margin="5"
@@ -275,9 +269,9 @@
                                           HorizontalAlignment="Left"
                                           Width="250"
                                           Height="450"
-                                          DataContext="{Binding NewGroupViewModel}"/>
+                                          DataContext="{Binding NewGroupViewModel}" />
 
-           
+
 
             <!--message feed-->
             <ListView x:Name="lvMessageList"

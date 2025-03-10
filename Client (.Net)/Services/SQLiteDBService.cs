@@ -178,7 +178,7 @@ public class SQLiteDBService
                 connection.Open();
 
                 // Check if the User table exists
-                if (!TableExists(connection, "User"))
+                if (!TableExists("User"))
                 {
                     Debug.WriteLine("User table does not exist.");
                     return new User
@@ -233,7 +233,7 @@ public class SQLiteDBService
                 connection.Open();
 
                 // Check if the Settings table exists
-                if (!TableExists(connection, "Settings"))
+                if (!TableExists("Settings"))
                 {
                     Debug.WriteLine("Settings table does not exist.");
                     return supabaseSettings; // Return default settings if the table doesn't exist
@@ -262,15 +262,30 @@ public class SQLiteDBService
         }
     }
 
-    private bool TableExists(SQLiteConnection connection, string tableName)
+    private bool TableExists(string tableName)
     {
-        string query = $"SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='{tableName}';";
-        using (var command = new SQLiteCommand(query, connection))
+        try
         {
-            long result = (long)command.ExecuteScalar();
-            return result > 0;
+            using (var connection = new SQLiteConnection($"Data Source={_databaseFilePath};Version=3;"))
+            {
+                connection.Open();
+
+                string query = $"SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name=@TableName;";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@TableName", tableName);
+                    long result = (long)command.ExecuteScalar();
+                    return result > 0;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error checking table existence: {ex.Message}");
+            return false;
         }
     }
+
     public bool TableHasData(string tableName)
     {
         try

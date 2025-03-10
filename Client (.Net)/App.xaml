@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Client__.Net_"
              xmlns:viewmodels="clr-namespace:Client__.Net_.MVVM.ViewModel"
-             xmlns:views="clr-namespace:Client__.Net_.UserControls"
-             xmlns:Converters="clr-namespace:Client__.Net_.Converters">
+             xmlns:views="clr-namespace:Client__.Net_.UserControls">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -18,14 +17,11 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Green.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
+           
+            
 
             
-            <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-
-            <DataTemplate x:Key="test"
-                          DataType="{x:Type viewmodels:NewGroupViewModel}">
-                <views:NewGroupControl />
-            </DataTemplate>
 
         </ResourceDictionary>
     </Application.Resources>
