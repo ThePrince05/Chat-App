@@ -6,6 +6,7 @@ using System.Windows;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Client__.Net_
 {
@@ -73,60 +74,78 @@ namespace Client__.Net_
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        protected override void OnStartup(StartupEventArgs e)
+
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-           
+            // Show the splash screen
+            var splashScreen = new MVVM.View.SplashScreen();
+            splashScreen.Show();
 
-            var dbService = new SQLiteDBService();
-
-            var viewModel = new LoginViewModel();
-       
-            SetPrimaryColorFromUserSelection(dbService);
-            
-            viewModel.OnSettingsCompleted += OnSettingsCompleted;
-            viewModel.OnUserLoginCompleted += OnUserLoginCompleted;
-
-            // Step 1: Check if Settings table has data
-            bool settingsDataPresent = dbService.TableHasData("settings");
-
-            if (!settingsDataPresent)
+            // Run initialization tasks in the background and capture the required startup state.
+            var initResult = await Task.Run(() =>
             {
-                // Open Settings window if no settings data is present
-                _settingsWindow = new Settings
+                var dbService = new SQLiteDBService();
+                var viewModel = new LoginViewModel();
+
+                // Apply user settings (primary color)
+                SetPrimaryColorFromUserSelection(dbService);
+
+                // Subscribe to events for further navigation if needed.
+                viewModel.OnSettingsCompleted += OnSettingsCompleted;
+                viewModel.OnUserLoginCompleted += OnUserLoginCompleted;
+
+                // Check if the Settings table has data.
+                bool settingsDataPresent = dbService.TableHasData("settings");
+                bool openSettings = !settingsDataPresent;
+
+                bool isUserDataPresent = false;
+                bool isUserLoggedIn = false;
+                if (settingsDataPresent)
                 {
-                    DataContext = viewModel
-                };
-                _settingsWindow.ShowDialog();
-            }
-
-            // Step 2: Check if user data exists in users table
-            var (isUserDataPresent, _) = dbService.CheckInitializationState();
-
-            if (isUserDataPresent)
-            {
-                // Step 3: Check if UserLogin is true (1) in login table
-                bool isUserLoggedIn = dbService.IsUserLoggedIn();
-
-                if (isUserLoggedIn)
-                {
-                    // Open MainWindow if user is already logged in
-                    OpenMainWindow();
-                    return;
+                    var (userDataPresent, _) = dbService.CheckInitializationState();
+                    isUserDataPresent = userDataPresent;
+                    if (userDataPresent)
+                    {
+                        isUserLoggedIn = dbService.IsUserLoggedIn();
+                    }
                 }
-            }
 
-            // If user is not logged in or no user exists, open UserLogin window
-            _userLoginWindow = new UserLogin
+                return (viewModel, openSettings, isUserDataPresent, isUserLoggedIn);
+            });
+
+            // Ensure the splash screen is visible for at least 5 seconds.
+            await Task.Delay(5000);
+            splashScreen.Close();
+
+            // Sequentially open windows based on initialization.
+            if (initResult.openSettings)
             {
-                DataContext = viewModel
-            };
-            _userLoginWindow.ShowDialog();
+                // Open the Settings window first.
+                _settingsWindow = new Settings { DataContext = initResult.viewModel };
+                _settingsWindow.ShowDialog();
 
-            
-
+                // When Settings completes (i.e. the user closes or completes it),
+                // open the UserLogin window.
+                _userLoginWindow = new UserLogin { DataContext = initResult.viewModel };
+                _userLoginWindow.ShowDialog();
+            }
+            else if (initResult.isUserDataPresent && initResult.isUserLoggedIn)
+            {
+                // If the user is already logged in, open the MainWindow.
+                OpenMainWindow();
+            }
+            else
+            {
+                // Otherwise, open the UserLogin window directly.
+                _userLoginWindow = new UserLogin { DataContext = initResult.viewModel };
+                _userLoginWindow.ShowDialog();
+            }
         }
+
+
+
 
         public void SetPrimaryColorFromUserSelection(SQLiteDBService sqliteService)
         {
@@ -147,6 +166,7 @@ namespace Client__.Net_
             // Apply the primary color using the swatch name.
             ChangePrimaryColor(swatchName);
         }
+
         private void OnSettingsCompleted(object sender, EventArgs e)
         {
             if (_settingsWindow != null && _settingsWindow.IsVisible)

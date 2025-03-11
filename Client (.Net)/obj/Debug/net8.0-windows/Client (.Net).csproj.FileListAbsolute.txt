@@ -56,3 +56,9 @@ D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\refint
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).pdb
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).genruntimeconfig.cache
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\ref\Client (.Net).dll
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\ControlzEx.dll
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\MahApps.Metro.dll
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\de\MahApps.Metro.resources.dll
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SplashScreen.g.cs
+D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SplashScreen.baml

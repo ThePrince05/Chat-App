@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[6.6.0, )"
             },
+            "MahApps.Metro": {
+              "target": "Package",
+              "version": "[2.4.10, )"
+            },
             "MaterialDesignThemes": {
               "target": "Package",
               "version": "[4.1.0, )"
