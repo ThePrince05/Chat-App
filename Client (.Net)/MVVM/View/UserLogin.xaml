@@ -85,7 +85,6 @@
                         materialDesign:ButtonAssist.CornerRadius="10"
                         FontSize="18"
                         Content="LOGIN"
-                        Background="{Binding User.SelectedColor}"
                         Command="{Binding LoginCommand}" />
                 
                 <Button Width="120"

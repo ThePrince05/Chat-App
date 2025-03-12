@@ -37,43 +37,7 @@ namespace Client__.Net_
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
         }
 
-        public void ChangePrimaryColor(string colorName)
-        {
-            var paletteHelper = new PaletteHelper();
-            var theme = paletteHelper.GetTheme();
-
-            // Use SwatchesProvider to get all available swatches
-            var provider = new SwatchesProvider();
-            // Look for the swatch whose Name matches the provided colorName (case-insensitive)
-            var swatch = provider.Swatches.FirstOrDefault(s =>
-                s.Name.Equals(colorName, StringComparison.InvariantCultureIgnoreCase));
-
-            if (swatch != null)
-            {
-                // Use the exemplar hue from the swatch.
-                // This hue represents a mid-range color that is typically used as the primary color.
-                var primaryHue = swatch.ExemplarHue;
-                if (primaryHue != null)
-                {
-                    Color primaryColor = primaryHue.Color;
-                    // Set the primary color in the theme and update it
-                    theme.SetPrimaryColor(primaryColor);
-                    paletteHelper.SetTheme(theme);
-                }
-                else
-                {
-                    MessageBox.Show(
-                        $"The swatch '{colorName}' does not have an exemplar hue.",
-                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show(
-                    $"Invalid color name: {colorName}",
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+       
 
         protected override async void OnStartup(StartupEventArgs e)
         {
@@ -88,9 +52,6 @@ namespace Client__.Net_
             {
                 var dbService = new SQLiteDBService();
                 var viewModel = new LoginViewModel();
-
-                // Apply user settings (primary color)
-                SetPrimaryColorFromUserSelection(dbService);
 
                 // Subscribe to events for further navigation if needed.
                 viewModel.OnSettingsCompleted += OnSettingsCompleted;
@@ -145,9 +106,7 @@ namespace Client__.Net_
         }
 
 
-
-
-        public void SetPrimaryColorFromUserSelection(SQLiteDBService sqliteService)
+        public static void SetPrimaryColorFromUserSelection(SQLiteDBService sqliteService)
         {
             var user = sqliteService.LoadUser();
 
@@ -165,6 +124,44 @@ namespace Client__.Net_
 
             // Apply the primary color using the swatch name.
             ChangePrimaryColor(swatchName);
+        }
+
+        public static void ChangePrimaryColor(string colorName)
+        {
+            var paletteHelper = new PaletteHelper();
+            var theme = paletteHelper.GetTheme();
+
+            // Use SwatchesProvider to get all available swatches
+            var provider = new SwatchesProvider();
+            // Look for the swatch whose Name matches the provided colorName (case-insensitive)
+            var swatch = provider.Swatches.FirstOrDefault(s =>
+                s.Name.Equals(colorName, StringComparison.InvariantCultureIgnoreCase));
+
+            if (swatch != null)
+            {
+                // Use the exemplar hue from the swatch.
+                // This hue represents a mid-range color that is typically used as the primary color.
+                var primaryHue = swatch.ExemplarHue;
+                if (primaryHue != null)
+                {
+                    Color primaryColor = primaryHue.Color;
+                    // Set the primary color in the theme and update it
+                    theme.SetPrimaryColor(primaryColor);
+                    paletteHelper.SetTheme(theme);
+                }
+                else
+                {
+                    MessageBox.Show(
+                        $"The swatch '{colorName}' does not have an exemplar hue.",
+                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show(
+                    $"Invalid color name: {colorName}",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OnSettingsCompleted(object sender, EventArgs e)

@@ -260,6 +260,9 @@ namespace Client__.Net_.MVVM.ViewModel
             {
                 InitializeSupabaseService();
             }
+
+            // Load user theme
+            App.SetPrimaryColorFromUserSelection(_sqliteDBService);
         }
 
         private void InitializeSupabaseService()

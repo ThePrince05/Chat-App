@@ -113,7 +113,6 @@
                         materialDesign:ButtonAssist.CornerRadius="10"
                         FontSize="18"
                         Content="SAVE"
-                        Background="{Binding User.SelectedColor}"
                         Command="{Binding SaveUserCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
             </StackPanel>
