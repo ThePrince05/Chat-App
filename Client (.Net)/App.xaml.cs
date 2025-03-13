@@ -37,7 +37,7 @@ namespace Client__.Net_
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
         }
 
-       
+
 
         protected override async void OnStartup(StartupEventArgs e)
         {
@@ -47,22 +47,26 @@ namespace Client__.Net_
             var splashScreen = new MVVM.View.SplashScreen();
             splashScreen.Show();
 
-            // Run initialization tasks in the background and capture the required startup state.
+            // Run initialization tasks in the background
             var initResult = await Task.Run(() =>
             {
                 var dbService = new SQLiteDBService();
-                var viewModel = new LoginViewModel();
+                var loginViewModel = new LoginViewModel();
 
-                // Subscribe to events for further navigation if needed.
-                viewModel.OnSettingsCompleted += OnSettingsCompleted;
-                viewModel.OnUserLoginCompleted += OnUserLoginCompleted;
+                // Create MainViewModel and start polling messages early
+                var mainViewModel = new MainViewModel();
+                mainViewModel.InitializePolling(); // Start polling in the background
 
-                // Check if the Settings table has data.
+                // Subscribe to events
+                loginViewModel.OnSettingsCompleted += OnSettingsCompleted;
+                loginViewModel.OnUserLoginCompleted += OnUserLoginCompleted;
+
+                // Check user login state
                 bool settingsDataPresent = dbService.TableHasData("settings");
                 bool openSettings = !settingsDataPresent;
-
                 bool isUserDataPresent = false;
                 bool isUserLoggedIn = false;
+
                 if (settingsDataPresent)
                 {
                     var (userDataPresent, _) = dbService.CheckInitializationState();
@@ -73,36 +77,39 @@ namespace Client__.Net_
                     }
                 }
 
-                return (viewModel, openSettings, isUserDataPresent, isUserLoggedIn);
+                return (loginViewModel, mainViewModel, openSettings, isUserDataPresent, isUserLoggedIn);
             });
 
             // Ensure the splash screen is visible for at least 5 seconds.
             await Task.Delay(5000);
             splashScreen.Close();
 
-            // Sequentially open windows based on initialization.
+            // Open the correct window based on initialization
             if (initResult.openSettings)
             {
-                // Open the Settings window first.
-                _settingsWindow = new Settings { DataContext = initResult.viewModel };
+                _settingsWindow = new Settings { DataContext = initResult.Item1 };
                 _settingsWindow.ShowDialog();
-
-                // When Settings completes (i.e. the user closes or completes it),
-                // open the UserLogin window.
-                _userLoginWindow = new UserLogin { DataContext = initResult.viewModel };
+                _userLoginWindow = new UserLogin { DataContext = initResult.Item1 };
                 _userLoginWindow.ShowDialog();
             }
             else if (initResult.isUserDataPresent && initResult.isUserLoggedIn)
             {
-                // If the user is already logged in, open the MainWindow.
-                OpenMainWindow();
+                OpenMainWindow(initResult.Item2); // Pass the initialized MainViewModel
             }
             else
             {
-                // Otherwise, open the UserLogin window directly.
-                _userLoginWindow = new UserLogin { DataContext = initResult.viewModel };
+                _userLoginWindow = new UserLogin { DataContext = initResult.Item1 };
                 _userLoginWindow.ShowDialog();
             }
+        }
+
+        // Updated OpenMainWindow function to accept a view model
+        private void OpenMainWindow(MainViewModel mainViewModel)
+        {
+            _mainWindow = new MainWindow { DataContext = mainViewModel };
+            _mainWindow.Show();
+            _mainWindow.WindowState = WindowState.Normal;
+            _mainWindow.Focus();
         }
 
 

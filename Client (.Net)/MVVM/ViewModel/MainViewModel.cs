@@ -36,9 +36,7 @@ namespace Client__.Net_.MVVM.ViewModel
         private ICommand _openUserProfileEditCommand;
         private ICommand _openUserProfileAddCommand;
         private ICommand _openSettingsCommand;
-        private ICommand _openAddGroupCommand;
-
-
+       
 
         public ICommand SendMessageCommand => _sendMessageCommand;
         public ICommand LoadMessagesCommand => _loadMessagesCommand;
@@ -234,13 +232,15 @@ namespace Client__.Net_.MVVM.ViewModel
             settingsWindow.ShowDialog();
         }
 
-        private void InitializePolling()
+        public async void InitializePolling()
         {
+            // Set up the timer for periodic polling
             _pollingTimer = new System.Timers.Timer(5000);
             _pollingTimer.Elapsed += async (sender, e) => await PollMessagesAsync();
             _pollingTimer.AutoReset = true;
             _pollingTimer.Enabled = true;
         }
+
 
         private void LoadUserData()
         {
