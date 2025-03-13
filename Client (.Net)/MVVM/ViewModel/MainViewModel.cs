@@ -28,7 +28,7 @@ namespace Client__.Net_.MVVM.ViewModel
         public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
         public ObservableCollection<Message> Messages { get; set; } = new ObservableCollection<Message>();
         public ObservableCollection<Group> Groups { get; set; } = new ObservableCollection<Group>();
-        public NewGroupViewModel NewGroupViewModel { get; }
+        public NewGroupViewModel NewGroupViewModel { get; set; }
 
         // Commands
         private ICommand _sendMessageCommand;
@@ -36,7 +36,9 @@ namespace Client__.Net_.MVVM.ViewModel
         private ICommand _openUserProfileEditCommand;
         private ICommand _openUserProfileAddCommand;
         private ICommand _openSettingsCommand;
-       
+
+        // Don't delete
+        private ICommand _openAddGroupCommand;
 
         public ICommand SendMessageCommand => _sendMessageCommand;
         public ICommand LoadMessagesCommand => _loadMessagesCommand;
@@ -90,11 +92,11 @@ namespace Client__.Net_.MVVM.ViewModel
             _sqliteDBService = new SQLiteDBService();
             _sqliteDBService.InitializeDatabase();
 
-            // Initialize Commands
-            InitializeCommands();
-
             // Initialize Polling
             InitializePolling();
+
+            // Initialize Commands
+            InitializeCommands();
 
             // Load settings and user data
             LoadSettings();
@@ -232,15 +234,17 @@ namespace Client__.Net_.MVVM.ViewModel
             settingsWindow.ShowDialog();
         }
 
-        public async void InitializePolling()
+        private async void InitializePolling()
         {
+            // Fetch messages immediately
+            await PollMessagesAsync();
+
             // Set up the timer for periodic polling
             _pollingTimer = new System.Timers.Timer(5000);
             _pollingTimer.Elapsed += async (sender, e) => await PollMessagesAsync();
             _pollingTimer.AutoReset = true;
             _pollingTimer.Enabled = true;
         }
-
 
         private void LoadUserData()
         {

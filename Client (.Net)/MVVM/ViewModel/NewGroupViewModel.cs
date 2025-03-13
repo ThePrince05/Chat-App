@@ -20,12 +20,14 @@ namespace Client__.Net_.MVVM.ViewModel
 {
     public class NewGroupViewModel: INotifyPropertyChanged
     {
-        private readonly MainViewModel _mainViewModel;
+        private MainViewModel _mainViewModel;
         private readonly SQLiteDBService _sqliteDBService;
         private ICommand _saveGroupCommand;
+        private ICommand _togglePanelCommand;
+
 
         public User User { get; set; }
-        public ICommand TogglePanelCommand { get; }
+        public ICommand TogglePanelCommand => _togglePanelCommand;
         public ICommand SaveGroupCommand => _saveGroupCommand;
 
 
@@ -33,17 +35,16 @@ namespace Client__.Net_.MVVM.ViewModel
         public NewGroupViewModel(MainViewModel mainViewModel) 
         {
             _mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
-            TogglePanelCommand = new RelayCommand(_ => TriggerTogglePanel());
-           
             _sqliteDBService = new SQLiteDBService();
             LoadUserData();
             InitializeCommands();
 
         }
-
+      
         private void InitializeCommands()
         {
             _saveGroupCommand = new RelayCommand(SaveGroup);
+            _togglePanelCommand = new RelayCommand(_ => TriggerTogglePanel());
         }
 
         public void TriggerTogglePanel()
