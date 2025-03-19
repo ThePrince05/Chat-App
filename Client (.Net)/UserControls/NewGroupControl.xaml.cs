@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Client__.Net_.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +26,32 @@ namespace Client__.Net_.UserControls
         public NewGroupControl()
         {
             InitializeComponent();
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DataContext is NewGroupViewModel viewModel)
+            {
+                foreach (var item in e.RemovedItems)
+                {
+                    viewModel.SelectedUsernames.Remove(item.ToString());
+                }
+
+                foreach (var item in e.AddedItems)
+                {
+                    viewModel.SelectedUsernames.Add(item.ToString());
+                }
+
+                // Notify that the CanCreateGroup property may have changed
+                viewModel.OnPropertyChanged(nameof(viewModel.CanCreateGroup));
+               
+                // Output the selected usernames to the debug console
+                foreach (var selectedItem in lvListFriends.SelectedItems)
+                {
+                    // Since it's a string, we can directly log the username
+                    Debug.WriteLine($"Selected User: {selectedItem}");
+                }
+            }
         }
     }
 }

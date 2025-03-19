@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:viewmodel="clr-namespace:Client__.Net_.MVVM.ViewModel"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d"
@@ -91,6 +90,7 @@
 
                 <TextBox Grid.Row="1"
                          Height="40"
+                         Text="{Binding GroupName, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:HintAssist.Hint="Group name"
                          FontSize="17"
                          Padding="5,8,0,0"
@@ -120,14 +120,14 @@
                                       Height="auto"
                                       MaxHeight="280"
                                       Foreground="White"
-                                      ItemsSource="{Binding Groups}"
-                                      IsSynchronizedWithCurrentItem="True"
+                                      ItemsSource="{Binding UsernamesList}"
                                       Background="Transparent"
                                       BorderThickness="0"
                                       SelectionMode="Multiple"
+                                      SelectionChanged="ListBox_SelectionChanged"
                                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                                       SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-                                      ItemContainerStyle="{StaticResource GroupCard}">
+                                      >
 
                             </ListView>
                         </StackPanel>
@@ -143,8 +143,8 @@
                                 Foreground="Black"
                                 Background="{Binding User.SelectedColor}"
                                 BorderThickness="0"
-                                Style="{StaticResource MaterialDesignFlatAccentButton}" 
-                                Command="{Binding SaveGroupCommand}"/>
+                                Style="{StaticResource MaterialDesignFlatAccentButton}"
+                                Command="{Binding CreateGroupCommand}"/>
                     </Grid>
                 </Border>
             </Grid>

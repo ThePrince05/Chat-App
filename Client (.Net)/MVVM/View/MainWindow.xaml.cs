@@ -1,11 +1,11 @@
 ﻿using Client__.Net_.MVVM.ViewModel;
+using Client__.Net_.MVVM.Model;
 using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-
 namespace Chat_App
 {
     public partial class MainWindow : Window
@@ -116,6 +116,18 @@ namespace Chat_App
         {
             var viewModel = (MainViewModel)DataContext;
             MainViewModel.OpenUserProfileEdit();
+        }
+
+        private async void lvGroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lvGroupList.SelectedItem is Group selectedGroup)
+            {
+                if (DataContext is MainViewModel viewModel)
+                {
+                    viewModel.SelectedGroup = selectedGroup;  // <-- Set SelectedGroup!
+                    await viewModel.LoadMessagesAsync(selectedGroup.Id);
+                }
+            }
         }
     }
 }

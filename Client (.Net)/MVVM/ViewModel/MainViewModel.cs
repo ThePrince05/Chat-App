@@ -12,6 +12,8 @@ using System.Reflection;
 using System.IO;
 using Client__.Net_.Core;
 using Chat_App.Core.Model;
+using System.Net.NetworkInformation;
+using System.Net.Http;
 
 namespace Client__.Net_.MVVM.ViewModel
 {
@@ -21,6 +23,8 @@ namespace Client__.Net_.MVVM.ViewModel
         private System.Timers.Timer _pollingTimer;
         private SupabaseService _supabaseService;
         private readonly SQLiteDBService _sqliteDBService;
+        private readonly HttpClient _httpClient = new HttpClient();
+        private bool _isConnected = false;
 
         // Properties
         public SupabaseSettings SupabaseSettings { get; set; }
@@ -32,16 +36,12 @@ namespace Client__.Net_.MVVM.ViewModel
 
         // Commands
         private ICommand _sendMessageCommand;
-        private ICommand _loadMessagesCommand;
         private ICommand _openUserProfileEditCommand;
         private ICommand _openUserProfileAddCommand;
         private ICommand _openSettingsCommand;
 
-        // Don't delete
-        private ICommand _openAddGroupCommand;
 
         public ICommand SendMessageCommand => _sendMessageCommand;
-        public ICommand LoadMessagesCommand => _loadMessagesCommand;
         public ICommand OpenUserProfileEditCommand => _openUserProfileEditCommand;
         public ICommand OpenUserProfileAddCommand => _openUserProfileAddCommand;
         public ICommand OpenSettingsCommand => _openSettingsCommand;
@@ -80,14 +80,40 @@ namespace Client__.Net_.MVVM.ViewModel
         public string Message
         {
             get => _message;
-            set => SetProperty(ref _message, value);
+            set
+            {
+                _message = value;
+                OnPropertyChanged(nameof(Message));
+
+                Debug.WriteLine($"Message updated: {_message}");
+
+                // Update the SendMessageCommand state
+                (_sendMessageCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
+        }
+
+
+
+        private Group _selectedGroup;
+        public Group SelectedGroup
+        {
+            get => _selectedGroup;
+            set
+            {
+                _selectedGroup = value;
+                OnPropertyChanged(nameof(SelectedGroup));
+                Debug.WriteLine(_selectedGroup != null
+                    ? $"Selected Group set: {_selectedGroup.GroupName}"
+                    : "Selected Group set to null.");
+                // Notify the command that its state might have changed
+                (_sendMessageCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
         }
 
 
         // Constructor
         public MainViewModel()
         {
-            Messages.CollectionChanged += Messages_CollectionChanged;
 
             _sqliteDBService = new SQLiteDBService();
             _sqliteDBService.InitializeDatabase();
@@ -115,7 +141,13 @@ namespace Client__.Net_.MVVM.ViewModel
 
             LoadUserData();
 
-            NewGroupViewModel = new NewGroupViewModel(this);
+            NewGroupViewModel = new NewGroupViewModel(this, SupabaseSettings);
+
+            // Start the connection check (polling every 5 seconds)
+            StartConnectionCheck();
+
+
+            InitializePolling();
 
         }
 
@@ -132,40 +164,87 @@ namespace Client__.Net_.MVVM.ViewModel
 
         private void InitializeCommands()
         {
-            _sendMessageCommand = new RelayCommand(async _ => await SendMessageAsync(), _ => !string.IsNullOrEmpty(Message));
-            _loadMessagesCommand = new RelayCommand(async _ => await LoadMessagesAsync());
+            _sendMessageCommand = new RelayCommand(
+            async _ =>
+                    {
+                        if (SelectedGroup != null)
+                        {
+                            Debug.WriteLine($"Executing SendMessageAsync for Group ID: {SelectedGroup.Id}");
+                            await SendMessageAsync(SelectedGroup.Id);
+                        }
+                        else
+                        {
+                            Debug.WriteLine("SendMessageAsync: No group selected.");
+                            MessageBox.Show("Please select a group before sending a message.");
+                        }
+                    },
+                    _ => !string.IsNullOrEmpty(Message) && SelectedGroup != null
+                );
+
+            
             _openSettingsCommand = new RelayCommand(_ => OpenSettings());
             _openUserProfileEditCommand = new RelayCommand(_ => OpenUserProfileEdit());
             _openUserProfileAddCommand = new RelayCommand(_ => OpenUserProfileAdd());
             
         }
 
-        internal void SaveGroup(object parameter)
+        // these ping google to check internet for loadusergroups
+        private async void StartConnectionCheck()
         {
-            //Open the AddGroup window
-
-            Groups.Add(new Group
+            while (true) // Loop to check connection status periodically
             {
-                //Id = 1,
-                GroupName = "Group 1",
-                Messages = Messages.DefaultIfEmpty(new Message { message = "Hi" }).Last().message,
-                ImageSource = "https://img.freepik.com/free-photo/people-posing-together-registration-day_23-2149096794.jpg"
-            });
+                if (await IsInternetAvailable())
+                {
+                    if (!_isConnected)
+                    {
+                        _isConnected = true; // Mark as connected
+                        Debug.WriteLine("Internet is back online. Reloading groups...");
+                        LoadUserGroupsAsync(); // Reload groups when reconnected
+                    }
+                }
+                else
+                {
+                    _isConnected = false; // Mark as disconnected
+                    Debug.WriteLine("No internet connection detected.");
+                }
 
-        }
-
-
-        private void Messages_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count > 0)
-            {
-                Application.Current.Dispatcher.InvokeAsync(ScrollToLastMessage);
+                await Task.Delay(5000); // Check every 5 seconds
             }
         }
 
-        private bool _hasScrolledToBottom = false; // Flag to track if scrolling has happened
+        private async Task<bool> IsInternetAvailable()
+        {
+            try
+            {
+                // Attempt to ping a reliable online service (can be replaced with your own endpoint)
+                var response = await _httpClient.GetAsync("https://www.google.com");
+                return response.IsSuccessStatusCode; // Return true if the service is reachable
+            }
+            catch
+            {
+                return false; // Return false if an exception occurs (e.g., no internet)
+            }
+        }
+        public async void LoadUserGroupsAsync()
+        {
+            string currentUsername = User.Username; // Ensure you have a way to access the current username
+            var userGroups = await _supabaseService.GetUserGroupsAsync(currentUsername);
 
-        public void ScrollToLastMessage()
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Groups.Clear();
+                foreach (var group in userGroups)
+                {
+                    Groups.Add(group);
+                }
+            });
+        }
+
+   
+
+        private int? _lastOpenedGroupId = null; // ✅ Keeps track of the last opened group
+
+        public void ScrollToLastMessage(int groupId)
         {
             if (Messages == null || Messages.Count == 0)
             {
@@ -173,14 +252,13 @@ namespace Client__.Net_.MVVM.ViewModel
                 return;
             }
 
-            // If already scrolled once, do nothing
-            if (_hasScrolledToBottom)
+            // ✅ Only scroll if the user switches to a new group
+            if (_lastOpenedGroupId == groupId)
             {
-                Debug.WriteLine("Already scrolled to the bottom once. Skipping scroll.");
+                Debug.WriteLine($"Already opened Group ID {groupId}. Skipping scroll.");
                 return;
             }
 
-            // Ensure application and dispatcher are available
             if (Application.Current?.Dispatcher == null)
             {
                 Debug.WriteLine("Application or Dispatcher is null. Skipping scroll.");
@@ -203,12 +281,11 @@ namespace Client__.Net_.MVVM.ViewModel
                     return;
                 }
 
-                // Ensure ListView has at least one item before scrolling
                 if (listView.Items.Count > 0)
                 {
-                    listView.ScrollIntoView(Messages[^1]);
-                    _hasScrolledToBottom = true; // Set flag to prevent future scrolling
-                    Debug.WriteLine("Scrolled to the last message.");
+                    listView.ScrollIntoView(Messages[^1]); // ✅ Scroll to the last message
+                    _lastOpenedGroupId = groupId; // ✅ Mark this group as viewed
+                    Debug.WriteLine($"Scrolled to last message for Group ID {groupId}.");
                 }
                 else
                 {
@@ -216,6 +293,7 @@ namespace Client__.Net_.MVVM.ViewModel
                 }
             });
         }
+
 
         internal static void OpenUserProfileEdit()
         {
@@ -234,17 +312,7 @@ namespace Client__.Net_.MVVM.ViewModel
             settingsWindow.ShowDialog();
         }
 
-        private async void InitializePolling()
-        {
-            // Fetch messages immediately
-            await PollMessagesAsync();
-
-            // Set up the timer for periodic polling
-            _pollingTimer = new System.Timers.Timer(5000);
-            _pollingTimer.Elapsed += async (sender, e) => await PollMessagesAsync();
-            _pollingTimer.AutoReset = true;
-            _pollingTimer.Enabled = true;
-        }
+     
 
         private void LoadUserData()
         {
@@ -272,89 +340,113 @@ namespace Client__.Net_.MVVM.ViewModel
         private void InitializeSupabaseService()
         {
             _supabaseService = new SupabaseService(SupabaseSettings);
-            Console.WriteLine("SupabaseService initialized successfully.");
+            Debug.WriteLine("SupabaseService initialized successfully.");
         }
 
 
-        private async Task SendMessageAsync()
+        private async Task SendMessageAsync(int groupId)
         {
-            if (string.IsNullOrEmpty(Message)) return;
+            if (string.IsNullOrEmpty(Message))
+            {
+                Debug.WriteLine("SendMessageAsync: Message is empty, exiting.");
+                return;
+            }
 
-            var timestamp = DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss");
+            Debug.WriteLine($"SendMessageAsync: Sending message to group ID {groupId}");
 
-            bool isSaved = await _supabaseService.SaveMessageAsync(Username, Message, timestamp);
+            bool isSaved = await _supabaseService.SaveMessageAsync(Username, Message, groupId);
 
             if (isSaved)
             {
-                await LoadMessagesAsync();
+                Debug.WriteLine("SendMessageAsync: Message sent successfully!");
+                await LoadMessagesAsync(groupId); // Refresh messages for the same group
             }
             else
             {
+                Debug.WriteLine("SendMessageAsync: Failed to save message.");
                 MessageBox.Show("Failed to save message.");
             }
 
             Message = string.Empty;
+            Debug.WriteLine("SendMessageAsync: Message input cleared.");
+
+            _lastOpenedGroupId = null;
+            ScrollToLastMessage(SelectedGroup.Id);
+        }
+
+
+        private async void InitializePolling()
+        {
+            // Fetch messages immediately
+            await PollMessagesAsync();
+
+            // Set up the timer for periodic polling
+            _pollingTimer = new System.Timers.Timer(5000);
+            _pollingTimer.Elapsed += async (sender, e) => await PollMessagesAsync();
+            _pollingTimer.AutoReset = true;
+            _pollingTimer.Enabled = true;
         }
 
         private async Task PollMessagesAsync()
         {
-            if (_supabaseService != null)
+            if (_supabaseService == null)
             {
-                await LoadMessagesAsync();
+                Debug.WriteLine("SupabaseService not initialized. Messages will not be loaded.");
+                return;
             }
-            else
+
+            if (SelectedGroup == null)
             {
-                Console.WriteLine("SupabaseService not initialized. Messages will not be loaded.");
+                Debug.WriteLine("No group selected. Skipping message polling.");
+                return;
             }
+
+            Debug.WriteLine($"Polling messages for Group ID: {SelectedGroup.Id}");
+            await LoadMessagesAsync(SelectedGroup.Id);
         }
 
-        private async Task LoadMessagesAsync()
+        public async Task LoadMessagesAsync(int groupId)
         {
             if (_supabaseService == null)
             {
-                Console.WriteLine("SupabaseService is not initialized. Cannot load messages.");
+                Debug.WriteLine("SupabaseService is not initialized. Cannot load messages.");
                 return;
             }
 
             try
             {
-                Console.WriteLine("Fetching messages from Supabase...");
-                var messages = await _supabaseService.GetMessagesAsync();
-
-                if (messages == null || !messages.Any())  // Check for null or empty list
-                {
-                    Console.WriteLine("No messages found or received null response.");
-                    return;
-                }
+                Debug.WriteLine($"Fetching messages for Group ID {groupId}...");
+                var messages = await _supabaseService.GetMessagesAsync(groupId);
 
                 Application.Current?.Dispatcher?.Invoke(() =>
                 {
-                    if (Application.Current == null) return; // Ensure app is still running
+                    if (Application.Current == null) return;
 
-                    if (Messages == null)
+                    Messages ??= new ObservableCollection<Message>();
+                    Messages.Clear(); // ✅ Always clear previous messages
+
+                    if (messages != null && messages.Any())
                     {
-                        Messages = new ObservableCollection<Message>();
-                    }
-
-                    Messages.Clear();
-
-                    foreach (var msg in messages)
-                    {
-                        if (msg != null)
+                        foreach (var msg in messages)
                         {
                             Messages.Add(msg);
                         }
+
+                        Debug.WriteLine($"{Messages.Count} messages loaded.");
+                        ScrollToLastMessage(SelectedGroup.Id); // ✅ Scroll after loading messages
                     }
-
-                    Console.WriteLine($"{Messages.Count} messages loaded.");
+                    else
+                    {
+                        Debug.WriteLine("No messages found. Clearing message list.");
+                    }
                 });
-
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error loading messages: {ex.Message}");
+                Debug.WriteLine($"Error loading messages: {ex.Message}");
             }
         }
+
 
 
         private void HandleConnectionFailure(string message)

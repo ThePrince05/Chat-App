@@ -133,7 +133,7 @@
                 </Button>
             </Grid>
 
-          
+
             <StackPanel Grid.Row="1">
 
                 <Grid>
@@ -149,8 +149,7 @@
 
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Right">
-                        <Button 
-                                Click="Button_Click"
+                        <Button Click="Button_Click"
                                 Padding="0"
                                 Width="22"
                                 Height="22"
@@ -175,8 +174,10 @@
                           Background="Transparent"
                           BorderThickness="0"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-                          ItemContainerStyle="{StaticResource GroupCard}">
+                          ItemContainerStyle="{StaticResource GroupCard}"
+                          SelectionChanged="lvGroupList_SelectionChanged">
 
                 </ListView>
             </StackPanel>
@@ -275,9 +276,10 @@
                       IsSynchronizedWithCurrentItem="True"
                       Background="Transparent"
                       BorderThickness="0"
-                      Margin="8,0,0,0"
+                      Margin="8,2,0,33"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical">
+                      SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                      Grid.RowSpan="2">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -302,7 +304,7 @@
                                            Foreground="White"
                                            Margin="0,0,0,5" />
                                 <!-- Timestamp at the bottom -->
-                                <TextBlock Text="{Binding timestamp}"
+                                <TextBlock Text="{Binding DisplaySentAt}"
                                            FontSize="10"
                                            Foreground="#aaa"
                                            HorizontalAlignment="Right"
