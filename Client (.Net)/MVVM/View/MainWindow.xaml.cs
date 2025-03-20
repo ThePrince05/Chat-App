@@ -1,5 +1,4 @@
-﻿using Chat_App.MVVM.ViewModel;
-
+﻿using Client__.Net_.MVVM.ViewModel;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -14,6 +13,8 @@ namespace Chat_App
         private double lvGroupListOldMaxHeight;
         private double NewGroupControlMenusOldHeight;
         private double NewGroupControlMenusOldLvListFreindsMaxHeight;
+
+        private NewGroupViewModel _viewModel;
         public MainWindow()
         {
             InitializeComponent();
@@ -22,10 +23,18 @@ namespace Chat_App
             this.MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
             lvGroupListOldMaxHeight = lvGroupList.MaxHeight;
             NewGroupControlMenusOldHeight = NewGroupControlMenus.Height;
-            NewGroupControlMenusOldLvListFreindsMaxHeight = NewGroupControlMenus.lvListFreinds.MaxHeight;
+            NewGroupControlMenusOldLvListFreindsMaxHeight = NewGroupControlMenus.lvListFriends.MaxHeight;
             this.Closing += Window_Closing;
+
+            if (DataContext is MainViewModel mainVM)
+            {
+                mainVM.ToggleNewGroupPanel += TogglePanel;
+            }
+
         }
 
+       
+       
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -46,7 +55,7 @@ namespace Chat_App
                 MainGrid.Margin = new Thickness(7);
                 lvGroupList.MaxHeight = 840;
                 NewGroupControlMenus.Height = 700;
-                NewGroupControlMenus.lvListFreinds.MaxHeight = 550;
+                NewGroupControlMenus.lvListFriends.MaxHeight = 550;
             }
             else
             {
@@ -54,7 +63,7 @@ namespace Chat_App
                 MainGrid.Margin = new Thickness(0);
                 lvGroupList.MaxHeight = lvGroupListOldMaxHeight;
                 NewGroupControlMenus.Height = NewGroupControlMenusOldHeight;
-                NewGroupControlMenus.lvListFreinds.MaxHeight = NewGroupControlMenusOldLvListFreindsMaxHeight;
+                NewGroupControlMenus.lvListFriends.MaxHeight = NewGroupControlMenusOldLvListFreindsMaxHeight;
             }
         }
 
@@ -75,8 +84,7 @@ namespace Chat_App
         }
 
         private bool isPanelVisible = false; // Track visibility state
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void TogglePanel() 
         {
             Storyboard sb;
             Storyboard sbShade;
@@ -98,6 +106,10 @@ namespace Chat_App
             sb.Begin();
             sbShade.Begin();
             isPanelVisible = !isPanelVisible; // Toggle state
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            TogglePanel();
         }
 
         private void Border_OpenEditProfile(object sender, MouseButtonEventArgs e)

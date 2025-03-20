@@ -1,0 +1,47 @@
+﻿<Window x:Class="Client__.Net_.MVVM.View.SplashScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client__.Net_.MVVM.View"
+        mc:Ignorable="d"
+        Height="450"
+        Width="700"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True"
+        Topmost="True">
+
+    <Grid>
+        <!-- Background Circle -->
+        <Ellipse Width="330"
+                 Height="320"
+                 Fill="#1D1F21" />
+
+        <!-- Loading Animation -->
+        <mah:ProgressRing Width="330"
+                          Height="100"
+                          IsActive="True"
+                          Foreground="White"
+                          Style="{DynamicResource MahApps.Styles.ProgressRing.Continuous}"/>
+
+
+        <TextBlock Margin="280 110 0 0"
+                   Foreground="White"
+                   FontSize="30" 
+                   Text="Chat App"
+                   FontFamily="Arial Rounded MT"
+                   FontWeight="Bold"/>
+
+
+        <!-- Centered Logo -->
+        <Image Source="/Images/group.png"
+               Margin="0 20 0 0"
+               Width="150"
+               Height="150" />
+       
+    </Grid>
+</Window>

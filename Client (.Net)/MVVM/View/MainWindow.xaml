@@ -3,11 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Chat_App"
-        xmlns:viewmodel="clr-namespace:Chat_App.MVVM.ViewModel"
+        xmlns:viewmodel="clr-namespace:Client__.Net_.MVVM.ViewModel"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:userControls="clr-namespace:Client__.Net_.MVVM.View.UserControls"
+        xmlns:userControls="clr-namespace:Client__.Net_.UserControls"
         mc:Ignorable="d"
         Height="500"
         MinHeight="300"
@@ -15,12 +14,13 @@
         MinWidth="500"
         Background="#36393F"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize">
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0"
                       CornerRadius="15"
-                      GlassFrameThickness="5"/>
+                      GlassFrameThickness="5" />
     </WindowChrome.WindowChrome>
 
 
@@ -121,24 +121,19 @@
                          Foreground="White" />
 
                 <Button Grid.Column="2"
-                        Background="Transparent"
-                        Width="35"
-                        Height="20"
+                        Width="22"
+                        Height="22"
+                        Margin="0 0 0 0"
                         Padding="0"
-                        Margin="0 3 2 3"
-                        HorizontalAlignment="Right"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Style="{StaticResource MaterialDesignFlatButton}">
                     <fa:IconImage Icon="MagnifyingGlass"
                                   Foreground="LightGray" />
                 </Button>
             </Grid>
 
-            <!--<Button Height="25"
-                        Content="Connect"
-                        Command="{Binding ConnectToServerCommand}" />-->
-
-
-
+          
             <StackPanel Grid.Row="1">
 
                 <Grid>
@@ -154,30 +149,22 @@
 
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Right">
-                        <Button Margin="5"
+                        <Button 
                                 Click="Button_Click"
-                                Background="Transparent"
                                 Padding="0"
-                                Width="30"
-                                Height="25"
+                                Width="22"
+                                Height="22"
+                                Margin="0 4 9 0"
                                 Style="{StaticResource MaterialDesignFlatButton}"
                                 Command="{Binding OpenAddGroupCommand}">
                             <fa:IconImage Icon="Edit"
-                                          Height="15"
-                                          Width="15"
                                           Foreground="LightGray"
                                           HorizontalAlignment="Center" />
                         </Button>
                     </StackPanel>
                 </Grid>
 
-                <!--<ListBox x:Name="groupChats"
-                         Margin="5,5,5,0"
-                         Width="auto"
-                         Height="250"
-                         Background="Transparent" />-->
-
-                <ListView x:Name="lvGroupList" 
+                <ListView x:Name="lvGroupList"
                           Margin="5"
                           Width="auto"
                           Height="auto"
@@ -190,7 +177,7 @@
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
                           SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
                           ItemContainerStyle="{StaticResource GroupCard}">
-                    
+
                 </ListView>
             </StackPanel>
 
@@ -258,26 +245,28 @@
               Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="35.4" />
+                <RowDefinition Height="32.6" />
             </Grid.RowDefinitions>
 
-            
 
-            <userControls:ShadeControl
-                Panel.ZIndex="1"
-                x:Name="ShadeControlMenu"
-                Opacity="0"
-                Visibility="Hidden"
-                Grid.RowSpan="2"/>
-            
-            <userControls:NewGroupControl
-                Panel.ZIndex="1"
-                Grid.RowSpan="2"
-                x:Name="NewGroupControlMenus"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Left"
-                Width="250"
-                Height="430"/>
+
+            <userControls:ShadeControl  Panel.ZIndex="1"
+                                        x:Name="ShadeControlMenu"
+                                        Opacity="0"
+                                        Visibility="Hidden"
+                                        Grid.RowSpan="3" />
+
+            <userControls:NewGroupControl Panel.ZIndex="1"
+                                          Grid.RowSpan="3"
+                                          x:Name="NewGroupControlMenus"
+                                          VerticalAlignment="Top"
+                                          HorizontalAlignment="Left"
+                                          Width="250"
+                                          Height="450"
+                                          DataContext="{Binding NewGroupViewModel}" />
+
+
 
             <!--message feed-->
             <ListView x:Name="lvMessageList"
@@ -289,7 +278,6 @@
                       Margin="8,0,0,0"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical">
-
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -329,8 +317,9 @@
 
             <!--Message box-->
             <Grid Grid.Row="1"
-                  VerticalAlignment="Bottom"
-                  Panel.ZIndex="0">
+                  VerticalAlignment="Top"
+                  Panel.ZIndex="0"
+                  Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="630*" />
                     <ColumnDefinition Width="100" />

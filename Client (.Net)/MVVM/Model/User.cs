@@ -2,22 +2,70 @@
 using System.ComponentModel;
 using System.Windows.Media;
 
-namespace Chat_App.MVVM.Model
+namespace Chat_App.Core.Model
 {
-    public class User
+    public class User : INotifyPropertyChanged
     {
-        [JsonProperty("userid")]  // Map JSON field to this property
-        public int UserId { get; set; }
+        private int _userId;
+        private string _username;
+        private string _userPassword;
+        private string _selectedColor;
 
-        [JsonProperty("username")]  // Map JSON field to this property
-        public string Username { get; set; }
+        [JsonProperty("userid")]
+        public int UserId
+        {
+            get => _userId;
+            set
+            {
+                if (_userId != value)
+                {
+                    _userId = value;
+                    OnPropertyChanged(nameof(UserId));
+                }
+            }
+        }
 
-        [JsonProperty("userpassword")]  // Map JSON field to this property
-        public string UserPassword { get; set; }
+        [JsonProperty("username")]
+        public string Username
+        {
+            get => _username;
+            set
+            {
+                if (_username != value)
+                {
+                    _username = value;
+                    OnPropertyChanged(nameof(Username));
+                }
+            }
+        }
 
-        [JsonProperty("selectedcolour")]  // Map JSON field to this property
-        public string SelectedColor { get; set; }
+        [JsonProperty("userpassword")]
+        public string UserPassword
+        {
+            get => _userPassword;
+            set
+            {
+                if (_userPassword != value)
+                {
+                    _userPassword = value;
+                    OnPropertyChanged(nameof(UserPassword));
+                }
+            }
+        }
 
+        [JsonProperty("selectedcolour")]
+        public string SelectedColor
+        {
+            get => _selectedColor;
+            set
+            {
+                if (_selectedColor != value)
+                {
+                    _selectedColor = value;
+                    OnPropertyChanged(nameof(SelectedColor));
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
