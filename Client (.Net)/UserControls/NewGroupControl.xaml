@@ -140,7 +140,7 @@
                                 Content="Create"
                                 Padding="0,0,0,2"
                                 FontSize="14"
-                                Foreground="Black"
+                                Foreground="#c5c8cd"
                                 Background="{Binding User.SelectedColor}"
                                 BorderThickness="0"
                                 Style="{StaticResource MaterialDesignFlatAccentButton}" 

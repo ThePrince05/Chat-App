@@ -75,6 +75,20 @@ namespace Chat_App
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             // Handle key events here if needed
+            if (e.Key != Key.Enter)
+            {
+                //TODO: send message...
+                //MessageBox.Show("pressed enter");
+                
+            }
+            else if (e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.)
+            {
+                //TODO: next line...
+                message_box.LineDown();
+                //MessageBox.Show("pressed  shift + enter" + t);
+
+            }else
+                e.Handled = true;
         }
 
 

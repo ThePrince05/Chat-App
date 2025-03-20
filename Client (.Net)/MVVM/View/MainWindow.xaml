@@ -245,9 +245,13 @@
               Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="35.4" />
-                <RowDefinition Height="32.6" />
+                <RowDefinition Height="68" />
             </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="630*" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
 
 
 
@@ -255,10 +259,12 @@
                                         x:Name="ShadeControlMenu"
                                         Opacity="0"
                                         Visibility="Hidden"
-                                        Grid.RowSpan="3" />
+                                        Grid.RowSpan="2"
+                                        Grid.ColumnSpan="2"/>
 
             <userControls:NewGroupControl Panel.ZIndex="1"
-                                          Grid.RowSpan="3"
+                                          Grid.RowSpan="2"
+                                          Grid.ColumnSpan="2"
                                           x:Name="NewGroupControlMenus"
                                           VerticalAlignment="Top"
                                           HorizontalAlignment="Left"
@@ -270,6 +276,7 @@
 
             <!--message feed-->
             <ListView x:Name="lvMessageList"
+                      Grid.ColumnSpan="2"
                       Foreground="White"
                       ItemsSource="{Binding Messages}"
                       IsSynchronizedWithCurrentItem="True"
@@ -316,42 +323,39 @@
 
 
             <!--Message box-->
-            <Grid Grid.Row="1"
-                  VerticalAlignment="Top"
-                  Panel.ZIndex="0"
-                  Grid.RowSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="630*" />
-                    <ColumnDefinition Width="100" />
-                </Grid.ColumnDefinitions>
-                <Rectangle Grid.ColumnSpan="2"
-                           Height="58"
-                           Fill="#36393F"
-                           VerticalAlignment="Bottom" />
-                <TextBox Height="50"
-                         FontSize="14"
-                         BorderThickness="0"
-                         Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{StaticResource MessageBox}"
-                         Foreground="white"
-                         Grid.Column="0"
-                         KeyDown="TextBox_KeyDown"
-                         TextWrapping="Wrap"
-                         AcceptsReturn="True"
-                         Margin="8,8,8,10" />
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Left"
-                            Grid.Column="2"
-                            Margin="10,0,0,0">
-                    <Button Width="75"
-                            Content="Send"
-                            Command="{Binding SendMessageCommand}"
-                            Background="{Binding User.SelectedColor}"
-                            BorderThickness="0"
-                            Height="50" />
-                </StackPanel>
+            <Rectangle Grid.Row="1"
+                       Grid.RowSpan="2"
+                       Height="58"
+                       Fill="#36393F"
+                       VerticalAlignment="Bottom" />
+            <TextBox MaxHeight="500"
+                     x:Name="message_box"
+                     Height="50"
+                     FontSize="14"
+                     BorderThickness="0"
+                     Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
+                     VerticalContentAlignment="Center"
+                     Foreground="white"
+                     IsReadOnly="False"
+                     Grid.Row="1"
+                     Grid.RowSpan="2"
+                     KeyDown="TextBox_KeyDown"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     Margin="8,8,8,10" />
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        Margin="10,0,0,0">
+                <Button Width="75"
+                        Content="Send"
+                        Command="{Binding SendMessageCommand}"
+                        Background="{Binding User.SelectedColor}"
+                        BorderThickness="0"
+                        Height="50" />
+            </StackPanel>
 
-            </Grid>
         </Grid>
     </Grid>
 </Window>
