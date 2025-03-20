@@ -768,36 +768,59 @@ public class SupabaseService
         return groups;
     }
 
-
-
-    public async Task<List<Message>> GetMessagesByGroupIdAsync(int groupId)
+    public async Task<bool> DeleteGroupAsync(int groupId)
     {
-        if (_httpClient == null)
-        {
-            Debug.WriteLine("Error: HTTP client is not initialized.");
-            return new List<Message>();
-        }
-
         try
         {
-            var response = await _httpClient.GetAsync($"usermessages?groupid=eq.{groupId}&order=sentat.asc");
+            // Step 1: Delete group members related to this group
+            var deleteMembersResponse = await _httpClient.DeleteAsync($"groupmembers?groupid=eq.{groupId}");
 
-            if (!response.IsSuccessStatusCode)
+            if (!deleteMembersResponse.IsSuccessStatusCode)
             {
-                Debug.WriteLine($"Error fetching messages: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
-                return new List<Message>();
+                string membersError = await deleteMembersResponse.Content.ReadAsStringAsync();
+                Debug.WriteLine($"Failed to delete group members: {deleteMembersResponse.StatusCode}, {membersError}");
+                return false;
+            }
+            else
+            {
+                Debug.WriteLine($"Successfully deleted group members for Group ID: {groupId}");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
-            var messages = JsonConvert.DeserializeObject<List<Message>>(json);
+            // Step 2: Delete user messages related to this group
+            var deleteMessagesResponse = await _httpClient.DeleteAsync($"usermessages?groupid=eq.{groupId}");
 
-            return messages ?? new List<Message>();
+            if (!deleteMessagesResponse.IsSuccessStatusCode)
+            {
+                string messagesError = await deleteMessagesResponse.Content.ReadAsStringAsync();
+                Debug.WriteLine($"Failed to delete messages for Group ID: {groupId}: {deleteMessagesResponse.StatusCode}, {messagesError}");
+                return false;
+            }
+            else
+            {
+                Debug.WriteLine($"Successfully deleted messages for Group ID: {groupId}");
+            }
+
+            // Step 3: Now attempt to delete the group itself using the correct column name `groupid`
+            var deleteGroupResponse = await _httpClient.DeleteAsync($"groups?groupid=eq.{groupId}");
+
+            string groupDeleteError = await deleteGroupResponse.Content.ReadAsStringAsync();
+            if (deleteGroupResponse.IsSuccessStatusCode)
+            {
+                Debug.WriteLine($"Successfully deleted Group ID: {groupId}");
+                return true;
+            }
+            else
+            {
+                Debug.WriteLine($"Failed to delete group: {deleteGroupResponse.StatusCode}, {groupDeleteError}");
+                return false;
+            }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Unexpected error fetching messages: {ex.Message}");
-            return new List<Message>();
+            Debug.WriteLine($"Error deleting group: {ex.Message}");
+            return false;
         }
     }
+
 
 }

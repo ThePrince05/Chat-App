@@ -29,6 +29,11 @@ namespace Chat_App
             if (DataContext is MainViewModel mainVM)
             {
                 mainVM.ToggleNewGroupPanel += TogglePanel;
+                
+                if (mainVM != null)
+                {
+                    lvGroupList.ContextMenu = mainVM.CreateContextMenu();
+                }
             }
 
         }
@@ -129,5 +134,7 @@ namespace Chat_App
                 }
             }
         }
+       
+
     }
 }

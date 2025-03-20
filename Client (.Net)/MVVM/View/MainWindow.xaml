@@ -177,9 +177,7 @@
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
                           ItemContainerStyle="{StaticResource GroupCard}"
-                          SelectionChanged="lvGroupList_SelectionChanged">
-
-                </ListView>
+                          SelectionChanged="lvGroupList_SelectionChanged" />
             </StackPanel>
 
             <!-- Footer Section -->
@@ -335,6 +333,7 @@
                          BorderThickness="0"
                          Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
                          Style="{StaticResource MessageBox}"
+                         IsEnabled="{Binding IsSending, Converter={StaticResource InverseBooleanConverter}}"
                          Foreground="white"
                          Grid.Column="0"
                          KeyDown="TextBox_KeyDown"
@@ -349,6 +348,7 @@
                             Content="Send"
                             Command="{Binding SendMessageCommand}"
                             Background="{Binding User.SelectedColor}"
+                            IsEnabled="{Binding IsSending, Converter={StaticResource InverseBooleanConverter}}"
                             BorderThickness="0"
                             Height="50" />
                 </StackPanel>

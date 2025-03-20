@@ -14,6 +14,7 @@ using Client__.Net_.Core;
 using Chat_App.Core.Model;
 using System.Net.NetworkInformation;
 using System.Net.Http;
+using System.Windows.Controls;
 
 namespace Client__.Net_.MVVM.ViewModel
 {
@@ -39,13 +40,13 @@ namespace Client__.Net_.MVVM.ViewModel
         private ICommand _openUserProfileEditCommand;
         private ICommand _openUserProfileAddCommand;
         private ICommand _openSettingsCommand;
-
+        private ICommand _deleteGroupCommand;
 
         public ICommand SendMessageCommand => _sendMessageCommand;
         public ICommand OpenUserProfileEditCommand => _openUserProfileEditCommand;
         public ICommand OpenUserProfileAddCommand => _openUserProfileAddCommand;
         public ICommand OpenSettingsCommand => _openSettingsCommand;
- 
+        public ICommand DeleteGroupCommand => _deleteGroupCommand;
 
         // Events
         public event EventHandler OnUserLoginCompleted;
@@ -64,18 +65,7 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
-        public string SelectedColor
-        {
-            get => User?.SelectedColor;
-            set
-            {
-                if (User != null)
-                {
-                    User.Username = value;
-                    OnPropertyChanged(nameof(Username));
-                }
-            }
-        }
+       
         private string _message;
         public string Message
         {
@@ -110,6 +100,16 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
+        private bool _isSending;
+        public bool IsSending
+        {
+            get => _isSending;
+            set
+            {
+                _isSending = value;
+                OnPropertyChanged(nameof(IsSending));
+            }
+        }
 
         // Constructor
         public MainViewModel()
@@ -181,7 +181,43 @@ namespace Client__.Net_.MVVM.ViewModel
                     _ => !string.IsNullOrEmpty(Message) && SelectedGroup != null
                 );
 
-            
+            _deleteGroupCommand = new AsyncRelayCommand(
+              async () =>
+              {
+                  if (SelectedGroup != null)
+                  {
+                      Debug.WriteLine($"Executing DeleteGroupAsync for Group ID: {SelectedGroup.Id}");
+
+                      var result = MessageBox.Show($"Are you sure you want to delete the group '{SelectedGroup.GroupName}'?",
+                                                   "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                      if (result == MessageBoxResult.Yes)
+                      {
+                          bool isDeleted = await _supabaseService.DeleteGroupAsync(SelectedGroup.Id);
+
+                          if (isDeleted)
+                          {
+                              Debug.WriteLine("Group deleted successfully.");
+                              MessageBox.Show("Group deleted successfully.");
+                              Groups.Remove(SelectedGroup);
+                          }
+                          else
+                          {
+                              Debug.WriteLine("Failed to delete group.");
+                              MessageBox.Show("Failed to delete group. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                          }
+                      }
+                  }
+                  else
+                  {
+                      Debug.WriteLine("DeleteGroupAsync: No group selected.");
+                      MessageBox.Show("Please select a group before attempting to delete.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                  }
+              },
+                  () => SelectedGroup != null
+              );
+
+
             _openSettingsCommand = new RelayCommand(_ => OpenSettings());
             _openUserProfileEditCommand = new RelayCommand(_ => OpenUserProfileEdit());
             _openUserProfileAddCommand = new RelayCommand(_ => OpenUserProfileAdd());
@@ -352,6 +388,7 @@ namespace Client__.Net_.MVVM.ViewModel
                 return;
             }
 
+            IsSending = true;  // Disable input
             Debug.WriteLine($"SendMessageAsync: Sending message to group ID {groupId}");
 
             bool isSaved = await _supabaseService.SaveMessageAsync(Username, Message, groupId);
@@ -359,7 +396,7 @@ namespace Client__.Net_.MVVM.ViewModel
             if (isSaved)
             {
                 Debug.WriteLine("SendMessageAsync: Message sent successfully!");
-                await LoadMessagesAsync(groupId); // Refresh messages for the same group
+                await LoadMessagesAsync(groupId); // Refresh messages
             }
             else
             {
@@ -372,6 +409,8 @@ namespace Client__.Net_.MVVM.ViewModel
 
             _lastOpenedGroupId = null;
             ScrollToLastMessage(SelectedGroup.Id);
+
+            IsSending = false;  // Re-enable input
         }
 
 
@@ -447,8 +486,7 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
-
-
+        
         private void HandleConnectionFailure(string message)
         {
             // Show the settings window with the failure message
@@ -456,6 +494,21 @@ namespace Client__.Net_.MVVM.ViewModel
 
             // Optionally, open settings window here
             OpenSettings();
+        }
+
+        // Function to create ContextMenu dynamically
+        public ContextMenu CreateContextMenu()
+        {
+            var contextMenu = new ContextMenu();
+            var deleteMenuItem = new MenuItem
+            {
+                Header = "Delete Group",
+                Command = DeleteGroupCommand,
+                CommandParameter = SelectedGroup
+            };
+
+            contextMenu.Items.Add(deleteMenuItem);
+            return contextMenu;
         }
         public void Dispose()
         {

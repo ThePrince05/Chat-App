@@ -73,7 +73,7 @@ namespace Client__.Net_.UserControls {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Client (.Net);V1.0.0.0;component/usercontrols/newgroupcontrol.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Client (.Net);component/usercontrols/newgroupcontrol.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\UserControls\NewGroupControl.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

@@ -7,20 +7,28 @@
       "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\services\\supabaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\services\\supabaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\view\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\view\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\model\\message.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\model\\message.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\view\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\view\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\converters\\inversebooleanconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\converters\\inversebooleanconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\services\\supabaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\services\\supabaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\mvvm\\model\\message.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|solutionrelative:client (.net)\\mvvm\\model\\message.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7458E44D-6C17-4D05-ACE0-948B1DFE648B}|Client (.Net)\\Client (.Net).csproj|d:\\projects\\visual studio\\chat app\\client (.net)\\core\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -34,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 372,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,40 +66,27 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "RelayCommand.cs",
-              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\Core\\RelayCommand.cs",
-              "RelativeDocumentMoniker": "Client (.Net)\\Core\\RelayCommand.cs",
-              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\Core\\RelayCommand.cs",
-              "RelativeToolTip": "Client (.Net)\\Core\\RelayCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-18T12:24:56.765Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Message.cs",
-              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Model\\Message.cs",
-              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\Model\\Message.cs",
-              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Model\\Message.cs",
-              "RelativeToolTip": "Client (.Net)\\MVVM\\Model\\Message.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBEAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-18T12:22:45.39Z",
+              "Title": "App.xaml",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\App.xaml",
+              "RelativeDocumentMoniker": "Client (.Net)\\App.xaml",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\App.xaml",
+              "RelativeToolTip": "Client (.Net)\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-03-20T04:29:24.474Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
-              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
-              "RelativeToolTip": "Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAHEAAAAAAAAAAAAUwH4AAABXAAAAAAAAAA==",
+              "Title": "InverseBooleanConverter.cs",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\Converters\\InverseBooleanConverter.cs",
+              "RelativeDocumentMoniker": "Client (.Net)\\Converters\\InverseBooleanConverter.cs",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\Converters\\InverseBooleanConverter.cs",
+              "RelativeToolTip": "Client (.Net)\\Converters\\InverseBooleanConverter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-18T04:18:13.403Z",
+              "WhenOpened": "2025-03-20T04:28:49.569Z",
               "EditorCaption": ""
             },
             {
@@ -103,7 +98,44 @@
               "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml",
               "RelativeToolTip": "Client (.Net)\\MVVM\\View\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-03-18T03:47:13.624Z",
+              "WhenOpened": "2025-03-19T12:12:41.225Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RelayCommand.cs",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\Core\\RelayCommand.cs",
+              "RelativeDocumentMoniker": "Client (.Net)\\Core\\RelayCommand.cs",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\Core\\RelayCommand.cs",
+              "RelativeToolTip": "Client (.Net)\\Core\\RelayCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-18T12:24:56.765Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Message.cs",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Model\\Message.cs",
+              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\Model\\Message.cs",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\Model\\Message.cs",
+              "RelativeToolTip": "Client (.Net)\\MVVM\\Model\\Message.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBEAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-18T12:22:45.39Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
+              "RelativeToolTip": "Client (.Net)\\MVVM\\View\\MainWindow.xaml.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAiwCEAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-18T04:18:13.403Z",
               "EditorCaption": ""
             },
             {
@@ -114,20 +146,20 @@
               "RelativeDocumentMoniker": "Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
               "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
               "RelativeToolTip": "Client (.Net)\\MVVM\\ViewModel\\MainViewModel.cs",
-              "ViewState": "AgIAAHkAAAAAAAAAAAAtwI4AAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAMoAAAAAAAAAAAAcwMUAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-12T04:55:50.323Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "SupabaseService.cs",
               "DocumentMoniker": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\Services\\SupabaseService.cs",
               "RelativeDocumentMoniker": "Client (.Net)\\Services\\SupabaseService.cs",
               "ToolTip": "D:\\Projects\\Visual Studio\\Chat App\\Client (.Net)\\Services\\SupabaseService.cs",
               "RelativeToolTip": "Client (.Net)\\Services\\SupabaseService.cs",
-              "ViewState": "AgIAAEIBAAAAAAAAAAAAAE4BAABNAAAAAAAAAA==",
+              "ViewState": "AgIAAAoCAAAAAAAAAAAUwDgDAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-14T03:25:05.273Z",
               "EditorCaption": ""
