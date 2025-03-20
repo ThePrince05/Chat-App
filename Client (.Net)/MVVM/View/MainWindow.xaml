@@ -163,6 +163,7 @@
                     </StackPanel>
                 </Grid>
 
+                <!-- Actual ListView -->
                 <ListView x:Name="lvGroupList"
                           Margin="5"
                           Width="auto"
@@ -177,7 +178,51 @@
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
                           ItemContainerStyle="{StaticResource GroupCard}"
-                          SelectionChanged="lvGroupList_SelectionChanged" />
+                          SelectionChanged="lvGroupList_SelectionChanged">
+                    <ListView.Style>
+                        <Style TargetType="ListView">
+                            <Setter Property="Visibility"
+                                    Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsGroupsLoading}"
+                                             Value="True">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.Style>
+                </ListView>
+
+                <!-- Skeleton Loader -->
+                <StackPanel Margin="5">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility"
+                                    Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsGroupsLoading}"
+                                             Value="True">
+                                    <Setter Property="Visibility"
+                                            Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+
+                    <Border Height="50"
+                            Background="#444444"
+                            CornerRadius="5"
+                            Margin="5" />
+                    <Border Height="50"
+                            Background="#444444"
+                            CornerRadius="5"
+                            Margin="5" />
+                    <Border Height="50"
+                            Background="#444444"
+                            CornerRadius="5"
+                            Margin="5" />
+                </StackPanel>
             </StackPanel>
 
             <!-- Footer Section -->
@@ -267,7 +312,7 @@
 
 
 
-            <!--message feed-->
+            <!-- Actual Message ListView -->
             <ListView x:Name="lvMessageList"
                       Foreground="White"
                       ItemsSource="{Binding Messages}"
@@ -278,6 +323,19 @@
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
                       Grid.RowSpan="2">
+                <ListView.Style>
+                    <Style TargetType="ListView">
+                        <Setter Property="Visibility"
+                                Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMessagesLoading}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Style>
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -289,19 +347,19 @@
                                 MinWidth="150"
                                 MaxWidth="600">
                             <StackPanel>
-                                <!-- Username on top -->
+                                <!-- Username -->
                                 <TextBlock Text="{Binding username}"
                                            FontWeight="Bold"
                                            FontSize="14"
                                            Foreground="#84888E"
                                            Margin="0,0,0,5" />
-                                <!-- Message content in the middle -->
+                                <!-- Message content -->
                                 <TextBlock Text="{Binding message}"
                                            TextWrapping="Wrap"
                                            FontSize="14"
                                            Foreground="White"
                                            Margin="0,0,0,5" />
-                                <!-- Timestamp at the bottom -->
+                                <!-- Timestamp -->
                                 <TextBlock Text="{Binding DisplaySentAt}"
                                            FontSize="10"
                                            Foreground="#aaa"
@@ -313,6 +371,37 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+            <!-- Skeleton Loader -->
+            <StackPanel Margin="8,2,0,33">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility"
+                                Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMessagesLoading}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+                <!-- Simulated loading items -->
+                <Border Height="60"
+                        Background="#444444"
+                        CornerRadius="5"
+                        Margin="5" />
+                <Border Height="60"
+                        Background="#444444"
+                        CornerRadius="5"
+                        Margin="5" />
+                <Border Height="60"
+                        Background="#444444"
+                        CornerRadius="5"
+                        Margin="5" />
+            </StackPanel>
 
 
             <!--Message box-->
@@ -336,7 +425,6 @@
                          IsEnabled="{Binding IsSending, Converter={StaticResource InverseBooleanConverter}}"
                          Foreground="white"
                          Grid.Column="0"
-                         KeyDown="TextBox_KeyDown"
                          TextWrapping="Wrap"
                          AcceptsReturn="True"
                          Margin="8,8,8,10" />

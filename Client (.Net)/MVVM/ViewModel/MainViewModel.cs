@@ -15,17 +15,27 @@ using Chat_App.Core.Model;
 using System.Net.NetworkInformation;
 using System.Net.Http;
 using System.Windows.Controls;
+using System.Globalization;
 
 namespace Client__.Net_.MVVM.ViewModel
 {
-    public class MainViewModel : INotifyPropertyChanged, IDisposable
+    public class MainViewModel : INotifyPropertyChanged
     {
 
-        private System.Timers.Timer _pollingTimer;
+      
         private SupabaseService _supabaseService;
         private readonly SQLiteDBService _sqliteDBService;
         private readonly HttpClient _httpClient = new HttpClient();
         private bool _isConnected = false;
+        private bool _isPolling = false;
+
+        // Track last fetched message ID for each group
+        private Dictionary<int, long> _lastFetchedMessageId = new Dictionary<int, long>();
+
+
+        public System.Timers.Timer PollingTimer { get; private set; }  // Exposed via a property if needed
+
+      
 
         // Properties
         public SupabaseSettings SupabaseSettings { get; set; }
@@ -111,15 +121,35 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
+        private bool _isGroupsLoading;
+        public bool IsGroupsLoading
+        {
+            get => _isGroupsLoading;
+            set
+            {
+                _isGroupsLoading = value;
+                OnPropertyChanged(nameof(IsGroupsLoading));
+            }
+        }
+
+        private bool _isMessagesLoading;
+        public bool IsMessagesLoading
+        {
+            get => _isMessagesLoading;
+            set
+            {
+                _isMessagesLoading = value;
+                OnPropertyChanged(nameof(IsMessagesLoading));
+            }
+        }
+
+
         // Constructor
         public MainViewModel()
         {
 
             _sqliteDBService = new SQLiteDBService();
             _sqliteDBService.InitializeDatabase();
-
-            // Initialize Polling
-            InitializePolling();
 
             // Initialize Commands
             InitializeCommands();
@@ -145,9 +175,6 @@ namespace Client__.Net_.MVVM.ViewModel
 
             // Start the connection check (polling every 5 seconds)
             StartConnectionCheck();
-
-
-            InitializePolling();
 
         }
 
@@ -263,7 +290,9 @@ namespace Client__.Net_.MVVM.ViewModel
         }
         public async void LoadUserGroupsAsync()
         {
-            string currentUsername = User.Username; // Ensure you have a way to access the current username
+            IsGroupsLoading = true; // Show skeleton loader
+
+            string currentUsername = User.Username;
             var userGroups = await _supabaseService.GetUserGroupsAsync(currentUsername);
 
             Application.Current.Dispatcher.Invoke(() =>
@@ -274,9 +303,11 @@ namespace Client__.Net_.MVVM.ViewModel
                     Groups.Add(group);
                 }
             });
+
+            IsGroupsLoading = false; // Hide skeleton loader
         }
 
-   
+
 
         private int? _lastOpenedGroupId = null; // ✅ Keeps track of the last opened group
 
@@ -379,7 +410,6 @@ namespace Client__.Net_.MVVM.ViewModel
             Debug.WriteLine("SupabaseService initialized successfully.");
         }
 
-
         private async Task SendMessageAsync(int groupId)
         {
             if (string.IsNullOrEmpty(Message))
@@ -391,12 +421,34 @@ namespace Client__.Net_.MVVM.ViewModel
             IsSending = true;  // Disable input
             Debug.WriteLine($"SendMessageAsync: Sending message to group ID {groupId}");
 
+            // Create a temporary message object
+            var tempMessage = new Message
+            {
+                username = Username,
+                message = Message,
+                timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm") // Use current UTC timestamp
+            };
+
+            // Add the temporary message immediately to the Messages collection (ListView will update)
+            Messages.Add(tempMessage);
+
+            // Scroll to the last message immediately after adding it
+            ScrollToLastMessage(groupId);
+
             bool isSaved = await _supabaseService.SaveMessageAsync(Username, Message, groupId);
 
             if (isSaved)
             {
                 Debug.WriteLine("SendMessageAsync: Message sent successfully!");
-                await LoadMessagesAsync(groupId); // Refresh messages
+
+                // Retrieve the last message's ID after sending the message
+                var latestMessage = await _supabaseService.GetLatestMessageAsync(groupId); // Fetch the latest message after saving
+
+                if (latestMessage != null)
+                {
+                    // Update the last fetched message Id for the group to the newly sent message's Id
+                    _lastFetchedMessageId[groupId] = latestMessage.Id;
+                }
             }
             else
             {
@@ -404,44 +456,88 @@ namespace Client__.Net_.MVVM.ViewModel
                 MessageBox.Show("Failed to save message.");
             }
 
+            // Clear message input after sending
             Message = string.Empty;
             Debug.WriteLine("SendMessageAsync: Message input cleared.");
 
             _lastOpenedGroupId = null;
-            ScrollToLastMessage(SelectedGroup.Id);
 
             IsSending = false;  // Re-enable input
+            ScrollToLastMessage(SelectedGroup.Id);
         }
 
 
-        private async void InitializePolling()
-        {
-            // Fetch messages immediately
-            await PollMessagesAsync();
 
-            // Set up the timer for periodic polling
-            _pollingTimer = new System.Timers.Timer(5000);
-            _pollingTimer.Elapsed += async (sender, e) => await PollMessagesAsync();
-            _pollingTimer.AutoReset = true;
-            _pollingTimer.Enabled = true;
+        public void ResetPollingStateForAll()
+        {
+            _lastFetchedMessageId.Clear(); // Reset last fetched message Ids for all groups
+            Debug.WriteLine("Polling state reset for all groups.");
         }
 
-        private async Task PollMessagesAsync()
+        public void ResetPollingState(int groupId)
         {
-            if (_supabaseService == null)
+            // Reset the polling state for the specific group by setting its last fetched message Id to 0.
+            _lastFetchedMessageId[groupId] = 0; // Reset to 0 (or another value depending on your system)
+            Debug.WriteLine($"Polling state reset for Group ID {groupId}.");
+        }
+
+
+        public void StopMessagePolling()
+        {
+            if (PollingTimer != null)
             {
-                Debug.WriteLine("SupabaseService not initialized. Messages will not be loaded.");
+                PollingTimer.Stop();
+                PollingTimer.Dispose();
+                PollingTimer = null;
+                Debug.WriteLine("✅ Stopped message polling.");
+            }
+        }
+
+        public void StartMessagePolling()
+        {
+            if (PollingTimer == null)
+            {
+                PollingTimer = new System.Timers.Timer(5000);
+                PollingTimer.Elapsed += async (sender, e) => await PollMessagesAsync();
+                PollingTimer.AutoReset = true;
+                PollingTimer.Enabled = true;
+                Debug.WriteLine("✅ Started message polling.");
+            }
+        }
+
+        public async Task PollMessagesAsync()
+        {
+            if (_supabaseService == null || SelectedGroup == null)
+            {
+                Debug.WriteLine("Service or group is null, skipping polling.");
                 return;
             }
 
-            if (SelectedGroup == null)
-            {
-                Debug.WriteLine("No group selected. Skipping message polling.");
-                return;
-            }
+            int groupId = SelectedGroup.Id;
+            long lastFetchedId = _lastFetchedMessageId.ContainsKey(groupId) ? _lastFetchedMessageId[groupId] : 0;
 
-            Debug.WriteLine($"Polling messages for Group ID: {SelectedGroup.Id}");
-            await LoadMessagesAsync(SelectedGroup.Id);
+            Debug.WriteLine($"Polling for new messages after message ID {lastFetchedId}.");
+
+            // Fetch messages with Id > lastFetchedId
+            var newMessages = await _supabaseService.GetMessagesSinceIdAsync(groupId, lastFetchedId);
+
+            if (newMessages.Any())
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    foreach (var msg in newMessages)
+                    {
+                        Messages.Add(msg);
+                    }
+
+                    // Update the last fetched message ID
+                    _lastFetchedMessageId[groupId] = newMessages.Max(m => m.Id);
+
+                    Debug.WriteLine($"Fetched {newMessages.Count} new messages for Group ID {groupId}. Last message ID: {_lastFetchedMessageId[groupId]}");
+
+                    ScrollToLastMessage(groupId);
+                });
+            }
         }
 
         public async Task LoadMessagesAsync(int groupId)
@@ -455,14 +551,15 @@ namespace Client__.Net_.MVVM.ViewModel
             try
             {
                 Debug.WriteLine($"Fetching messages for Group ID {groupId}...");
-                var messages = await _supabaseService.GetMessagesAsync(groupId);
+
+                // Fetch messages starting after the last fetched message Id for the group
+                long lastFetchedMessageId = _lastFetchedMessageId.ContainsKey(groupId) ? _lastFetchedMessageId[groupId] : 0;
+                var messages = await _supabaseService.GetMessagesSinceIdAsync(groupId, lastFetchedMessageId);
 
                 Application.Current?.Dispatcher?.Invoke(() =>
                 {
-                    if (Application.Current == null) return;
-
-                    Messages ??= new ObservableCollection<Message>();
-                    Messages.Clear(); // ✅ Always clear previous messages
+                    // Always clear previous messages
+                    Messages.Clear();
 
                     if (messages != null && messages.Any())
                     {
@@ -471,22 +568,26 @@ namespace Client__.Net_.MVVM.ViewModel
                             Messages.Add(msg);
                         }
 
-                        Debug.WriteLine($"{Messages.Count} messages loaded.");
-                        ScrollToLastMessage(SelectedGroup.Id); // ✅ Scroll after loading messages
+                        // Update the last fetched message Id for this group
+                        long latestMessageId = messages.Max(m => m.Id); // Get the highest message ID from the newly fetched messages
+                        _lastFetchedMessageId[groupId] = latestMessageId;
+
+                        // Scroll to last message
+                        ScrollToLastMessage(groupId);
                     }
-                    else
-                    {
-                        Debug.WriteLine("No messages found. Clearing message list.");
-                    }
+
+                    Debug.WriteLine($"{Messages.Count} messages loaded.");
                 });
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error loading messages: {ex.Message}");
+                Debug.WriteLine($"⚠️ Error loading messages: {ex.Message}");
             }
         }
 
-        
+
+
+
         private void HandleConnectionFailure(string message)
         {
             // Show the settings window with the failure message
@@ -510,10 +611,7 @@ namespace Client__.Net_.MVVM.ViewModel
             contextMenu.Items.Add(deleteMenuItem);
             return contextMenu;
         }
-        public void Dispose()
-        {
-            _pollingTimer?.Dispose();
-        }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 

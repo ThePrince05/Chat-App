@@ -110,10 +110,18 @@ namespace Client__.Net_.MVVM.ViewModel
             var groupId = await _supabaseService.InsertGroup(GroupName);
             if (groupId > 0)
             {
-                // If the group was created successfully, add the group members
+                // Add the selected users and the creator to the group
                 await _supabaseService.AddGroupMembersAsync(groupId, SelectedUsernames, User.Username);
 
-                MessageBox.Show("Group created and members added successfully!");
+                // Insert a welcome message from the creator
+                bool messageSent = await _supabaseService.SaveMessageAsync(User.Username, "Welcome to the group!", groupId);
+
+                if (!messageSent)
+                {
+                    Debug.WriteLine("Failed to insert welcome message.");
+                }
+
+                MessageBox.Show("Group created, members added, and welcome message sent!");
                 TriggerTogglePanel();  // Close or hide the panel after successful group creation
                 RefreshGroupList();
             }
@@ -122,6 +130,7 @@ namespace Client__.Net_.MVVM.ViewModel
                 MessageBox.Show("Failed to create group.");
             }
         }
+
 
 
 

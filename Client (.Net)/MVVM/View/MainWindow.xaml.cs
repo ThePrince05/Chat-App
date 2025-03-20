@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using System.Windows.Forms;
 namespace Chat_App
 {
     public partial class MainWindow : Window
@@ -74,13 +75,10 @@ namespace Chat_App
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
 
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            // Handle key events here if needed
-        }
+       
 
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -129,12 +127,37 @@ namespace Chat_App
             {
                 if (DataContext is MainViewModel viewModel)
                 {
-                    viewModel.SelectedGroup = selectedGroup;  // <-- Set SelectedGroup!
+                    // Stop polling for the previous group
+                    viewModel.StopMessagePolling();
+
+                    // Clear existing messages
+                    viewModel.Messages.Clear();
+
+                    // Reset polling state for the selected group
+                    viewModel.ResetPollingState(selectedGroup.Id);
+
+                    // Set the new selected group
+                    viewModel.SelectedGroup = selectedGroup;
+
+                    // Load messages for the new group
+                    viewModel.IsMessagesLoading = true;  // Show skeleton loader if applicable
+
+                    // Initially load all messages (if applicable) or the latest messages based on polling logic
                     await viewModel.LoadMessagesAsync(selectedGroup.Id);
+
+                    viewModel.IsMessagesLoading = false; // Hide skeleton loader
+
+                    // Restart polling for the new group
+                    viewModel.StartMessagePolling();
                 }
             }
         }
-       
+
+
+
+
+
+
 
     }
 }
