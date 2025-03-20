@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\
 Client__.Net_
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-D:\Projects\Visual Studio\Chat App\Client (.Net)\App.xaml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\App.xaml
 11-1862506247
 
 24320954814
-219-843910155
+219142964738
 MVVM\View\MainWindow.xaml;MVVM\View\Settings.xaml;MVVM\View\SplashScreen.xaml;MVVM\View\UserLogin.xaml;MVVM\View\UserProfileAdd.xaml;MVVM\View\UserProfileEdit.xaml;Themes\GroupsCard.xaml;Themes\MessageBox.xaml;Themes\StylishCrollbar.xaml;UserControls\NewGroupControl.xaml;UserControls\ShadeControl.xaml;
 
 False

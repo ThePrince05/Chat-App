@@ -62,3 +62,67 @@ D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\Micros
 D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\de\MahApps.Metro.resources.dll
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SplashScreen.g.cs
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SplashScreen.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).exe
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).deps.json
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).runtimeconfig.json
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Client (.Net).pdb
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\ControlzEx.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\EntityFramework.SqlServer.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\EntityFramework.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\FontAwesome.Sharp.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\MahApps.Metro.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\MaterialDesignColors.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\MaterialDesignThemes.Wpf.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\System.Data.SQLite.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\System.Data.SqlClient.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\System.Data.SQLite.EF6.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\de\MahApps.Metro.resources.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\win-arm64\native\sni.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\win-x64\native\sni.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\win-x86\native\sni.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\linux-x64\native\SQLite.Interop.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\osx-x64\native\SQLite.Interop.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\win-x64\native\SQLite.Interop.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\win-x86\native\SQLite.Interop.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\bin\Debug\net8.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).csproj.AssemblyReference.cache
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\GroupsCard.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\MessageBox.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\StylishCrollbar.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\MainWindow.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\Settings.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SplashScreen.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserLogin.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserProfileAdd.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserProfileEdit.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\UserControls\NewGroupControl.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\UserControls\ShadeControl.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_MarkupCompile.cache
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net)_MarkupCompile.lref
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\App.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\MainWindow.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\Settings.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SplashScreen.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserLogin.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserProfileAdd.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserProfileEdit.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\UserControls\NewGroupControl.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\UserControls\ShadeControl.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).g.resources
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).AssemblyInfoInputs.cache
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).AssemblyInfo.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).csproj.CoreCompileInputs.cache
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).sourcelink.json
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.3BD56DDE.Up2Date
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\refint\Client (.Net).dll
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).pdb
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).genruntimeconfig.cache
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\ref\Client (.Net).dll
