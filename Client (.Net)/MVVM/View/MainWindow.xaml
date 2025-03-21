@@ -288,7 +288,8 @@
         <Grid Grid.Column="1"
               Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
+                <RowDefinition Height="17*" />
+                <RowDefinition Height="365*" />
                 <RowDefinition Height="35.4" />
                 <RowDefinition Height="32.6" />
             </Grid.RowDefinitions>
@@ -299,10 +300,10 @@
                                         x:Name="ShadeControlMenu"
                                         Opacity="0"
                                         Visibility="Hidden"
-                                        Grid.RowSpan="3" />
+                                        Grid.RowSpan="4" />
 
             <userControls:NewGroupControl Panel.ZIndex="1"
-                                          Grid.RowSpan="3"
+                                          Grid.RowSpan="4"
                                           x:Name="NewGroupControlMenus"
                                           VerticalAlignment="Top"
                                           HorizontalAlignment="Left"
@@ -322,7 +323,7 @@
                       Margin="8,2,0,33"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-                      Grid.RowSpan="2">
+                      Grid.RowSpan="3">
                 <ListView.Style>
                     <Style TargetType="ListView">
                         <Setter Property="Visibility"
@@ -373,7 +374,8 @@
             </ListView>
 
             <!-- Skeleton Loader -->
-            <StackPanel Margin="8,2,0,33">
+            <StackPanel Margin="8,2,0,33"
+                        Grid.RowSpan="2">
                 <StackPanel.Style>
                     <Style TargetType="StackPanel">
                         <Setter Property="Visibility"
@@ -405,7 +407,7 @@
 
 
             <!--Message box-->
-            <Grid Grid.Row="1"
+            <Grid Grid.Row="2"
                   VerticalAlignment="Top"
                   Panel.ZIndex="0"
                   Grid.RowSpan="2">

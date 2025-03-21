@@ -27,14 +27,17 @@ namespace Client__.Net_.MVVM.ViewModel
         private readonly SQLiteDBService _sqliteDBService;
         private readonly HttpClient _httpClient = new HttpClient();
         private bool _isConnected = false;
-
+        private string _searchText;
+        private ObservableCollection<Group> _allGroups; // Store all groups
+       
 
         // Track last fetched message ID for each group
         private Dictionary<int, long> _lastFetchedMessageId = new Dictionary<int, long>();
 
         public System.Timers.Timer PollingTimer { get; private set; }  // Exposed via a property if needed
+        public ICollectionView FilteredGroups { get; private set; } // View for filtering
 
-      
+
 
         // Properties
         public SupabaseSettings SupabaseSettings { get; set; }
@@ -361,6 +364,29 @@ namespace Client__.Net_.MVVM.ViewModel
             });
         }
 
+        public void ScrollToLastMessage()
+        {
+            if (Messages == null || Messages.Count == 0)
+            {
+                Debug.WriteLine("Messages collection is empty. Skipping scroll.");
+                return;
+            }
+
+            Application.Current?.Dispatcher?.InvokeAsync(() =>
+            {
+                if (Application.Current.MainWindow?.FindName("lvMessageList") is System.Windows.Controls.ListView listView && listView.Items.Count > 0)
+                {
+                    listView.ScrollIntoView(Messages[^1]); // Scroll to the last message
+                    Debug.WriteLine("Scrolled to the last message. (normal)");
+                }
+                else
+                {
+                    Debug.WriteLine("ListView 'lvMessageList' not found or empty. Skipping scroll.");
+                }
+            });
+        }
+
+
 
         internal static void OpenUserProfileEdit()
         {
@@ -409,61 +435,32 @@ namespace Client__.Net_.MVVM.ViewModel
             _supabaseService = new SupabaseService(SupabaseSettings);
             Debug.WriteLine("SupabaseService initialized successfully.");
         }
-
         private async Task SendMessageAsync(int groupId)
         {
-            if (string.IsNullOrEmpty(Message))
-            {
-                Debug.WriteLine("SendMessageAsync: Message is empty, exiting.");
-                return;
-            }
+            if (IsSending || string.IsNullOrEmpty(Message))
+                return;  // Prevent duplicate execution or sending empty messages
 
-            IsSending = true;  // Disable input
+            IsSending = true;  // Disable input while sending
             Debug.WriteLine($"SendMessageAsync: Sending message to group ID {groupId}");
-
-            // Create a temporary message object
-            var tempMessage = new Message
-            {
-                username = Username,
-                message = Message,
-                timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm") // Use current UTC timestamp
-            };
-
-            // Add the temporary message immediately to the Messages collection (ListView will update)
-            Messages.Add(tempMessage);
-
-            // Scroll to the last message immediately after adding it
-            ScrollToLastMessage(groupId);
 
             bool isSaved = await _supabaseService.SaveMessageAsync(Username, Message, groupId);
 
-            if (isSaved)
+            if (!isSaved)
             {
-                Debug.WriteLine("SendMessageAsync: Message sent successfully!");
-
-                // Retrieve the last message's ID after sending the message
-                var latestMessage = await _supabaseService.GetLatestMessageAsync(groupId); // Fetch the latest message after saving
-
-                if (latestMessage != null)
-                {
-                    // Update the last fetched message Id for the group to the newly sent message's Id
-                    _lastFetchedMessageId[groupId] = latestMessage.Id;
-                }
-            }
-            else
-            {
-                Debug.WriteLine("SendMessageAsync: Failed to save message.");
-                MessageBox.Show("Failed to save message.");
+                Debug.WriteLine("SendMessageAsync: Failed to send message.");
+                MessageBox.Show("Failed to send message.");
             }
 
-            // Clear message input after sending
-            Message = string.Empty;
+            Message = string.Empty;  // Clear input after sending
             Debug.WriteLine("SendMessageAsync: Message input cleared.");
 
-            _lastOpenedGroupId = null;
-
             IsSending = false;  // Re-enable input
+            
+            await Task.Delay(5000);  
+            ScrollToLastMessage();
         }
+
+
 
         public void ResetPollingStateForAll()
         {
@@ -532,7 +529,6 @@ namespace Client__.Net_.MVVM.ViewModel
 
                     Debug.WriteLine($"Fetched {newMessages.Count} new messages for Group ID {groupId}. Last message ID: {_lastFetchedMessageId[groupId]}");
 
-                    ScrollToLastMessage(groupId);
                 });
             }
         }
@@ -569,7 +565,7 @@ namespace Client__.Net_.MVVM.ViewModel
                         long latestMessageId = messages.Max(m => m.Id); // Get the highest message ID from the newly fetched messages
                         _lastFetchedMessageId[groupId] = latestMessageId;
 
-                        // Scroll to last message
+                        // Scroll to last message only once
                         ScrollToLastMessage(groupId);
                     }
 
