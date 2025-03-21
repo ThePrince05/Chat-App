@@ -92,11 +92,6 @@ namespace Client__.Net_.MVVM.ViewModel
             OnPropertyChanged(nameof(User));
         }
 
-        //private void SaveGroup(object parameter)
-        //{
-        //   _mainViewModel.SaveGroup(parameter);
-        //}
-
         private async Task CreateGroupAsync()
         {
             // Ensure that a group name is provided
@@ -131,9 +126,6 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
-
-
-
         public async Task LoadUsernamesAsync()
         {
             var usernames = await _supabaseService.GetAllUsernamesAsync(User.Username);
@@ -147,8 +139,6 @@ namespace Client__.Net_.MVVM.ViewModel
                 }
             });
         }
-
-      
 
 
         // INotifyProperty

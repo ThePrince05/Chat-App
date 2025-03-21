@@ -139,7 +139,7 @@
                 <Grid>
                     <!--Use for underlined text-->
                     <TextBlock Margin="10,5,0,0"
-                               FontSize="17"
+                               FontSize="18"
                                Foreground="White"
                                HorizontalAlignment="Left">
                         <Underline>

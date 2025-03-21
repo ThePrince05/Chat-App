@@ -27,11 +27,10 @@ namespace Client__.Net_.MVVM.ViewModel
         private readonly SQLiteDBService _sqliteDBService;
         private readonly HttpClient _httpClient = new HttpClient();
         private bool _isConnected = false;
-        private bool _isPolling = false;
+
 
         // Track last fetched message ID for each group
         private Dictionary<int, long> _lastFetchedMessageId = new Dictionary<int, long>();
-
 
         public System.Timers.Timer PollingTimer { get; private set; }  // Exposed via a property if needed
 
@@ -263,6 +262,7 @@ namespace Client__.Net_.MVVM.ViewModel
                         _isConnected = true; // Mark as connected
                         Debug.WriteLine("Internet is back online. Reloading groups...");
                         LoadUserGroupsAsync(); // Reload groups when reconnected
+                        await NewGroupViewModel.LoadUsernamesAsync();
                     }
                 }
                 else
@@ -463,10 +463,7 @@ namespace Client__.Net_.MVVM.ViewModel
             _lastOpenedGroupId = null;
 
             IsSending = false;  // Re-enable input
-            ScrollToLastMessage(SelectedGroup.Id);
         }
-
-
 
         public void ResetPollingStateForAll()
         {
