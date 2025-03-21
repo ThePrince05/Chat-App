@@ -254,7 +254,7 @@ namespace Client__.Net_.MVVM.ViewModel
         }
 
         // these ping google to check internet for loadusergroups
-        private async void StartConnectionCheck()
+        public async void StartConnectionCheck()
         {
             while (true) // Loop to check connection status periodically
             {

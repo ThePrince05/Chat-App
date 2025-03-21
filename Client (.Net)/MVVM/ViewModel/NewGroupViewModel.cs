@@ -2,6 +2,7 @@
 using Chat_App.Core.Model;
 using Client__.Net_.Core;
 using Client__.Net_.MVVM.Model;
+using Client__.Net_.UserControls;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
@@ -94,21 +95,16 @@ namespace Client__.Net_.MVVM.ViewModel
 
         private async Task CreateGroupAsync()
         {
-            // Ensure that a group name is provided
             if (string.IsNullOrEmpty(GroupName))
             {
                 MessageBox.Show("Please enter a valid group name.");
                 return;
             }
 
-            // Call InsertGroupAsync to create the group and get the groupId
             var groupId = await _supabaseService.InsertGroup(GroupName);
             if (groupId > 0)
             {
-                // Add the selected users and the creator to the group
                 await _supabaseService.AddGroupMembersAsync(groupId, SelectedUsernames, User.Username);
-
-                // Insert a welcome message from the creator
                 bool messageSent = await _supabaseService.SaveMessageAsync(User.Username, "Welcome to the group!", groupId);
 
                 if (!messageSent)
@@ -117,7 +113,19 @@ namespace Client__.Net_.MVVM.ViewModel
                 }
 
                 MessageBox.Show("Group created, members added, and welcome message sent!");
-                TriggerTogglePanel();  // Close or hide the panel after successful group creation
+
+                // Reset Group Name
+                GroupName = string.Empty;
+                OnPropertyChanged(nameof(GroupName));
+
+                // Clear Selected Usernames
+                SelectedUsernames.Clear();
+                OnPropertyChanged(nameof(SelectedUsernames));
+
+                // Call the function in the constructor
+                await Task.Run(async () => await LoadUsernamesAsync());
+
+                TriggerTogglePanel();
                 RefreshGroupList();
             }
             else

@@ -307,7 +307,7 @@
                                           x:Name="NewGroupControlMenus"
                                           VerticalAlignment="Top"
                                           HorizontalAlignment="Left"
-                                          Width="250"
+                                          Width="210"
                                           Height="450"
                                           DataContext="{Binding NewGroupViewModel}" />
 
