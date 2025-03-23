@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Forms;
+using System.Windows.Threading;
 namespace Chat_App
 {
     public partial class MainWindow : Window
@@ -26,6 +27,7 @@ namespace Chat_App
             NewGroupControlMenusOldHeight = NewGroupControlMenus.Height;
             NewGroupControlMenusOldLvListFreindsMaxHeight = NewGroupControlMenus.lvListFriends.MaxHeight;
             this.Closing += Window_Closing;
+            
 
             if (DataContext is MainViewModel mainVM)
             {
@@ -34,13 +36,13 @@ namespace Chat_App
                 if (mainVM != null)
                 {
                     lvGroupList.ContextMenu = mainVM.CreateContextMenu();
+         
                 }
             }
 
         }
 
-       
-       
+
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -152,12 +154,6 @@ namespace Chat_App
                 }
             }
         }
-
-
-
-
-
-
-
+      
     }
 }

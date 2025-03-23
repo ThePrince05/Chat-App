@@ -112,16 +112,7 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
-        private bool _isSending;
-        public bool IsSending
-        {
-            get => _isSending;
-            set
-            {
-                _isSending = value;
-                OnPropertyChanged(nameof(IsSending));
-            }
-        }
+     
 
         private bool _isGroupsLoading;
         public bool IsGroupsLoading
@@ -264,7 +255,7 @@ namespace Client__.Net_.MVVM.ViewModel
                     {
                         _isConnected = true; // Mark as connected
                         Debug.WriteLine("Internet is back online. Reloading groups...");
-                        LoadUserGroupsAsync(); // Reload groups when reconnected
+                        await LoadUserGroupsAsync(); // Reload groups when reconnected
                         await NewGroupViewModel.LoadUsernamesAsync();
                     }
                 }
@@ -291,7 +282,7 @@ namespace Client__.Net_.MVVM.ViewModel
                 return false; // Return false if an exception occurs (e.g., no internet)
             }
         }
-        public async void LoadUserGroupsAsync()
+        public async Task LoadUserGroupsAsync()
         {
             IsGroupsLoading = true; // Show skeleton loader
 
@@ -437,10 +428,10 @@ namespace Client__.Net_.MVVM.ViewModel
         }
         private async Task SendMessageAsync(int groupId)
         {
-            if (IsSending || string.IsNullOrEmpty(Message))
-                return;  // Prevent duplicate execution or sending empty messages
+            // Prevent sending empty messages
+            if (string.IsNullOrEmpty(Message))
+                return;
 
-            IsSending = true;  // Disable input while sending
             Debug.WriteLine($"SendMessageAsync: Sending message to group ID {groupId}");
 
             bool isSaved = await _supabaseService.SaveMessageAsync(Username, Message, groupId);
@@ -451,14 +442,19 @@ namespace Client__.Net_.MVVM.ViewModel
                 MessageBox.Show("Failed to send message.");
             }
 
-            Message = string.Empty;  // Clear input after sending
+            // Clear input after sending
+            Message = string.Empty;
             Debug.WriteLine("SendMessageAsync: Message input cleared.");
 
-            IsSending = false;  // Re-enable input
-            
-            await Task.Delay(5000);  
+            // Delay before scrolling (if needed)
+            await Task.Delay(5000);
             ScrollToLastMessage();
+
+            // Trigger the event to focus the message input
+         
         }
+
+
 
 
 

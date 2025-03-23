@@ -112,7 +112,7 @@ namespace Client__.Net_.MVVM.ViewModel
                     Debug.WriteLine("Failed to insert welcome message.");
                 }
 
-                MessageBox.Show("Group created, members added, and welcome message sent!");
+                MessageBox.Show("Group created successfully!");
 
                 // Reset Group Name
                 GroupName = string.Empty;
