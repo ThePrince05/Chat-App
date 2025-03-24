@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 using Client__.Net_.MVVM.ViewModel;
+using Client__.Net_.UserControls;
 using FontAwesome.Sharp;
 using MaterialDesignThemes.Wpf;
 using MaterialDesignThemes.Wpf.Converters;

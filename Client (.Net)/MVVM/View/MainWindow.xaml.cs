@@ -78,28 +78,9 @@ namespace Chat_App
             System.Windows.Application.Current.Shutdown();
         }
 
-<<<<<<< HEAD
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            // Handle key events here if needed
-            if (e.Key != Key.Enter)
-            {
-                //TODO: send message...
-                //MessageBox.Show("pressed enter");
-                
-            }
-            else if (e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.)
-            {
-                //TODO: next line...
-                message_box.LineDown();
-                //MessageBox.Show("pressed  shift + enter" + t);
 
-            }else
-                e.Handled = true;
-        }
-=======
-       
->>>>>>> 35d4c5613cb6d57cc829ede4ba1246685cbd3e34
+        
+
 
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
