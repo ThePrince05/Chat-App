@@ -30,7 +30,7 @@ namespace Chat_App
             if (DataContext is MainViewModel mainVM)
             {
                 mainVM.ToggleNewGroupPanel += TogglePanel;
-                
+
                 if (mainVM != null)
                 {
                     lvGroupList.ContextMenu = mainVM.CreateContextMenu();
@@ -39,8 +39,8 @@ namespace Chat_App
 
         }
 
-       
-       
+
+
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -79,8 +79,6 @@ namespace Chat_App
         }
 
 
-        
-
 
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -89,7 +87,7 @@ namespace Chat_App
         }
 
         private bool isPanelVisible = false; // Track visibility state
-        private void TogglePanel() 
+        private void TogglePanel()
         {
             Storyboard sb;
             Storyboard sbShade;
@@ -99,7 +97,7 @@ namespace Chat_App
             {
                 sb = (Storyboard)NewGroupControlMenus.FindResource("SlideAndFadeOut");
                 sbShade = (Storyboard)ShadeControlMenu.FindResource("ShadeOut");
-                ShadeControlMenu.Visibility = Visibility.Hidden;
+                //ShadeControlMenu.Visibility = Visibility.Hidden;
             }
             else
             {
@@ -155,11 +153,24 @@ namespace Chat_App
             }
         }
 
+        private void tb_messageBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            // Handle key events here if needed
+            if (e.Key != Key.Enter)
+            {
+                //TODO: send message...
+                //MessageBox.Show("pressed enter");
 
+            }
+            else if (e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.Shift)
+            {
+                //TODO: next line...
+                tb_messageBox.LineDown();
+                //MessageBox.Show("pressed  shift + enter" + t);
 
-
-
-
-
+            }
+            else
+                e.Handled = true;
+        }
     }
 }

@@ -120,23 +120,6 @@
                                               ScrollViewer.VerticalScrollBarVisibility="Auto"
                                               SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical">
 
-<<<<<<< HEAD
-                        <Button Grid.Row="1"
-                                Width="70"
-                                Height="35"
-                                HorizontalAlignment="Right"
-                                Margin="0 0 5 5"
-                                Content="Create"
-                                Padding="0,0,0,2"
-                                FontSize="14"
-                                Foreground="#c5c8cd"
-                                Background="{Binding User.SelectedColor}"
-                                BorderThickness="0"
-                                Style="{StaticResource MaterialDesignFlatAccentButton}" 
-                                Command="{Binding SaveGroupCommand}"/>
-                    </Grid>
-                </Border>
-=======
                                     </ListView>
                                 </StackPanel>
                             </Grid>
@@ -156,11 +139,10 @@
                                         Command="{Binding CreateGroupCommand}" />
                             </Grid>
                         </Grid>
-                            
+
                     </Border>
                 </Grid>
-                  
->>>>>>> 35d4c5613cb6d57cc829ede4ba1246685cbd3e34
+
             </Grid>
         </Border>
 
