@@ -10,6 +10,10 @@
 //------------------------------------------------------------------------------
 
 using Client__.Net_.UserControls;
+using FontAwesome.Sharp;
+using MaterialDesignThemes.Wpf;
+using MaterialDesignThemes.Wpf.Converters;
+using MaterialDesignThemes.Wpf.Transitions;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -62,7 +66,7 @@ namespace Client__.Net_.UserControls {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Client (.Net);component/usercontrols/shadecontrol.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Client (.Net);V1.0.0.0;component/usercontrols/shadecontrol.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\UserControls\ShadeControl.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
