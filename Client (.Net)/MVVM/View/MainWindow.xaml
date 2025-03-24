@@ -133,13 +133,13 @@
                 </Button>
             </Grid>
 
-          
+
             <StackPanel Grid.Row="1">
 
                 <Grid>
                     <!--Use for underlined text-->
                     <TextBlock Margin="10,5,0,0"
-                               FontSize="17"
+                               FontSize="18"
                                Foreground="White"
                                HorizontalAlignment="Left">
                         <Underline>
@@ -149,8 +149,7 @@
 
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Right">
-                        <Button 
-                                Click="Button_Click"
+                        <Button Click="Button_Click"
                                 Padding="0"
                                 Width="22"
                                 Height="22"
@@ -164,6 +163,7 @@
                     </StackPanel>
                 </Grid>
 
+                <!-- Actual ListView -->
                 <ListView x:Name="lvGroupList"
                           Margin="5"
                           Width="auto"
@@ -175,10 +175,54 @@
                           Background="Transparent"
                           BorderThickness="0"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-                          ItemContainerStyle="{StaticResource GroupCard}">
-
+                          ItemContainerStyle="{StaticResource GroupCard}"
+                          SelectionChanged="lvGroupList_SelectionChanged">
+                    <ListView.Style>
+                        <Style TargetType="ListView">
+                            <Setter Property="Visibility"
+                                    Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsGroupsLoading}"
+                                             Value="True">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.Style>
                 </ListView>
+
+                <!-- Skeleton Loader -->
+                <StackPanel Margin="5">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility"
+                                    Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsGroupsLoading}"
+                                             Value="True">
+                                    <Setter Property="Visibility"
+                                            Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+
+                    <Border Height="50"
+                            Background="#444444"
+                            CornerRadius="5"
+                            Margin="5" />
+                    <Border Height="50"
+                            Background="#444444"
+                            CornerRadius="5"
+                            Margin="5" />
+                    <Border Height="50"
+                            Background="#444444"
+                            CornerRadius="5"
+                            Margin="5" />
+                </StackPanel>
             </StackPanel>
 
             <!-- Footer Section -->
@@ -244,8 +288,15 @@
         <Grid Grid.Column="1"
               Grid.Row="1">
             <Grid.RowDefinitions>
+<<<<<<< HEAD
                 <RowDefinition Height="*" />
                 <RowDefinition Height="68" />
+=======
+                <RowDefinition Height="17*" />
+                <RowDefinition Height="365*" />
+                <RowDefinition Height="35.4" />
+                <RowDefinition Height="32.6" />
+>>>>>>> 35d4c5613cb6d57cc829ede4ba1246685cbd3e34
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -259,22 +310,29 @@
                                         x:Name="ShadeControlMenu"
                                         Opacity="0"
                                         Visibility="Hidden"
+<<<<<<< HEAD
                                         Grid.RowSpan="2"
                                         Grid.ColumnSpan="2"/>
 
             <userControls:NewGroupControl Panel.ZIndex="1"
                                           Grid.RowSpan="2"
                                           Grid.ColumnSpan="2"
+=======
+                                        Grid.RowSpan="4" />
+
+            <userControls:NewGroupControl Panel.ZIndex="1"
+                                          Grid.RowSpan="4"
+>>>>>>> 35d4c5613cb6d57cc829ede4ba1246685cbd3e34
                                           x:Name="NewGroupControlMenus"
                                           VerticalAlignment="Top"
                                           HorizontalAlignment="Left"
-                                          Width="250"
+                                          Width="210"
                                           Height="450"
                                           DataContext="{Binding NewGroupViewModel}" />
 
 
 
-            <!--message feed-->
+            <!-- Actual Message ListView -->
             <ListView x:Name="lvMessageList"
                       Grid.ColumnSpan="2"
                       Foreground="White"
@@ -282,9 +340,23 @@
                       IsSynchronizedWithCurrentItem="True"
                       Background="Transparent"
                       BorderThickness="0"
-                      Margin="8,0,0,0"
+                      Margin="8,2,0,33"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical">
+                      SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                      Grid.RowSpan="3">
+                <ListView.Style>
+                    <Style TargetType="ListView">
+                        <Setter Property="Visibility"
+                                Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMessagesLoading}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Style>
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -296,20 +368,20 @@
                                 MinWidth="150"
                                 MaxWidth="600">
                             <StackPanel>
-                                <!-- Username on top -->
+                                <!-- Username -->
                                 <TextBlock Text="{Binding username}"
                                            FontWeight="Bold"
                                            FontSize="14"
                                            Foreground="#84888E"
                                            Margin="0,0,0,5" />
-                                <!-- Message content in the middle -->
+                                <!-- Message content -->
                                 <TextBlock Text="{Binding message}"
                                            TextWrapping="Wrap"
                                            FontSize="14"
                                            Foreground="White"
                                            Margin="0,0,0,5" />
-                                <!-- Timestamp at the bottom -->
-                                <TextBlock Text="{Binding timestamp}"
+                                <!-- Timestamp -->
+                                <TextBlock Text="{Binding DisplaySentAt}"
                                            FontSize="10"
                                            Foreground="#aaa"
                                            HorizontalAlignment="Right"
@@ -321,8 +393,41 @@
                 </ListView.ItemTemplate>
             </ListView>
 
+            <!-- Skeleton Loader -->
+            <StackPanel Margin="8,2,0,33"
+                        Grid.RowSpan="2">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility"
+                                Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMessagesLoading}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+                <!-- Simulated loading items -->
+                <Border Height="60"
+                        Background="#444444"
+                        CornerRadius="5"
+                        Margin="5" />
+                <Border Height="60"
+                        Background="#444444"
+                        CornerRadius="5"
+                        Margin="5" />
+                <Border Height="60"
+                        Background="#444444"
+                        CornerRadius="5"
+                        Margin="5" />
+            </StackPanel>
+
 
             <!--Message box-->
+<<<<<<< HEAD
             <Rectangle Grid.Row="1"
                        Grid.RowSpan="2"
                        Height="58"
@@ -355,6 +460,43 @@
                         BorderThickness="0"
                         Height="50" />
             </StackPanel>
+=======
+            <Grid Grid.Row="2"
+                  VerticalAlignment="Top"
+                  Panel.ZIndex="0"
+                  Grid.RowSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="630*" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <Rectangle Grid.ColumnSpan="2"
+                           Height="58"
+                           Fill="#36393F"
+                           VerticalAlignment="Bottom" />
+                <TextBox Height="50"
+                         FontSize="14"
+                         BorderThickness="0"
+                         Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource MessageBox}"
+                         IsEnabled="{Binding IsSending, Converter={StaticResource InverseBooleanConverter}}"
+                         Foreground="white"
+                         Grid.Column="0"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         Margin="8,8,8,10" />
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            Grid.Column="2"
+                            Margin="10,0,0,0">
+                    <Button Width="75"
+                            Content="Send"
+                            Command="{Binding SendMessageCommand}"
+                            Background="{Binding User.SelectedColor}"
+                            IsEnabled="{Binding IsSending, Converter={StaticResource InverseBooleanConverter}}"
+                            BorderThickness="0"
+                            Height="50" />
+                </StackPanel>
+>>>>>>> 35d4c5613cb6d57cc829ede4ba1246685cbd3e34
 
         </Grid>
     </Grid>

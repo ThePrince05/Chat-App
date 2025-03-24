@@ -1,11 +1,12 @@
 ﻿using Client__.Net_.MVVM.ViewModel;
+using Client__.Net_.MVVM.Model;
 using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-
+using System.Windows.Forms;
 namespace Chat_App
 {
     public partial class MainWindow : Window
@@ -29,6 +30,11 @@ namespace Chat_App
             if (DataContext is MainViewModel mainVM)
             {
                 mainVM.ToggleNewGroupPanel += TogglePanel;
+                
+                if (mainVM != null)
+                {
+                    lvGroupList.ContextMenu = mainVM.CreateContextMenu();
+                }
             }
 
         }
@@ -69,9 +75,10 @@ namespace Chat_App
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
 
+<<<<<<< HEAD
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             // Handle key events here if needed
@@ -90,6 +97,9 @@ namespace Chat_App
             }else
                 e.Handled = true;
         }
+=======
+       
+>>>>>>> 35d4c5613cb6d57cc829ede4ba1246685cbd3e34
 
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -131,5 +141,44 @@ namespace Chat_App
             var viewModel = (MainViewModel)DataContext;
             MainViewModel.OpenUserProfileEdit();
         }
+
+        private async void lvGroupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lvGroupList.SelectedItem is Group selectedGroup)
+            {
+                if (DataContext is MainViewModel viewModel)
+                {
+                    // Stop polling for the previous group
+                    viewModel.StopMessagePolling();
+
+                    // Clear existing messages
+                    viewModel.Messages.Clear();
+
+                    // Reset polling state for the selected group
+                    viewModel.ResetPollingState(selectedGroup.Id);
+
+                    // Set the new selected group
+                    viewModel.SelectedGroup = selectedGroup;
+
+                    // Load messages for the new group
+                    viewModel.IsMessagesLoading = true;  // Show skeleton loader if applicable
+
+                    // Initially load all messages (if applicable) or the latest messages based on polling logic
+                    await viewModel.LoadMessagesAsync(selectedGroup.Id);
+
+                    viewModel.IsMessagesLoading = false; // Hide skeleton loader
+
+                    // Restart polling for the new group
+                    viewModel.StartMessagePolling();
+                }
+            }
+        }
+
+
+
+
+
+
+
     }
 }

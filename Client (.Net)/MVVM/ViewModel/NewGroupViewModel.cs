@@ -2,6 +2,7 @@
 using Chat_App.Core.Model;
 using Client__.Net_.Core;
 using Client__.Net_.MVVM.Model;
+using Client__.Net_.UserControls;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,28 +24,55 @@ namespace Client__.Net_.MVVM.ViewModel
     {
         private MainViewModel _mainViewModel;
         private readonly SQLiteDBService _sqliteDBService;
-        private ICommand _saveGroupCommand;
+        private SupabaseService _supabaseService;
+        private ICommand _createGroupCommand;
         private ICommand _togglePanelCommand;
 
 
         public User User { get; set; }
+        public ObservableCollection<string> UsernamesList { get; set; } = new ObservableCollection<string>();
+        public List<string> SelectedUsernames { get; set; } = new List<string>();
+
         public ICommand TogglePanelCommand => _togglePanelCommand;
-        public ICommand SaveGroupCommand => _saveGroupCommand;
+        public ICommand CreateGroupCommand => _createGroupCommand;
 
+        private string _groupName;
+        public string GroupName
+        {
+            get => _groupName;
+            set
+            {
+                _groupName = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanCreateGroup)); // Notify button state change
+            }
+        }
 
+        public bool CanCreateGroup => !string.IsNullOrWhiteSpace(GroupName) && SelectedUsernames.Any();
 
-        public NewGroupViewModel(MainViewModel mainViewModel) 
+        public NewGroupViewModel(MainViewModel mainViewModel, SupabaseSettings supabaseSettings) 
         {
             _mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
             _sqliteDBService = new SQLiteDBService();
+          
+
+            // Initialize SupabaseService and subscribe to connection failed event
+            _supabaseService = new SupabaseService(new SupabaseSettings
+            {
+                SupabaseUrl = supabaseSettings.SupabaseUrl,
+                SupabaseApiKey = supabaseSettings.SupabaseApiKey
+            });
             LoadUserData();
             InitializeCommands();
+
+            // Call the function in the constructor
+            Task.Run(async () => await LoadUsernamesAsync());
 
         }
       
         private void InitializeCommands()
         {
-            _saveGroupCommand = new RelayCommand(SaveGroup);
+            _createGroupCommand = new AsyncRelayCommand(CreateGroupAsync, () => CanCreateGroup);
             _togglePanelCommand = new RelayCommand(_ => TriggerTogglePanel());
         }
 
@@ -52,25 +81,80 @@ namespace Client__.Net_.MVVM.ViewModel
             _mainViewModel.TogglePanel();
         }
 
+        private void RefreshGroupList()
+        {
+            _mainViewModel.LoadUserGroupsAsync();
+        }
+
+       
         private void LoadUserData()
         {
             User = _sqliteDBService.LoadUser();
             OnPropertyChanged(nameof(User));
         }
 
-        private void SaveGroup(object parameter)
+        private async Task CreateGroupAsync()
         {
-           _mainViewModel.SaveGroup(parameter);
+            if (string.IsNullOrEmpty(GroupName))
+            {
+                MessageBox.Show("Please enter a valid group name.");
+                return;
+            }
 
+            var groupId = await _supabaseService.InsertGroup(GroupName);
+            if (groupId > 0)
+            {
+                await _supabaseService.AddGroupMembersAsync(groupId, SelectedUsernames, User.Username);
+                bool messageSent = await _supabaseService.SaveMessageAsync(User.Username, "Welcome to the group!", groupId);
+
+                if (!messageSent)
+                {
+                    Debug.WriteLine("Failed to insert welcome message.");
+                }
+
+                MessageBox.Show("Group created, members added, and welcome message sent!");
+
+                // Reset Group Name
+                GroupName = string.Empty;
+                OnPropertyChanged(nameof(GroupName));
+
+                // Clear Selected Usernames
+                SelectedUsernames.Clear();
+                OnPropertyChanged(nameof(SelectedUsernames));
+
+                // Call the function in the constructor
+                await Task.Run(async () => await LoadUsernamesAsync());
+
+                TriggerTogglePanel();
+                RefreshGroupList();
+            }
+            else
+            {
+                MessageBox.Show("Failed to create group.");
+            }
         }
 
+        public async Task LoadUsernamesAsync()
+        {
+            var usernames = await _supabaseService.GetAllUsernamesAsync(User.Username);
+
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                UsernamesList.Clear();
+                foreach (var username in usernames)
+                {
+                    UsernamesList.Add(username);
+                }
+            });
+        }
 
 
         // INotifyProperty
         public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName) =>
+        internal virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
+        }
         protected bool SetProperty<T>(ref T field, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;

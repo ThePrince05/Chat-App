@@ -1,4 +1,5 @@
 ﻿
+<<<<<<< HEAD
 FC:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\App.xaml;;
 FC:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\MVVM\View\MainWindow.xaml;;
 FC:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\MVVM\View\Settings.xaml;;
@@ -8,4 +9,14 @@ FC:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\MVVM\View\UserProfileAdd.xam
 FC:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\MVVM\View\UserProfileEdit.xaml;;
 FC:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\UserControls\NewGroupControl.xaml;;
 FC:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\UserControls\ShadeControl.xaml;;
+=======
+FD:\Projects\Visual Studio\Chat App\Client (.Net)\App.xaml;;
+FD:\Projects\Visual Studio\Chat App\Client (.Net)\MVVM\View\MainWindow.xaml;;
+FD:\Projects\Visual Studio\Chat App\Client (.Net)\MVVM\View\Settings.xaml;;
+FD:\Projects\Visual Studio\Chat App\Client (.Net)\MVVM\View\SplashScreen.xaml;;
+FD:\Projects\Visual Studio\Chat App\Client (.Net)\MVVM\View\UserLogin.xaml;;
+FD:\Projects\Visual Studio\Chat App\Client (.Net)\MVVM\View\UserProfileAdd.xaml;;
+FD:\Projects\Visual Studio\Chat App\Client (.Net)\MVVM\View\UserProfileEdit.xaml;;
+FD:\Projects\Visual Studio\Chat App\Client (.Net)\UserControls\ShadeControl.xaml;;
+>>>>>>> 35d4c5613cb6d57cc829ede4ba1246685cbd3e34
 

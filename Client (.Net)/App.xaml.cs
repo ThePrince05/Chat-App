@@ -30,13 +30,11 @@ namespace Client__.Net_
         };
 
 
-
         public App()
         {
             // Prevent the app from shutting down when the main window closes.
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
         }
-
 
 
         protected override async void OnStartup(StartupEventArgs e)
@@ -46,6 +44,10 @@ namespace Client__.Net_
             // Show the splash screen
             var splashScreen = new MVVM.View.SplashScreen();
             splashScreen.Show();
+
+            // Initialize the MainViewModel
+            var mainViewModel = new MainViewModel();
+            _ = Task.Run(mainViewModel.LoadUserGroupsAsync); // Run in background
 
             // Run initialization tasks in the background and capture the required startup state.
             var initResult = await Task.Run(() =>
@@ -83,23 +85,18 @@ namespace Client__.Net_
             // Sequentially open windows based on initialization.
             if (initResult.openSettings)
             {
-                // Open the Settings window first.
                 _settingsWindow = new Settings { DataContext = initResult.viewModel };
                 _settingsWindow.ShowDialog();
 
-                // When Settings completes (i.e. the user closes or completes it),
-                // open the UserLogin window.
                 _userLoginWindow = new UserLogin { DataContext = initResult.viewModel };
                 _userLoginWindow.ShowDialog();
             }
             else if (initResult.isUserDataPresent && initResult.isUserLoggedIn)
             {
-                // If the user is already logged in, open the MainWindow.
                 OpenMainWindow();
             }
             else
             {
-                // Otherwise, open the UserLogin window directly.
                 _userLoginWindow = new UserLogin { DataContext = initResult.viewModel };
                 _userLoginWindow.ShowDialog();
             }
