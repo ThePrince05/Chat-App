@@ -408,8 +408,15 @@ namespace Client__.Net_.MVVM.ViewModel
                     loginWindow.Hide();
                 }
 
-                // Step 8: Open the MainWindow
-                MainWindow mainWindow = new MainWindow();
+                // Step 8: Create and pass the MainViewModel to MainWindow
+                var mainViewModel = new MainViewModel();
+                var loadGroupsTask = mainViewModel.LoadUserGroupsAsync(); // Load groups in parallel
+
+                // Wait for the groups to load before opening the MainWindow
+                await loadGroupsTask;
+
+                // Initialize MainWindow and pass the ViewModel
+                MainWindow mainWindow = new MainWindow(mainViewModel);
                 mainWindow.Show();
                 mainWindow.WindowState = WindowState.Normal;
                 mainWindow.Focus();
@@ -419,6 +426,7 @@ namespace Client__.Net_.MVVM.ViewModel
                 MessageBox.Show($"Error during login: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
 
         private async void ExecuteSaveSettings()

@@ -25,9 +25,9 @@
 
 
 
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <viewmodel:MainViewModel />
-    </Window.DataContext>
+    </Window.DataContext>-->
 
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
@@ -177,7 +177,7 @@
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-                          ItemContainerStyle="{StaticResource GroupCard}"
+                          ItemContainerStyle="{StaticResource GroupsCard}"
                           SelectionChanged="lvGroupList_SelectionChanged">
                     <ListView.Style>
                         <Style TargetType="ListView">

@@ -37,70 +37,7 @@ namespace Client__.Net_
         }
 
 
-        //protected override async void OnStartup(StartupEventArgs e)
-        //{
-        //    base.OnStartup(e);
-
-        //    // Show the splash screen
-        //    var splashScreen = new MVVM.View.SplashScreen();
-        //    splashScreen.Show();
-
-        //    // Initialize the MainViewModel
-        //    var mainViewModel = new MainViewModel();
-        //    _ = Task.Run(mainViewModel.LoadUserGroupsAsync); // Run in background
-
-        //    // Run initialization tasks in the background and capture the required startup state.
-        //    var initResult = await Task.Run(() =>
-        //    {
-        //        var dbService = new SQLiteDBService();
-        //        var viewModel = new LoginViewModel();
-
-        //        // Subscribe to events for further navigation if needed.
-        //        viewModel.OnSettingsCompleted += OnSettingsCompleted;
-        //        viewModel.OnUserLoginCompleted += OnUserLoginCompleted;
-
-        //        // Check if the Settings table has data.
-        //        bool settingsDataPresent = dbService.TableHasData("settings");
-        //        bool openSettings = !settingsDataPresent;
-
-        //        bool isUserDataPresent = false;
-        //        bool isUserLoggedIn = false;
-        //        if (settingsDataPresent)
-        //        {
-        //            var (userDataPresent, _) = dbService.CheckInitializationState();
-        //            isUserDataPresent = userDataPresent;
-        //            if (userDataPresent)
-        //            {
-        //                isUserLoggedIn = dbService.IsUserLoggedIn();
-        //            }
-        //        }
-
-        //        return (viewModel, openSettings, isUserDataPresent, isUserLoggedIn);
-        //    });
-
-        //    // Ensure the splash screen is visible for at least 5 seconds.
-        //    await Task.Delay(5000);
-        //    splashScreen.Close();
-
-        //    // Sequentially open windows based on initialization.
-        //    if (initResult.openSettings)
-        //    {
-        //        _settingsWindow = new Settings { DataContext = initResult.viewModel };
-        //        _settingsWindow.ShowDialog();
-
-        //        _userLoginWindow = new UserLogin { DataContext = initResult.viewModel };
-        //        _userLoginWindow.ShowDialog();
-        //    }
-        //    else if (initResult.isUserDataPresent && initResult.isUserLoggedIn)
-        //    {
-        //        OpenMainWindow();
-        //    }
-        //    else
-        //    {
-        //        _userLoginWindow = new UserLogin { DataContext = initResult.viewModel };
-        //        _userLoginWindow.ShowDialog();
-        //    }
-        //}
+        
 
         protected override async void OnStartup(StartupEventArgs e)
         {
@@ -264,10 +201,11 @@ namespace Client__.Net_
             // Apply user settings (primary color)
             SetPrimaryColorFromUserSelection(dbService);
 
-            _mainWindow = new MainWindow { DataContext = mainViewModel };
+            _mainWindow = new MainWindow(mainViewModel);
             _mainWindow.Show();
             _mainWindow.WindowState = WindowState.Normal;
             _mainWindow.Focus();
         }
+
     }
 }

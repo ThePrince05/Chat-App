@@ -597,10 +597,14 @@ namespace Client__.Net_.MVVM.ViewModel
                 CommandParameter = SelectedGroup
             };
 
+            // Make sure the context menu uses the correct DataContext
+            contextMenu.DataContext = this;  // Set DataContext to MainViewModel or another relevant context if necessary
+
             contextMenu.Items.Add(deleteMenuItem);
             return contextMenu;
         }
-        
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

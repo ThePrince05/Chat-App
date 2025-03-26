@@ -16,8 +16,7 @@ namespace Chat_App
         private double NewGroupControlMenusOldHeight;
         private double NewGroupControlMenusOldLvListFreindsMaxHeight;
 
-        private NewGroupViewModel _viewModel;
-        public MainWindow()
+        public MainWindow( MainViewModel mainViewModel)
         {
             InitializeComponent();
 
@@ -27,17 +26,21 @@ namespace Chat_App
             NewGroupControlMenusOldHeight = NewGroupControlMenus.Height;
             NewGroupControlMenusOldLvListFreindsMaxHeight = NewGroupControlMenus.lvListFriends.MaxHeight;
             this.Closing += Window_Closing;
-            
+
+            DataContext = mainViewModel; 
 
             if (DataContext is MainViewModel mainVM)
             {
                 mainVM.ToggleNewGroupPanel += TogglePanel;
                 
-                if (mainVM != null)
-                {
-                    lvGroupList.ContextMenu = mainVM.CreateContextMenu();
-         
-                }
+                // Create the ContextMenu
+                var contextMenu = mainVM.CreateContextMenu();
+
+                // Set the DataContext of the ContextMenu (optional, if you need further command binding)
+                contextMenu.DataContext = mainVM;
+
+                // Link the ContextMenu to the ListView (lvGroupList)
+                lvGroupList.ContextMenu = contextMenu;
             }
 
         }
