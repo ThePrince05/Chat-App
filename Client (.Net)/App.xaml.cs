@@ -7,6 +7,7 @@ using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Client__.Net_.Services;
 
 namespace Client__.Net_
 {
@@ -18,6 +19,8 @@ namespace Client__.Net_
         private UserLogin _userLoginWindow;
         private Settings _settingsWindow;
         private MainWindow _mainWindow;
+
+        public static MessageTrackerService MessageTrackerService { get; private set; }
 
         // Mapping from stored hex value to MaterialDesign swatch name.
         private static readonly Dictionary<string, string> HexToSwatch = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
@@ -42,6 +45,8 @@ namespace Client__.Net_
         protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            MessageTrackerService = new MessageTrackerService();
 
             var splashScreen = new MVVM.View.SplashScreen();
             splashScreen.Show();
@@ -197,6 +202,7 @@ namespace Client__.Net_
         private void OpenMainWindow(MainViewModel mainViewModel)
         {
             var dbService = new SQLiteDBService();
+           
 
             // Apply user settings (primary color)
             SetPrimaryColorFromUserSelection(dbService);
@@ -205,6 +211,7 @@ namespace Client__.Net_
             _mainWindow.Show();
             _mainWindow.WindowState = WindowState.Normal;
             _mainWindow.Focus();
+
         }
 
     }

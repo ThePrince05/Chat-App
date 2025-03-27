@@ -242,7 +242,8 @@
                             Background="{Binding User.SelectedColor}"
                             HorizontalAlignment="Center"
                             Cursor="Hand"
-                            MouseDown="Border_OpenEditProfile" />
+                            MouseDown="Border_OpenEditProfile"
+                            Margin="0,3,0,2" />
                 </Grid>
 
                 <Grid Grid.Column="1"
@@ -309,7 +310,7 @@
                                           HorizontalAlignment="Left"
                                           Width="210"
                                           Height="450"
-                                          DataContext="{Binding NewGroupViewModel}" />
+                                          DataContext="{Binding NewGroupVM}" />
 
 
 

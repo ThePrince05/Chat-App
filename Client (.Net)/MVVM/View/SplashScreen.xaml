@@ -38,7 +38,7 @@
 
 
         <!-- Centered Logo -->
-        <Image Source="/Images/group.png"
+        <Image Source="/Assets/Images/group.png"
                Margin="0 20 0 0"
                Width="150"
                Height="150" />

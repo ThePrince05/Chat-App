@@ -62,3 +62,5 @@ D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\Micros
 D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\de\MahApps.Metro.resources.dll
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SplashScreen.g.cs
 D:\Projects\Visual Studio\Chat App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SplashScreen.baml
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\Assets\Images\group.png
+D:\Projects\Visual Studio\Chat App\Client (.Net)\bin\Debug\net8.0-windows\Assets\Sounds\Noti.wav

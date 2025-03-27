@@ -82,7 +82,7 @@ namespace Client__.Net_.MVVM.View {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Client (.Net);component/mvvm/view/userprofileadd.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Chat App;V1.0.0.0;component/mvvm/view/userprofileadd.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\MVVM\View\UserProfileAdd.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

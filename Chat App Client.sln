@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client (.Net)", "Client (.Net)\Client (.Net).csproj", "{7458E44D-6C17-4D05-ACE0-948B1DFE648B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chat App", "Client (.Net)\Chat App.csproj", "{7458E44D-6C17-4D05-ACE0-948B1DFE648B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

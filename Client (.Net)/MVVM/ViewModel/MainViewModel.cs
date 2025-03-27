@@ -16,6 +16,7 @@ using System.Net.NetworkInformation;
 using System.Net.Http;
 using System.Windows.Controls;
 using System.Globalization;
+using Client__.Net_.Services;
 
 namespace Client__.Net_.MVVM.ViewModel
 {
@@ -26,10 +27,8 @@ namespace Client__.Net_.MVVM.ViewModel
         private SupabaseService _supabaseService;
         private readonly SQLiteDBService _sqliteDBService;
         private readonly HttpClient _httpClient = new HttpClient();
+        private readonly MessageTrackerService _messageTrackerService;
         private bool _isConnected = false;
-        private string _searchText;
-        private ObservableCollection<Group> _allGroups; // Store all groups
-       
 
         // Track last fetched message ID for each group
         private Dictionary<int, long> _lastFetchedMessageId = new Dictionary<int, long>();
@@ -45,7 +44,8 @@ namespace Client__.Net_.MVVM.ViewModel
         public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
         public ObservableCollection<Message> Messages { get; set; } = new ObservableCollection<Message>();
         public ObservableCollection<Group> Groups { get; set; } = new ObservableCollection<Group>();
-        public NewGroupViewModel NewGroupViewModel { get; set; }
+        public NewGroupViewModel NewGroupVM { get; set; }
+        public NotificationViewModel NotificationVM { get; set; }
 
         // Commands
         private ICommand _sendMessageCommand;
@@ -95,7 +95,6 @@ namespace Client__.Net_.MVVM.ViewModel
         }
 
 
-
         private Group _selectedGroup;
         public Group SelectedGroup
         {
@@ -113,7 +112,6 @@ namespace Client__.Net_.MVVM.ViewModel
         }
 
      
-
         private bool _isGroupsLoading;
         public bool IsGroupsLoading
         {
@@ -140,6 +138,7 @@ namespace Client__.Net_.MVVM.ViewModel
         // Constructor
         public MainViewModel()
         {
+            _messageTrackerService = App.MessageTrackerService; // Get shared service
 
             _sqliteDBService = new SQLiteDBService();
             _sqliteDBService.InitializeDatabase();
@@ -164,11 +163,14 @@ namespace Client__.Net_.MVVM.ViewModel
 
             LoadUserData();
 
-            NewGroupViewModel = new NewGroupViewModel(this, SupabaseSettings);
+            NewGroupVM = new NewGroupViewModel(this, SupabaseSettings);
+            NotificationVM = new NotificationViewModel(SupabaseSettings);
 
             // Start the connection check (polling every 5 seconds)
             StartConnectionCheck();
-
+            
+            // Start Notifications
+            NotificationVM.StartNotificationChecker();
         }
 
         public event Action ToggleNewGroupPanel;
@@ -256,7 +258,7 @@ namespace Client__.Net_.MVVM.ViewModel
                         _isConnected = true; // Mark as connected
                         Debug.WriteLine("Internet is back online. Reloading groups...");
                         await LoadUserGroupsAsync(); // Reload groups when reconnected
-                        await NewGroupViewModel.LoadUsernamesAsync();
+                        await NewGroupVM.LoadUsernamesAsync();
                     }
                 }
                 else
@@ -434,28 +436,54 @@ namespace Client__.Net_.MVVM.ViewModel
 
             Debug.WriteLine($"SendMessageAsync: Sending message to group ID {groupId}");
 
-            bool isSaved = await _supabaseService.SaveMessageAsync(Username, Message, groupId);
+            // Retry attempt counter
+            int retryCount = 0;
+            bool isSaved = false;
 
-            if (!isSaved)
+            // Retry sending the message once if the first attempt fails
+            while (retryCount < 2 && !isSaved)
             {
-                Debug.WriteLine("SendMessageAsync: Failed to send message.");
-                MessageBox.Show("Failed to send message.");
+                // Save the message first
+                isSaved = await _supabaseService.SaveMessageAsync(Username, Message, groupId);
+
+                if (!isSaved)
+                {
+                    retryCount++;
+                    Debug.WriteLine($"SendMessageAsync: Failed to send message. Attempt {retryCount}.");
+                    if (retryCount == 2) // After second attempt, show failure message
+                    {
+                        MessageBox.Show("Failed to send message after retrying.");
+                        return; // Exit if the save operation fails after retrying
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine($"SendMessageAsync: Message successfully saved on attempt {retryCount + 1}.");
+                }
             }
 
-            // Clear input after sending
+            // Only fetch the latest message if save operation is successful
+            Message latestMessage = await _supabaseService.GetLatestMessageAsync(groupId);
+
+            if (latestMessage != null)
+            {
+                // Update the shared message tracker with the ID of the latest message
+                _messageTrackerService.UpdateLastMessageId(groupId, latestMessage.Id);
+                Debug.WriteLine($"Updated last message ID for Group {groupId}: {latestMessage.Id}");
+            }
+            else
+            {
+                Debug.WriteLine($"SendMessageAsync: Could not retrieve latest message for Group {groupId}");
+            }
+
+            // Clear the message input field after sending
             Message = string.Empty;
             Debug.WriteLine("SendMessageAsync: Message input cleared.");
 
-            // Delay before scrolling (if needed)
+            // Delay before scrolling (optional)
             await Task.Delay(5000);
             ScrollToLastMessage();
-
-            // Trigger the event to focus the message input
-         
         }
-
-
-
 
 
         public void ResetPollingStateForAll()

@@ -20,6 +20,9 @@ public class SupabaseService
     // Flag to track if the error message has been displayed
     private bool _hasConnectionFailed = false;
 
+   
+
+
     public SupabaseService(SupabaseSettings settings)
     {
         Console.WriteLine("Initializing SupabaseService...");
@@ -353,68 +356,6 @@ public class SupabaseService
         }
     }
 
-    public async Task<Message> GetLatestMessageAsync(int groupId)
-    {
-        try
-        {
-            Debug.WriteLine($"GetLatestMessageAsync: Fetching latest message for Group ID {groupId}");
-
-            // Send a request to Supabase to fetch the most recent message for the specified group
-            var response = await _httpClient.GetAsync($"usermessages?groupid=eq.{groupId}&order=sentat.desc&limit=1");
-
-            if (response.IsSuccessStatusCode)
-            {
-                Debug.WriteLine($"GetLatestMessageAsync: Successfully fetched response for Group ID {groupId}");
-
-                var responseContent = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine($"GetLatestMessageAsync: Response content: {responseContent}");
-
-                var result = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(responseContent);
-
-                if (result != null && result.Any())
-                {
-                    Debug.WriteLine($"GetLatestMessageAsync: Found {result.Count} messages for Group ID {groupId}");
-
-                    // Extract the latest message from the result
-                    var latestMessage = result.First();
-                    var userId = Convert.ToInt32(latestMessage["userid"]);
-                    Debug.WriteLine($"GetLatestMessageAsync: UserID of latest message: {userId}");
-
-                    string username = await GetUsernameByUserIdAsync(userId); // Get username from the Users table
-                    Debug.WriteLine($"GetLatestMessageAsync: Retrieved username for UserID {userId}: {username}");
-
-                    // Return the latest message as a Message object
-                    var message = new Message
-                    {
-                        Id = Convert.ToInt32(latestMessage["messageid"]),
-                        username = username, // Assign the retrieved username
-                        message = latestMessage["content"].ToString(),
-                        timestamp = latestMessage["sentat"].ToString() // Ensure timestamp is in UTC format
-                    };
-
-                    Debug.WriteLine($"GetLatestMessageAsync: Latest message retrieved with ID {message.Id} and content: {message.message}");
-                    return message;
-                }
-                else
-                {
-                    Debug.WriteLine($"GetLatestMessageAsync: No messages found for Group ID {groupId}");
-                }
-            }
-            else
-            {
-                Debug.WriteLine($"GetLatestMessageAsync: Failed to fetch messages for Group ID {groupId}. Status code: {response.StatusCode}");
-            }
-
-            return null; // Return null if no message is found
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error in GetLatestMessageAsync: {ex.Message}");
-            return null; // Handle errors and return null
-        }
-    }
-
-
 
     public async Task<bool> InsertUserAsync(string username, string password, string selectedColor)
     {
@@ -666,7 +607,7 @@ public class SupabaseService
 
 
     // Helper method to get UserID by username
-    private async Task<int> GetUserIdByUsernameAsync(string username)
+    public async Task<int> GetUserIdByUsernameAsync(string username)
     {
         if (_httpClient == null)
         {
@@ -885,5 +826,126 @@ public class SupabaseService
         }
     }
 
+    public async Task<(Message, string)> FetchLatestGroupMessageAsync(int groupId)
+    {
+        Debug.WriteLine($"Fetching latest message for Group ID: {groupId}");
 
+        var latestMessage = await GetLatestMessageAsync(groupId);
+        if (latestMessage == null)
+        {
+            Debug.WriteLine($"No message found for Group ID: {groupId}");
+            return (null, null);
+        }
+
+        var groupName = await GetGroupNameAsync(groupId);
+        return (latestMessage, groupName);
+    }
+
+    private async Task<string> GetGroupNameAsync(int groupId)
+    {
+        var groupResponse = await _httpClient.GetAsync($"groups?groupid=eq.{groupId}");
+
+        if (!groupResponse.IsSuccessStatusCode)
+        {
+            Debug.WriteLine($"Error fetching group name for Group ID {groupId}: {groupResponse.StatusCode}");
+            return "Unknown Group";
+        }
+
+        var groupData = await groupResponse.Content.ReadAsStringAsync();
+        var groupInfo = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(groupData);
+        string groupName = groupInfo?.FirstOrDefault()?["groupname"]?.ToString() ?? "Unknown Group";
+
+        return groupName;
+    }
+
+    public async Task<Message> GetLatestMessageAsync(int groupId)
+    {
+        try
+        {
+            Debug.WriteLine($"GetLatestMessageAsync: Fetching latest message for Group ID {groupId}");
+
+            // Send a request to Supabase to fetch the most recent message for the specified group
+            var response = await _httpClient.GetAsync($"usermessages?groupid=eq.{groupId}&order=sentat.desc&limit=1");
+
+            if (response.IsSuccessStatusCode)
+            {
+                Debug.WriteLine($"GetLatestMessageAsync: Successfully fetched response for Group ID {groupId}");
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"GetLatestMessageAsync: Response content: {responseContent}");
+
+                var result = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(responseContent);
+
+                if (result != null && result.Any())
+                {
+                    Debug.WriteLine($"GetLatestMessageAsync: Found {result.Count} messages for Group ID {groupId}");
+
+                    // Extract the latest message from the result
+                    var latestMessage = result.First();
+                    var userId = Convert.ToInt32(latestMessage["userid"]);
+                    Debug.WriteLine($"GetLatestMessageAsync: UserID of latest message: {userId}");
+
+                    string username = await GetUsernameByUserIdAsync(userId); // Get username from the Users table
+                    Debug.WriteLine($"GetLatestMessageAsync: Retrieved username for UserID {userId}: {username}");
+
+                    // Return the latest message as a Message object
+                    var message = new Message
+                    {
+                        Id = Convert.ToInt32(latestMessage["messageid"]),
+                        username = username, // Assign the retrieved username
+                        message = latestMessage["content"].ToString(),
+                        timestamp = latestMessage["sentat"].ToString() // Ensure timestamp is in UTC format
+                    };
+
+                    Debug.WriteLine($"GetLatestMessageAsync: Latest message retrieved with ID {message.Id} and content: {message.message}");
+                    return message;
+                }
+                else
+                {
+                    Debug.WriteLine($"GetLatestMessageAsync: No messages found for Group ID {groupId}");
+                }
+            }
+            else
+            {
+                Debug.WriteLine($"GetLatestMessageAsync: Failed to fetch messages for Group ID {groupId}. Status code: {response.StatusCode}");
+            }
+
+            return null; // Return null if no message is found
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in GetLatestMessageAsync: {ex.Message}");
+            return null; // Handle errors and return null
+        }
+    }
+    public async Task<List<int>> GetUserGroupIdsAsync(int userId)
+    {
+        Debug.WriteLine($"Fetching group IDs for User ID: {userId}");
+        Debug.WriteLine($"Requesting: groupmembers?userid=eq.{userId}");
+
+        var groupIds = new List<int>();
+
+        var response = await _httpClient.GetAsync($"groupmembers?userid=eq.{userId}");
+        if (!response.IsSuccessStatusCode)
+        {
+            Debug.WriteLine($"Error fetching group memberships for User ID {userId}: {response.StatusCode}");
+            Debug.WriteLine($"Error response: {await response.Content.ReadAsStringAsync()}");
+            return groupIds;
+        }
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+        Debug.WriteLine($"Raw group membership response: {responseContent}");
+
+        var groupMemberships = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(responseContent);
+        if (groupMemberships == null || groupMemberships.Count == 0)
+        {
+            Debug.WriteLine($"User ID {userId} is not in any groups.");
+            return groupIds;
+        }
+
+        groupIds = groupMemberships.Select(g => Convert.ToInt32(g["groupid"])).ToList();
+        Debug.WriteLine($"User ID {userId} is part of {groupIds.Count} groups: {string.Join(", ", groupIds)}");
+
+        return groupIds;
+    }
 }
