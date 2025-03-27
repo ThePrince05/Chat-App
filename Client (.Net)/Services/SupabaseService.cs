@@ -948,4 +948,89 @@ public class SupabaseService
 
         return groupIds;
     }
+
+    public async Task<List<Group>> SearchGroupsByNameAsync(string searchQuery)
+    {
+        var groups = new List<Group>();
+
+        if (string.IsNullOrWhiteSpace(searchQuery))
+        {
+            Debug.WriteLine("Search query is empty.");
+            return groups;
+        }
+
+        try
+        {
+            Debug.WriteLine($"Searching for groups with query: {searchQuery}");
+
+            // Step 1: Fetch groups where the name matches the search query
+            var response = await _httpClient.GetAsync($"groups?groupname=ilike.%{searchQuery}%");
+            Debug.WriteLine($"Group search request URL: groups?groupname=ilike.%{searchQuery}%");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string errorMessage = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine($"Error searching for groups: {response.StatusCode}, {errorMessage}");
+                return groups;
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Debug.WriteLine($"Group search response: {responseContent}");
+
+            var groupData = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(responseContent);
+
+            if (groupData == null || groupData.Count == 0)
+            {
+                Debug.WriteLine("No groups found matching the search query.");
+                return groups;
+            }
+
+            // Step 2: Fetch the last message for each found group
+            foreach (var group in groupData)
+            {
+                int groupId = Convert.ToInt32(group["groupid"]);
+                string groupName = group["groupname"].ToString();
+                Debug.WriteLine($"Processing group: ID={groupId}, Name={groupName}");
+
+                string lastMessage = "No Messages";
+                var messageResponse = await _httpClient.GetAsync($"usermessages?groupid=eq.{groupId}&order=sentat.desc&limit=1");
+                Debug.WriteLine($"Fetching last message for group ID {groupId}");
+
+                if (messageResponse.IsSuccessStatusCode)
+                {
+                    var messageContent = await messageResponse.Content.ReadAsStringAsync();
+                    Debug.WriteLine($"Message response for group {groupId}: {messageContent}");
+
+                    var messages = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(messageContent);
+                    if (messages != null && messages.Count > 0)
+                    {
+                        lastMessage = messages.First()["content"].ToString();
+                        Debug.WriteLine($"Last message for group {groupId}: {lastMessage}");
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine($"Failed to fetch last message for group {groupId}. Response: {messageResponse.StatusCode}");
+                }
+
+                // Step 3: Add the group with last message
+                groups.Add(new Group
+                {
+                    Id = groupId,
+                    GroupName = groupName,
+                    Messages = lastMessage,
+                    ImageSource = "https://img.freepik.com/free-photo/people-posing-together-registration-day_23-2149096794.jpg"
+                });
+                Debug.WriteLine($"Added group {groupId} to results.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in SearchGroupsByNameAsync: {ex.Message}");
+        }
+
+        Debug.WriteLine($"Search completed. Found {groups.Count} groups.");
+        return groups;
+    }
+
 }

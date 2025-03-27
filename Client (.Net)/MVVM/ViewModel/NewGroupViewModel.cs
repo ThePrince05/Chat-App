@@ -101,38 +101,73 @@ namespace Client__.Net_.MVVM.ViewModel
                 return;
             }
 
-            var groupId = await _supabaseService.InsertGroup(GroupName);
-            if (groupId > 0)
+            try
             {
-                await _supabaseService.AddGroupMembersAsync(groupId, SelectedUsernames, User.Username);
-                bool messageSent = await _supabaseService.SaveMessageAsync(User.Username, "Welcome to the group!", groupId);
-
-                if (!messageSent)
+                var groupId = await _supabaseService.InsertGroup(GroupName);
+                if (groupId > 0)
                 {
-                    Debug.WriteLine("Failed to insert welcome message.");
+                    try
+                    {
+                        // Ensure group members are added before sending the welcome message
+                        await Task.Run(() => _supabaseService.AddGroupMembersAsync(groupId, SelectedUsernames, User.Username));
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error adding group members: {ex.Message}");
+                        MessageBox.Show("Group was created, but adding members failed.");
+                        return; // Exit early if adding members fails
+                    }
+
+                    // Retry sending the welcome message up to 3 times
+                    bool messageSent = false;
+                    int retryCount = 0;
+                    int maxRetries = 3;
+
+                    while (!messageSent && retryCount < maxRetries)
+                    {
+                        messageSent = await _supabaseService.SaveMessageAsync(User.Username, "Welcome to the group!", groupId);
+                        if (!messageSent)
+                        {
+                            retryCount++;
+                            Debug.WriteLine($"Retry {retryCount}: Failed to insert welcome message.");
+                            await Task.Delay(1000); // Small delay before retrying
+                        }
+                    }
+
+                    if (!messageSent)
+                    {
+                        Debug.WriteLine("Failed to insert welcome message after retries.");
+                    }
+
+                    MessageBox.Show("Group created successfully!");
+
+                    // Reset Group Name
+                    GroupName = string.Empty;
+                    OnPropertyChanged(nameof(GroupName));
+
+                    // Clear Selected Usernames
+                    SelectedUsernames.Clear();
+                    OnPropertyChanged(nameof(SelectedUsernames));
+
+                    // Reload usernames asynchronously
+                    await LoadUsernamesAsync();
+
+                    TriggerTogglePanel();
+                    RefreshGroupList();
                 }
-
-                MessageBox.Show("Group created successfully!");
-
-                // Reset Group Name
-                GroupName = string.Empty;
-                OnPropertyChanged(nameof(GroupName));
-
-                // Clear Selected Usernames
-                SelectedUsernames.Clear();
-                OnPropertyChanged(nameof(SelectedUsernames));
-
-                // Call the function in the constructor
-                await Task.Run(async () => await LoadUsernamesAsync());
-
-                TriggerTogglePanel();
-                RefreshGroupList();
+                else
+                {
+                    MessageBox.Show("Failed to create group.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Failed to create group.");
+                Debug.WriteLine($"Error in CreateGroupAsync: {ex.Message}");
+                MessageBox.Show("An error occurred while creating the group.");
             }
         }
+
+
 
         public async Task LoadUsernamesAsync()
         {

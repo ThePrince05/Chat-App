@@ -118,7 +118,13 @@
                          Padding="10,7,0,0"
                          Background="Transparent"
                          BorderThickness="0"
-                         Foreground="White" />
+                         Foreground="White"
+                         Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter"
+                                    Command="{Binding SearchGroupsCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
 
                 <Button Grid.Column="2"
                         Width="22"
@@ -127,7 +133,8 @@
                         Padding="0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Style="{StaticResource MaterialDesignFlatButton}">
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Command="{Binding SearchGroupsCommand}">
                     <fa:IconImage Icon="MagnifyingGlass"
                                   Foreground="LightGray" />
                 </Button>

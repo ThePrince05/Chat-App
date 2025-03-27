@@ -28,14 +28,14 @@ namespace Client__.Net_.MVVM.ViewModel
         private readonly SQLiteDBService _sqliteDBService;
         private readonly HttpClient _httpClient = new HttpClient();
         private readonly MessageTrackerService _messageTrackerService;
+        private string _searchQuery;
         private bool _isConnected = false;
 
         // Track last fetched message ID for each group
         private Dictionary<int, long> _lastFetchedMessageId = new Dictionary<int, long>();
 
         public System.Timers.Timer PollingTimer { get; private set; }  // Exposed via a property if needed
-        public ICollectionView FilteredGroups { get; private set; } // View for filtering
-
+       
 
 
         // Properties
@@ -43,7 +43,7 @@ namespace Client__.Net_.MVVM.ViewModel
         public User User { get; set; }
         public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
         public ObservableCollection<Message> Messages { get; set; } = new ObservableCollection<Message>();
-        public ObservableCollection<Group> Groups { get; set; } = new ObservableCollection<Group>();
+        //public ObservableCollection<Group> Groups { get; set; } = new ObservableCollection<Group>();
         public NewGroupViewModel NewGroupVM { get; set; }
         public NotificationViewModel NotificationVM { get; set; }
 
@@ -53,12 +53,14 @@ namespace Client__.Net_.MVVM.ViewModel
         private ICommand _openUserProfileAddCommand;
         private ICommand _openSettingsCommand;
         private ICommand _deleteGroupCommand;
+        private ICommand _searchGroupsCommand;
 
         public ICommand SendMessageCommand => _sendMessageCommand;
         public ICommand OpenUserProfileEditCommand => _openUserProfileEditCommand;
         public ICommand OpenUserProfileAddCommand => _openUserProfileAddCommand;
         public ICommand OpenSettingsCommand => _openSettingsCommand;
         public ICommand DeleteGroupCommand => _deleteGroupCommand;
+        public ICommand SearchGroupsCommand => _searchGroupsCommand;
 
         // Events
         public event EventHandler OnUserLoginCompleted;
@@ -134,6 +136,28 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
+        private ObservableCollection<Group> _groups = new ObservableCollection<Group>();
+        public ObservableCollection<Group> Groups
+        {
+            get => _groups;
+            set
+            {
+                _groups = value;
+                OnPropertyChanged(nameof(Groups));
+            }
+        }
+
+
+        public string SearchQuery
+        {
+            get => _searchQuery;
+            set
+            {
+                _searchQuery = value;
+                OnPropertyChanged(nameof(SearchQuery));
+                /*_searchGroupsCommand.NotifyCanExecuteChanged(); */// Update button state
+            }
+        }
 
         // Constructor
         public MainViewModel()
@@ -243,10 +267,54 @@ namespace Client__.Net_.MVVM.ViewModel
             _openSettingsCommand = new RelayCommand(_ => OpenSettings());
             _openUserProfileEditCommand = new RelayCommand(_ => OpenUserProfileEdit());
             _openUserProfileAddCommand = new RelayCommand(_ => OpenUserProfileAdd());
-            
+            _searchGroupsCommand = new AsyncRelayCommand(
+                async () => await SearchGroupsAsync());
+
         }
 
-        // these ping google to check internet for loadusergroups
+
+        private async Task SearchGroupsAsync()
+        {
+            if (string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                // Reset the ListView if the search query is empty
+                Debug.WriteLine("Search query is empty, resetting ListView to show all groups.");
+                
+                Groups.Clear(); // Clear the previous search results
+
+                // You may want to call a method to reload all groups here if needed
+                await LoadUserGroupsAsync(); // Reload groups when reconnected
+
+                return; // Exit the method since we don't need to search if the query is empty
+            }
+
+            // Show skeleton loader while searching
+            IsGroupsLoading = true;
+            Debug.WriteLine($"Searching for: {SearchQuery}");
+
+            // Perform the search
+            var results = await _supabaseService.SearchGroupsByNameAsync(SearchQuery);
+
+            // Update the Groups collection on the UI thread
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Groups.Clear(); // Clear the previous search results
+                foreach (var group in results)
+                {
+                    Groups.Add(group);
+                }
+            });
+
+            Debug.WriteLine($"Groups found: {Groups.Count}");
+
+            // Hide skeleton loader after the search finishes
+            IsGroupsLoading = false;
+        }
+
+
+
+
+        // these ping google to check internet for I don't have loadusergroups
         public async void StartConnectionCheck()
         {
             while (true) // Loop to check connection status periodically

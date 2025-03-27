@@ -176,9 +176,10 @@ namespace Client__.Net_.MVVM.ViewModel
                     _notifyIcon.BalloonTipTitle = $"New message in {groupName}";
                     _notifyIcon.BalloonTipText = message;
                     _notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
+                  
 
                     // Show the notification (balloon tip)
-                    _notifyIcon.ShowBalloonTip(5000);  // Display for 3 seconds
+                    _notifyIcon.ShowBalloonTip(5000);  // Display for 5 seconds
 
                     PlayCustomSound(); // Play custom sound
                 }
