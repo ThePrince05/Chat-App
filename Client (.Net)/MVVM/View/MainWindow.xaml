@@ -168,6 +168,7 @@
                           Margin="5"
                           Width="auto"
                           Height="auto"
+                          MouseDown="lvGroupList_MouseDown"
                           MaxHeight="310"
                           Foreground="White"
                           ItemsSource="{Binding Groups}"
@@ -298,8 +299,10 @@
 
             <userControls:ShadeControl  Panel.ZIndex="1"
                                         x:Name="ShadeControlMenu"
-                                        Opacity="0"
-                                        Visibility="Hidden"
+                                        Opacity="0.7"
+                                        ShadeMessage="Please select a group"
+                                        MessageVisibility="Visible"
+                                        Visibility="{Binding DataContext.SelectedGroup, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                         Grid.RowSpan="4" />
 
             <userControls:NewGroupControl Panel.ZIndex="1"

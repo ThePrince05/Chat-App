@@ -6,8 +6,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Client__.Net_.UserControls"
              mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
              d:DesignHeight="450" d:DesignWidth="800"
-             Opacity="0">
+             Opacity="1">
     <UserControl.Resources>
         <Storyboard x:Key="ShadeIn">
 
@@ -29,5 +30,12 @@
     </UserControl.Resources>
     <Grid>
         <Rectangle Fill="#17181a"/>
+        <Label Content="{Binding ShadeMessage}" 
+               Background="Transparent"
+               Foreground="LightGray"
+               FontSize="40"
+               Visibility="{Binding MessageVisibility}"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
     </Grid>
 </UserControl>

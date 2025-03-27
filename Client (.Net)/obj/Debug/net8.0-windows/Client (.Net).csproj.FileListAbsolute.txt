@@ -93,6 +93,7 @@ C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Clie
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\GroupsCard.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\MessageBox.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Themes\StylishCrollbar.baml
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\UserControls\NewGroupControl.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\MainWindow.g.cs
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\Settings.g.cs
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\SplashScreen.g.cs
@@ -112,7 +113,6 @@ C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserLogin.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserProfileAdd.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\MVVM\View\UserProfileEdit.baml
-C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\UserControls\NewGroupControl.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\UserControls\ShadeControl.baml
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).g.resources
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\Client (.Net).GeneratedMSBuildEditorConfig.editorconfig

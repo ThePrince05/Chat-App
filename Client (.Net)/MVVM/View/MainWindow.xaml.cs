@@ -37,6 +37,7 @@ namespace Chat_App
                 }
             }
 
+
         }
 
 
@@ -95,12 +96,14 @@ namespace Chat_App
 
             if (isPanelVisible)
             {
+                //ShadeControlMenu.MessageVisibility = "Visible";
                 sb = (Storyboard)NewGroupControlMenus.FindResource("SlideAndFadeOut");
                 sbShade = (Storyboard)ShadeControlMenu.FindResource("ShadeOut");
                 //ShadeControlMenu.Visibility = Visibility.Hidden;
             }
             else
             {
+                ShadeControlMenu.MessageVisibility = "Hidden";
                 sb = (Storyboard)NewGroupControlMenus.FindResource("SlideAndFadeIn");
                 sbShade = (Storyboard)ShadeControlMenu.FindResource("ShadeIn");
                 ShadeControlMenu.Visibility = Visibility.Visible;
@@ -173,6 +176,24 @@ namespace Chat_App
             }
             else
                 e.Handled = true;
+        }
+
+        private void lvGroupList_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Shadeout();
+        }
+        private void Shadeout()
+        {
+            Storyboard st = new();
+
+            if (ShadeControlMenu.MessageVisibility == "Visible")
+            {
+                ShadeControlMenu.MessageVisibility = "Hidden";
+                st = (Storyboard)ShadeControlMenu.FindResource("ShadeOut");
+                ShadeControlMenu.Visibility = Visibility.Hidden;
+            }
+
+            st.Begin();
         }
     }
 }
