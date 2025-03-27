@@ -1,0 +1,20 @@
+﻿Client (.Net)
+1.0.0.0
+
+winexe
+C#
+.cs
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\obj\Debug\net8.0-windows\
+Client__.Net_
+none
+false
+TRACE;DEBUG;NET;NET8_0;NETCOREAPP
+C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\App.xaml
+11-1862506247
+
+281575887628
+219142964738
+MVVM\View\MainWindow.xaml;MVVM\View\Settings.xaml;MVVM\View\SplashScreen.xaml;MVVM\View\UserLogin.xaml;MVVM\View\UserProfileAdd.xaml;MVVM\View\UserProfileEdit.xaml;Themes\GroupsCard.xaml;Themes\MessageBox.xaml;Themes\StylishCrollbar.xaml;UserControls\NewGroupControl.xaml;UserControls\ShadeControl.xaml;
+
+False
+

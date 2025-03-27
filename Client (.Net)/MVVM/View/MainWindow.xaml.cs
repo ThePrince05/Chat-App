@@ -110,6 +110,8 @@ namespace Chat_App
             sbShade.Begin();
             isPanelVisible = !isPanelVisible; // Toggle state
         }
+
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             TogglePanel();
