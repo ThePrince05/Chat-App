@@ -43,7 +43,6 @@ namespace Client__.Net_.MVVM.ViewModel
         public User User { get; set; }
         public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
         public ObservableCollection<Message> Messages { get; set; } = new ObservableCollection<Message>();
-        //public ObservableCollection<Group> Groups { get; set; } = new ObservableCollection<Group>();
         public NewGroupViewModel NewGroupVM { get; set; }
         public NotificationViewModel NotificationVM { get; set; }
 
@@ -164,7 +163,6 @@ namespace Client__.Net_.MVVM.ViewModel
             {
                 _searchQuery = value;
                 OnPropertyChanged(nameof(SearchQuery));
-                /*_searchGroupsCommand.NotifyCanExecuteChanged(); */// Update button state
             }
         }
 

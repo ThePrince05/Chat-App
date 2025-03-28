@@ -169,7 +169,6 @@ namespace Client__.Net_.MVVM.ViewModel
                     // Show the notification (balloon tip)
                     _notifyIcon.ShowBalloonTip(5000);  // Display for 5 seconds
 
-                    //PlayCustomSound(); // Play custom sound
                 }
                 else
                 {

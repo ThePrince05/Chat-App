@@ -306,7 +306,8 @@
                                         x:Name="ShadeControlMenu"
                                         Opacity="0"
                                         Visibility="Hidden"
-                                        Grid.RowSpan="4" />
+                                        Grid.RowSpan="4"
+                                        />
 
             <userControls:NewGroupControl Panel.ZIndex="1"
                                           Grid.RowSpan="4"

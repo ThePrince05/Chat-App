@@ -21,21 +21,21 @@ namespace Client__.Net_.UserControls
     public partial class ShadeControl : UserControl
     {
 
-        public string ShadeMessage
-        {
-            get => (string)GetValue(ShadeMessageProperty);
-            set => SetValue(ShadeMessageProperty, value);
-        }
-        public static readonly DependencyProperty ShadeMessageProperty =
-            DependencyProperty.Register(nameof(ShadeMessage), typeof(string), typeof(ShadeControl), new PropertyMetadata("Text"));
+        //public string ShadeMessage
+        //{
+        //    get => (string)GetValue(ShadeMessageProperty);
+        //    set => SetValue(ShadeMessageProperty, value);
+        //}
+        //public static readonly DependencyProperty ShadeMessageProperty =
+        //    DependencyProperty.Register(nameof(ShadeMessage), typeof(string), typeof(ShadeControl), new PropertyMetadata("Text"));
 
-        public string MessageVisibility
-        {
-            get => (string)GetValue(MessageVisibilityProperty);
-            set => SetValue(MessageVisibilityProperty, value);
-        }
-        public static readonly DependencyProperty MessageVisibilityProperty =
-            DependencyProperty.Register(nameof(MessageVisibility), typeof(string), typeof(ShadeControl), new PropertyMetadata("Visible"));
+        //public string MessageVisibility
+        //{
+        //    get => (string)GetValue(MessageVisibilityProperty);
+        //    set => SetValue(MessageVisibilityProperty, value);
+        //}
+        //public static readonly DependencyProperty MessageVisibilityProperty =
+        //    DependencyProperty.Register(nameof(MessageVisibility), typeof(string), typeof(ShadeControl), new PropertyMetadata("Visible"));
 
         public ShadeControl()
         {
