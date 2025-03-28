@@ -13,7 +13,6 @@
   <ItemGroup>
     <None Remove="Assets\Icons\group.ico" />
     <None Remove="Assets\Images\group.png" />
-    <None Remove="Assets\Sounds\Noti.wav" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,9 +24,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Assets\Images\group.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\Sounds\Noti.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -44,6 +40,10 @@
     <Compile Update="MVVM\View\MainWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\Sounds\" />
   </ItemGroup>
 
 </Project>

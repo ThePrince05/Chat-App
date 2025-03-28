@@ -136,18 +136,6 @@ namespace Client__.Net_.MVVM.ViewModel
         }
 
 
-        private async Task<(Model.Message, string)> GetLatestMessageForGroupAsync(int groupId)
-        {
-            var (latestMessage, groupName) = await _supabaseService.FetchLatestGroupMessageAsync(groupId);
-            if (latestMessage == null)
-            {
-                Debug.WriteLine($"No new messages found for Group ID {groupId}.");
-                return (null, null);
-            }
-
-            return (latestMessage, groupName);
-        }
-
         private async Task ProcessNewMessage(Model.Message latestMessage, string groupName, int groupId)
         {
             if (!string.IsNullOrEmpty(latestMessage.username) && latestMessage.username != User.Username)
@@ -181,7 +169,7 @@ namespace Client__.Net_.MVVM.ViewModel
                     // Show the notification (balloon tip)
                     _notifyIcon.ShowBalloonTip(5000);  // Display for 5 seconds
 
-                    PlayCustomSound(); // Play custom sound
+                    //PlayCustomSound(); // Play custom sound
                 }
                 else
                 {
@@ -195,20 +183,6 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
-
-
-        private void PlayCustomSound()
-        {
-            try
-            {
-                SoundPlayer player = new SoundPlayer("Assets/Sounds/Noti.wav");
-                player.Play();
-            }
-            catch (Exception ex)
-            {
-                Notifications.Add("Error playing sound: " + ex.Message);
-            }
-        }
 
         private void LoadUserData()
         {

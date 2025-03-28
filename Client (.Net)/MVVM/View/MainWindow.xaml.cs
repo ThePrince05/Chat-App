@@ -32,7 +32,7 @@ namespace Chat_App
             if (DataContext is MainViewModel mainVM)
             {
                 mainVM.ToggleNewGroupPanel += TogglePanel;
-                
+
                 // Create the ContextMenu
                 var contextMenu = mainVM.CreateContextMenu();
 
@@ -82,8 +82,6 @@ namespace Chat_App
         {
             System.Windows.Application.Current.Shutdown();
         }
-
-       
 
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
