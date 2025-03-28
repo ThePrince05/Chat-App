@@ -19,6 +19,10 @@
 
             <!-- Declare the InverseBooleanConverter -->
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <converters:MessageBackgroundConverter x:Key="MessageBackgroundConverter" />
+            <converters:MessageAlignmentConverter x:Key="MessageAlignmentConverter" />
+            <converters:MessageColumnConverter x:Key="MessageColumnConverter" />
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

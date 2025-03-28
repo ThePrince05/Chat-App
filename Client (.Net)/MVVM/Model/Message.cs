@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Chat_App.Core.Model;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +30,26 @@ namespace Client__.Net_.MVVM.Model
                 return timestamp; // Return as-is if parsing fails
             }
         }
+
+
+        // New property to check if the message is from the current user
+        private bool _isCurrentUser;
+        public bool IsCurrentUser
+        {
+            get => _isCurrentUser;
+            set
+            {
+                if (_isCurrentUser != value)
+                {
+                    _isCurrentUser = value;
+                    OnPropertyChanged(nameof(IsCurrentUser));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
 }

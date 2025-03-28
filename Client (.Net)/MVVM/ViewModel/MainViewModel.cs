@@ -17,6 +17,7 @@ using System.Net.Http;
 using System.Windows.Controls;
 using System.Globalization;
 using Client__.Net_.Services;
+using System.Media;
 
 namespace Client__.Net_.MVVM.ViewModel
 {
@@ -116,7 +117,7 @@ namespace Client__.Net_.MVVM.ViewModel
                     ? $"Selected Group set: {_selectedGroup.GroupName}"
                     : "Selected Group set to null.");
                 // Notify the command that its state might have changed
-                ShadeVisiblity = "Hidden";
+                //ShadeVisiblity = "Hidden";
                 (_sendMessageCommand as RelayCommand)?.RaiseCanExecuteChanged();
             }
         }
@@ -558,9 +559,34 @@ namespace Client__.Net_.MVVM.ViewModel
             // Delay before scrolling (optional)
             await Task.Delay(5000);
             ScrollToLastMessage();
+
+            // Play notification sound
+            PlayNotificationSound();
         }
 
-
+        // Plays Notification sound
+        private void PlayNotificationSound()
+        {
+            try
+            {
+                using (var stream = Application.GetResourceStream(new Uri("Assets/Sounds/WaterDrop.wav", UriKind.Relative))?.Stream)
+                {
+                    if (stream != null)
+                    {
+                        var player = new SoundPlayer(stream);
+                        player.Play();
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Failed to load sound file.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error playing sound: {ex.Message}");
+            }
+        }
         public void ResetPollingStateForAll()
         {
             _lastFetchedMessageId.Clear(); // Reset last fetched message Ids for all groups
@@ -620,7 +646,9 @@ namespace Client__.Net_.MVVM.ViewModel
                 {
                     foreach (var msg in newMessages)
                     {
-                        Messages.Add(msg);
+                        // Ensure IsCurrentUser flag is set correctly
+                        msg.IsCurrentUser = msg.username == User.Username; // Compare to logged-in user
+                        Messages.Add(msg);  // Add after setting IsCurrentUser
                     }
 
                     // Update the last fetched message ID
@@ -631,6 +659,7 @@ namespace Client__.Net_.MVVM.ViewModel
                 });
             }
         }
+
 
         public async Task LoadMessagesAsync(int groupId)
         {
@@ -644,27 +673,23 @@ namespace Client__.Net_.MVVM.ViewModel
             {
                 Debug.WriteLine($"Fetching messages for Group ID {groupId}...");
 
-                // Fetch messages starting after the last fetched message Id for the group
                 long lastFetchedMessageId = _lastFetchedMessageId.ContainsKey(groupId) ? _lastFetchedMessageId[groupId] : 0;
                 var messages = await _supabaseService.GetMessagesSinceIdAsync(groupId, lastFetchedMessageId);
 
                 Application.Current?.Dispatcher?.Invoke(() =>
                 {
-                    // Always clear previous messages
                     Messages.Clear();
 
                     if (messages != null && messages.Any())
                     {
                         foreach (var msg in messages)
                         {
+                            msg.IsCurrentUser = msg.username == User.Username; // Compare to logged-in user
                             Messages.Add(msg);
                         }
 
-                        // Update the last fetched message Id for this group
-                        long latestMessageId = messages.Max(m => m.Id); // Get the highest message ID from the newly fetched messages
+                        long latestMessageId = messages.Max(m => m.Id);
                         _lastFetchedMessageId[groupId] = latestMessageId;
-
-                        // Scroll to last message only once
                         ScrollToLastMessage(groupId);
                     }
 
@@ -676,9 +701,6 @@ namespace Client__.Net_.MVVM.ViewModel
                 Debug.WriteLine($"⚠️ Error loading messages: {ex.Message}");
             }
         }
-
-
-
 
         private void HandleConnectionFailure(string message)
         {

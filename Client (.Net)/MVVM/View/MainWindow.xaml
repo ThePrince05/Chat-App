@@ -324,44 +324,50 @@
             <ListView x:Name="lvMessageList"
                       Foreground="White"
                       ItemsSource="{Binding Messages}"
-                      IsSynchronizedWithCurrentItem="True"
                       Background="Transparent"
                       BorderThickness="0"
                       Margin="8,2,0,33"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
                       Grid.RowSpan="3">
-                <ListView.Style>
-                    <Style TargetType="ListView">
-                        <Setter Property="Visibility"
-                                Value="Visible" />
+
+                <!-- Style for ListView Items to control alignment -->
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="Stretch" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsMessagesLoading}"
+                            <!-- Current User Message (Align Right) -->
+                            <DataTrigger Binding="{Binding IsCurrentUser}"
                                          Value="True">
-                                <Setter Property="Visibility"
-                                        Value="Collapsed" />
+                                <Setter Property="HorizontalContentAlignment"
+                                        Value="Right" />
+                            </DataTrigger>
+                            <!-- Other Users' Messages (Align Left) -->
+                            <DataTrigger Binding="{Binding IsCurrentUser}"
+                                         Value="False">
+                                <Setter Property="HorizontalContentAlignment"
+                                        Value="Left" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </ListView.Style>
+                </ListView.ItemContainerStyle>
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Border Margin="5"
-                                Padding="10"
+                        <Border Padding="10"
                                 CornerRadius="8"
-                                Background="#333"
-                                HorizontalAlignment="Left"
                                 MinWidth="150"
-                                MaxWidth="600">
+                                MaxWidth="600"
+                                Background="{Binding IsCurrentUser, Converter={StaticResource MessageBackgroundConverter}}"
+                                Margin="5">
                             <StackPanel>
-                                <!-- Username -->
+                                <!-- Username (Can be hidden for current user if needed) -->
                                 <TextBlock Text="{Binding username}"
                                            FontWeight="Bold"
                                            FontSize="14"
                                            Foreground="#84888E"
                                            Margin="0,0,0,5" />
-                                <!-- Message content -->
+                                <!-- Message Content -->
                                 <TextBlock Text="{Binding message}"
                                            TextWrapping="Wrap"
                                            FontSize="14"
@@ -372,13 +378,14 @@
                                            FontSize="10"
                                            Foreground="#aaa"
                                            HorizontalAlignment="Right"
-                                           VerticalAlignment="Bottom"
-                                           Margin="0,0,0,0" />
+                                           VerticalAlignment="Bottom" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+
 
             <!-- Skeleton Loader -->
             <StackPanel Margin="8,2,0,33"
