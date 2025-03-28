@@ -96,6 +96,14 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
+        private string _shadeVisiblity;
+
+        public string ShadeVisiblity
+        {
+            get { return _shadeVisiblity; }
+            set { _shadeVisiblity = value; }
+        }
+
 
         private Group _selectedGroup;
         public Group SelectedGroup
@@ -109,6 +117,7 @@ namespace Client__.Net_.MVVM.ViewModel
                     ? $"Selected Group set: {_selectedGroup.GroupName}"
                     : "Selected Group set to null.");
                 // Notify the command that its state might have changed
+                ShadeVisiblity = "Hidden";
                 (_sendMessageCommand as RelayCommand)?.RaiseCanExecuteChanged();
             }
         }
