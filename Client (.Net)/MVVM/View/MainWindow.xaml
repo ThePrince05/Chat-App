@@ -354,12 +354,13 @@
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Border Padding="10"
+                        <Border
+                                Padding="10"
                                 CornerRadius="8"
                                 MinWidth="150"
                                 MaxWidth="600"
                                 Background="{Binding IsCurrentUser, Converter={StaticResource MessageBackgroundConverter}}"
-                                Margin="5">
+                                Margin="20 5 20 0">
                             <StackPanel>
                                 <!-- Username (Can be hidden for current user if needed) -->
                                 <TextBlock Text="{Binding username}"

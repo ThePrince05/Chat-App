@@ -42,7 +42,7 @@ namespace Chat_App
                 // Link the ContextMenu to the ListView (lvGroupList)
                 lvGroupList.ContextMenu = contextMenu;
             }
-
+            
         }
 
 
