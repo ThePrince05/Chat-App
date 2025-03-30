@@ -48,13 +48,9 @@ namespace Client__.Net_.MVVM.ViewModel
 
             LoadUserData();
 
-            // Initialize NotifyIcon
-            _notifyIcon = new NotifyIcon
-            {
-                Icon = new Icon("Assets/Icons/group.ico"), // Use your custom icon path
-                Visible = true,
-                Text = "Chat App" // Tooltip text when hovering over the tray icon
-            };
+            // Set Up NotifyIcon
+            _notifyIcon = App.NotifyIconInstance;
+
         }
 
         // This method starts the notification checking process
