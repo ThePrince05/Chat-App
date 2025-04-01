@@ -18,6 +18,7 @@ using System.Windows.Controls;
 using System.Globalization;
 using Client__.Net_.Services;
 using System.Media;
+using System.Windows.Media.Animation;
 
 namespace Client__.Net_.MVVM.ViewModel
 {
@@ -145,14 +146,43 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
+        private void Groups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Groups)); // Notify UI of changes
+            CheckGroupsAndToggleShade();
+        }
+
+        private void CheckGroupsAndToggleShade()
+        {
+            if (Groups.Count == 0) // If empty, toggle shade
+            {
+                ToggleShade();
+            }
+        }
+
         private ObservableCollection<Group> _groups = new ObservableCollection<Group>();
         public ObservableCollection<Group> Groups
         {
             get => _groups;
             set
             {
-                _groups = value;
-                OnPropertyChanged(nameof(Groups));
+                if (_groups != value)
+                {
+                    if (_groups != null)
+                    {
+                        _groups.CollectionChanged -= Groups_CollectionChanged; // Unsubscribe old
+                    }
+
+                    _groups = value;
+                    OnPropertyChanged(nameof(Groups));
+
+                    if (_groups != null)
+                    {
+                        _groups.CollectionChanged += Groups_CollectionChanged; // Subscribe new
+                    }
+
+                    CheckGroupsAndToggleShade(); // Check immediately after setting new collection
+                }
             }
         }
 
@@ -174,6 +204,12 @@ namespace Client__.Net_.MVVM.ViewModel
 
             _sqliteDBService = new SQLiteDBService();
             _sqliteDBService.InitializeDatabase();
+
+            ShadeControlMenuZIndex = 1;
+            ShadeMessageVisibility = Visibility.Visible;
+            ShadeControlVisibility= Visibility.Visible;
+
+            _groups.CollectionChanged += Groups_CollectionChanged; // Listen for changes
 
             // Initialize Commands
             InitializeCommands();
@@ -210,6 +246,62 @@ namespace Client__.Net_.MVVM.ViewModel
         {
             ToggleNewGroupPanel?.Invoke();
         }
+
+        private Visibility shadeMessageVisibility;
+
+        public Visibility ShadeMessageVisibility
+        {
+            get { return shadeMessageVisibility; }
+            set { 
+                shadeMessageVisibility = value;
+                OnPropertyChanged(nameof(ShadeMessageVisibility));
+            }
+        }
+
+        private int shadeControlMenuZIndex;
+
+        public int ShadeControlMenuZIndex
+        {
+            get { return shadeControlMenuZIndex; }
+            set { 
+                shadeControlMenuZIndex = value;
+                OnPropertyChanged(nameof(ShadeControlMenuZIndex));
+            }
+        }
+
+        private Visibility shadeControlVisibility;
+
+        public Visibility ShadeControlVisibility
+        {
+            get { return shadeControlVisibility; }
+            set { 
+                shadeControlVisibility = value; 
+                OnPropertyChanged(nameof(ShadeControlVisibility));
+            }
+        }
+
+        private bool isPanelVisible = false; // Track visibility state
+        private void ToggleShade()
+        {
+            //MessageBox.Show("ToggleShade" + Groups.Count);
+            if (isPanelVisible && SelectedGroup != null)
+            {
+                ShadeMessageVisibility = Visibility.Collapsed;
+                ShadeControlMenuZIndex = 0;
+                ShadeControlVisibility = Visibility.Collapsed;
+                //MessageBox.Show("Collapsed" + Groups.Count);
+            }
+            else
+            {
+                ShadeMessageVisibility = Visibility.Visible;
+                ShadeControlMenuZIndex = 1;
+                ShadeControlVisibility = Visibility.Visible;
+                //MessageBox.Show("Visible" + Groups.Count);
+            }
+
+            isPanelVisible = !isPanelVisible; // Toggle state
+        }
+
         public async Task InitializeDatabaseAsync()
         {
             await _supabaseService.InitializeDatabaseSchemaAsync();
@@ -254,6 +346,8 @@ namespace Client__.Net_.MVVM.ViewModel
                               Debug.WriteLine("Group deleted successfully.");
                               MessageBox.Show("Group deleted successfully.");
                               Groups.Remove(SelectedGroup);
+
+                              
                           }
                           else
                           {
@@ -261,6 +355,8 @@ namespace Client__.Net_.MVVM.ViewModel
                               MessageBox.Show("Failed to delete group. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                           }
                       }
+
+                      
                   }
                   else
                   {
@@ -374,6 +470,7 @@ namespace Client__.Net_.MVVM.ViewModel
                 {
                     Groups.Add(group);
                 }
+                //ToggleShade();
             });
 
             IsGroupsLoading = false; // Hide skeleton loader

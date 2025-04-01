@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Forms;
 using System.Windows.Threading;
+using Panel = System.Windows.Controls.Panel;
 namespace Chat_App
 {
     public partial class MainWindow : Window
@@ -27,7 +28,7 @@ namespace Chat_App
             NewGroupControlMenusOldLvListFreindsMaxHeight = NewGroupControlMenus.lvListFriends.MaxHeight;
             this.Closing += Window_Closing;
 
-            DataContext = mainViewModel; 
+            DataContext = mainViewModel;
 
             if (DataContext is MainViewModel mainVM)
             {
@@ -94,19 +95,23 @@ namespace Chat_App
         {
             Storyboard sb;
             Storyboard sbShade;
+            ShadeControlMenu.MessageVisibility = "Collapsed";
 
 
             if (isPanelVisible)
             {
                 sb = (Storyboard)NewGroupControlMenus.FindResource("SlideAndFadeOut");
                 sbShade = (Storyboard)ShadeControlMenu.FindResource("ShadeOut");
-                ShadeControlMenu.Visibility = Visibility.Hidden;
+                ShadeControlMenu.Visibility = Visibility.Collapsed;
+                //Panel.SetZIndex(NewGroupControlMenus, 0);
             }
             else
             {
                 sb = (Storyboard)NewGroupControlMenus.FindResource("SlideAndFadeIn");
                 sbShade = (Storyboard)ShadeControlMenu.FindResource("ShadeIn");
                 ShadeControlMenu.Visibility = Visibility.Visible;
+                //Panel.SetZIndex(NewGroupControlMenus, 1);
+
             }
 
             sb.Begin();
@@ -155,6 +160,54 @@ namespace Chat_App
                 }
             }
         }
-      
+
+        
+        private void ToggleShade()
+        {
+            Storyboard st = new();
+
+            if (ShadeControlMenu.MessageVisibility == "Visible")
+            {
+                ShadeControlMenu.MessageVisibility = "Collapsed";
+                st = (Storyboard)ShadeControlMenu.FindResource("ShadeOut");
+                ShadeControlMenu.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                ShadeControlMenu.MessageVisibility = "Visible";
+                st = (Storyboard)ShadeControlMenu.FindResource("ShadeIn");
+                ShadeControlMenu.Visibility = Visibility.Visible;
+            }
+
+            st.Begin();
+        }
+
+        private void MessageTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as System.Windows.Controls.TextBox;
+            if (textBox != null)
+            {
+                textBox.MinHeight = 0; // Reset height
+                textBox.Height = double.NaN; // Reset height
+                textBox.Measure(new Size(textBox.ActualWidth, double.PositiveInfinity));
+                textBox.Height = textBox.DesiredSize.Height; // Set new height
+            }
+        }
+
+        private void MessageTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && Keyboard.Modifiers == ModifierKeys.Shift)
+            {
+                // Insert a new line at the cursor position
+                var textBox = sender as System.Windows.Controls.TextBox;
+                if (textBox != null)
+                {
+                    int caretIndex = textBox.CaretIndex;
+                    textBox.Text = textBox.Text.Insert(caretIndex, "\n");
+                    textBox.CaretIndex = caretIndex + 1; // Move cursor to new line
+                }
+                e.Handled = true; // Prevent default behavior
+            }
+        }
     }
 }

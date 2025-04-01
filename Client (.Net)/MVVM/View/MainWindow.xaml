@@ -294,20 +294,24 @@
         <Grid Grid.Column="1"
               Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="17*" />
                 <RowDefinition Height="365*" />
-                <RowDefinition Height="35.4" />
-                <RowDefinition Height="32.6" />
+                <RowDefinition Height="68" />
             </Grid.RowDefinitions>
 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="630*" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
 
 
-            <userControls:ShadeControl  Panel.ZIndex="1"
+            <userControls:ShadeControl  Panel.ZIndex="{Binding DataContext.ShadeControlMenuZIndex, RelativeSource={RelativeSource AncestorType=Window}}"
                                         x:Name="ShadeControlMenu"
-                                        Opacity="0"
-                                        Visibility="Hidden"
-                                        Grid.RowSpan="4"
-                                        />
+                                        Opacity="0.7"
+                                        Grid.ColumnSpan="2"
+                                        ShadeMessage="Please select/cerate a group"
+                                        MessageVisibility="{Binding DataContext.ShadeMessageVisibility, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        Visibility="{Binding DataContext.ShadeControlVisibility, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        Grid.RowSpan="4" />
 
             <userControls:NewGroupControl Panel.ZIndex="1"
                                           Grid.RowSpan="4"
@@ -326,6 +330,7 @@
                       ItemsSource="{Binding Messages}"
                       Background="Transparent"
                       BorderThickness="0"
+                      Grid.ColumnSpan="2"
                       Margin="8,2,0,33"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       Grid.RowSpan="3">
@@ -390,6 +395,7 @@
 
             <!-- Skeleton Loader -->
             <StackPanel Margin="8,2,0,33"
+                        Grid.ColumnSpan="2"
                         Grid.RowSpan="2">
                 <StackPanel.Style>
                     <Style TargetType="StackPanel">
@@ -422,42 +428,41 @@
 
 
             <!--Message box-->
-            <Grid Grid.Row="2"
-                  VerticalAlignment="Top"
-                  Panel.ZIndex="0"
-                  Grid.RowSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="630*" />
-                    <ColumnDefinition Width="100" />
-                </Grid.ColumnDefinitions>
-                <Rectangle Grid.ColumnSpan="2"
-                           Height="58"
-                           Fill="#36393F"
-                           VerticalAlignment="Bottom" />
-                <TextBox x:Name="MessageTextBox"
-                         Height="50"
-                         FontSize="14"
-                         BorderThickness="0"
-                         Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{StaticResource MessageBox}"
-                         Foreground="white"
-                         Grid.Column="0"
-                         TextWrapping="Wrap"
-                         AcceptsReturn="True"
-                         Margin="8,8,8,10" />
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Left"
-                            Grid.Column="2"
-                            Margin="10,0,0,0">
-                    <Button Width="75"
-                            Content="Send"
-                            Command="{Binding SendMessageCommand}"
-                            Background="{Binding User.SelectedColor}"
-                            BorderThickness="0"
-                            Height="50" />
-                </StackPanel>
+            <Rectangle Grid.ColumnSpan="2"
+                       Grid.Row="1"
+                       Height="68"
+                       Fill="#36393F"
+                       VerticalAlignment="Bottom" />
+            <TextBox x:Name="MessageTextBox"
+                     Height="auto"
+                     Grid.Column="0"
+                     Grid.RowSpan="2"
+                     MinHeight="40"
+                     MaxHeight="200"
+                     FontSize="14"
+                     BorderThickness="0"
+                     VerticalAlignment="Bottom"
+                     Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource MessageBox}"
+                     Foreground="white"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     Margin="8,7,8,11"
+                     TextChanged="MessageTextBox_TextChanged"
+                     KeyDown="MessageTextBox_KeyDown"/>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        Margin="10,0,0,0">
+                <Button Width="75"
+                        Content="Send"
+                        Command="{Binding SendMessageCommand}"
+                        Background="{Binding User.SelectedColor}"
+                        BorderThickness="0"
+                        Height="50" />
+            </StackPanel>
 
-            </Grid>
         </Grid>
     </Grid>
 </Window>
