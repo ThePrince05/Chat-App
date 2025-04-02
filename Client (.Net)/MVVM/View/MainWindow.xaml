@@ -308,11 +308,10 @@
                                         x:Name="ShadeControlMenu"
                                         Opacity="0.7"
                                         Grid.ColumnSpan="2"
-                                        ShadeMessage="Please select/cerate a group"
-                                        MessageVisibility="{Binding DataContext.ShadeMessageVisibility, RelativeSource={RelativeSource AncestorType=Window}}"
-                                        Visibility="{Binding DataContext.ShadeControlVisibility, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        ShadeMessage="Please create a new group"
+                                        MessageVisibility="{Binding DataContext.ShadeMessageVisibility,Mode=TwoWay, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        Visibility="{Binding DataContext.ShadeControlVisibility,Mode=TwoWay, RelativeSource={RelativeSource AncestorType=Window}}"
                                         Grid.RowSpan="4" />
-
             <userControls:NewGroupControl Panel.ZIndex="1"
                                           Grid.RowSpan="4"
                                           x:Name="NewGroupControlMenus"

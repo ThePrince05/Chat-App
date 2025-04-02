@@ -25,7 +25,7 @@ namespace Client__.Net_.MVVM.ViewModel
     public class MainViewModel : INotifyPropertyChanged
     {
 
-      
+
         private SupabaseService _supabaseService;
         private readonly SQLiteDBService _sqliteDBService;
         private readonly HttpClient _httpClient = new HttpClient();
@@ -37,7 +37,7 @@ namespace Client__.Net_.MVVM.ViewModel
         private Dictionary<int, long> _lastFetchedMessageId = new Dictionary<int, long>();
 
         public System.Timers.Timer PollingTimer { get; private set; }  // Exposed via a property if needed
-       
+
 
 
         // Properties
@@ -66,7 +66,7 @@ namespace Client__.Net_.MVVM.ViewModel
         // Events
         public event EventHandler OnUserLoginCompleted;
         public event EventHandler OnSettingsCompleted;
-        
+
         public string Username
         {
             get => User?.Username;
@@ -80,7 +80,6 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
-       
         private string _message;
         public string Message
         {
@@ -94,6 +93,15 @@ namespace Client__.Net_.MVVM.ViewModel
 
                 // Update the SendMessageCommand state
                 (_sendMessageCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
+        }
+        public string SearchQuery
+        {
+            get => _searchQuery;
+            set
+            {
+                _searchQuery = value;
+                OnPropertyChanged(nameof(SearchQuery));
             }
         }
 
@@ -118,12 +126,12 @@ namespace Client__.Net_.MVVM.ViewModel
                     ? $"Selected Group set: {_selectedGroup.GroupName}"
                     : "Selected Group set to null.");
                 // Notify the command that its state might have changed
-                //ShadeVisiblity = "Hidden";
+
                 (_sendMessageCommand as RelayCommand)?.RaiseCanExecuteChanged();
             }
         }
 
-     
+
         private bool _isGroupsLoading;
         public bool IsGroupsLoading
         {
@@ -143,20 +151,6 @@ namespace Client__.Net_.MVVM.ViewModel
             {
                 _isMessagesLoading = value;
                 OnPropertyChanged(nameof(IsMessagesLoading));
-            }
-        }
-
-        private void Groups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(Groups)); // Notify UI of changes
-            CheckGroupsAndToggleShade();
-        }
-
-        private void CheckGroupsAndToggleShade()
-        {
-            if (Groups.Count == 0) // If empty, toggle shade
-            {
-                ToggleShade();
             }
         }
 
@@ -185,15 +179,40 @@ namespace Client__.Net_.MVVM.ViewModel
                 }
             }
         }
+        // shade commands
+        private Visibility shadeMessageVisibility;
 
-
-        public string SearchQuery
+        public Visibility ShadeMessageVisibility
         {
-            get => _searchQuery;
+            get { return shadeMessageVisibility; }
             set
             {
-                _searchQuery = value;
-                OnPropertyChanged(nameof(SearchQuery));
+                shadeMessageVisibility = value;
+                OnPropertyChanged(nameof(ShadeMessageVisibility));
+            }
+        }
+
+        private int shadeControlMenuZIndex;
+
+        public int ShadeControlMenuZIndex
+        {
+            get { return shadeControlMenuZIndex; }
+            set
+            {
+                shadeControlMenuZIndex = value;
+                OnPropertyChanged(nameof(ShadeControlMenuZIndex));
+            }
+        }
+
+        private Visibility shadeControlVisibility;
+
+        public Visibility ShadeControlVisibility
+        {
+            get { return shadeControlVisibility; }
+            set
+            {
+                shadeControlVisibility = value;
+                OnPropertyChanged(nameof(ShadeControlVisibility));
             }
         }
 
@@ -207,9 +226,11 @@ namespace Client__.Net_.MVVM.ViewModel
 
             ShadeControlMenuZIndex = 1;
             ShadeMessageVisibility = Visibility.Visible;
-            ShadeControlVisibility= Visibility.Visible;
+            ShadeControlVisibility = Visibility.Visible;
 
-            _groups.CollectionChanged += Groups_CollectionChanged; // Listen for changes
+            // For shade control
+            _groups.CollectionChanged += Groups_CollectionChanged; // Listen for changes                                                       // Initialize shade state based on existing groups (if already populated)
+
 
             // Initialize Commands
             InitializeCommands();
@@ -236,70 +257,70 @@ namespace Client__.Net_.MVVM.ViewModel
 
             // Start the connection check (polling every 5 seconds)
             StartConnectionCheck();
-            
+
             // Start Notifications
             NotificationVM.StartNotificationChecker();
         }
-
-        public event Action ToggleNewGroupPanel;
-        public void TogglePanel()
+        private void Groups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ToggleNewGroupPanel?.Invoke();
+            OnPropertyChanged(nameof(Groups)); // Notify UI of changes
+            CheckGroupsAndToggleShade();
         }
 
-        private Visibility shadeMessageVisibility;
-
-        public Visibility ShadeMessageVisibility
+        public async void CheckGroupsAndToggleShade()
         {
-            get { return shadeMessageVisibility; }
-            set { 
-                shadeMessageVisibility = value;
-                OnPropertyChanged(nameof(ShadeMessageVisibility));
-            }
-        }
+            Debug.WriteLine($"[DEBUG] Checking groups count: {Groups.Count}");
 
-        private int shadeControlMenuZIndex;
+            await Task.Delay(100); // Ensure UI processing is completed
 
-        public int ShadeControlMenuZIndex
-        {
-            get { return shadeControlMenuZIndex; }
-            set { 
-                shadeControlMenuZIndex = value;
-                OnPropertyChanged(nameof(ShadeControlMenuZIndex));
-            }
-        }
-
-        private Visibility shadeControlVisibility;
-
-        public Visibility ShadeControlVisibility
-        {
-            get { return shadeControlVisibility; }
-            set { 
-                shadeControlVisibility = value; 
-                OnPropertyChanged(nameof(ShadeControlVisibility));
-            }
-        }
-
-        private bool isPanelVisible = false; // Track visibility state
-        private void ToggleShade()
-        {
-            //MessageBox.Show("ToggleShade" + Groups.Count);
-            if (isPanelVisible && SelectedGroup != null)
+            if (Groups.Count == 0)
             {
-                ShadeMessageVisibility = Visibility.Collapsed;
-                ShadeControlMenuZIndex = 0;
-                ShadeControlVisibility = Visibility.Collapsed;
-                //MessageBox.Show("Collapsed" + Groups.Count);
+                Debug.WriteLine("[DEBUG] No groups left, forcing shade to show...");
+                ToggleShade(true); // Force show shade
             }
             else
+            {
+                Debug.WriteLine("[DEBUG] Groups exist, ensuring shade is hidden...");
+                ToggleShade(false); // Force hide shade
+            }
+        }
+
+
+        private bool isPanelVisible = false; // Track visibility state
+        private void ToggleShade(bool forceShow = false)
+        {
+            Debug.WriteLine($"ToggleShade called. Groups count: {Groups.Count}, isPanelVisible: {isPanelVisible}");
+
+            if (forceShow || Groups.Count == 0) // Force show when groups are empty or when explicitly requested
             {
                 ShadeMessageVisibility = Visibility.Visible;
                 ShadeControlMenuZIndex = 1;
                 ShadeControlVisibility = Visibility.Visible;
-                //MessageBox.Show("Visible" + Groups.Count);
+                Debug.WriteLine("Shade set to VISIBLE");
+            }
+            else
+            {
+                ShadeMessageVisibility = Visibility.Collapsed;
+                ShadeControlMenuZIndex = 0;
+                ShadeControlVisibility = Visibility.Collapsed;
+                Debug.WriteLine("Shade set to COLLAPSED");
             }
 
-            isPanelVisible = !isPanelVisible; // Toggle state
+            isPanelVisible = !isPanelVisible;
+
+            // Ensure UI binding is notified
+            OnPropertyChanged(nameof(ShadeControlVisibility));
+            OnPropertyChanged(nameof(ShadeControlMenuZIndex));
+            OnPropertyChanged(nameof(ShadeMessageVisibility));
+            Debug.WriteLine($"Updated isPanelVisible: {isPanelVisible}");
+        }
+
+
+        // Toggle new group panel
+        public event Action ToggleNewGroupPanel;
+        public void TogglePanel()
+        {
+            ToggleNewGroupPanel?.Invoke();
         }
 
         public async Task InitializeDatabaseAsync()
@@ -312,60 +333,79 @@ namespace Client__.Net_.MVVM.ViewModel
         {
             _sendMessageCommand = new RelayCommand(
             async _ =>
-                    {
-                        if (SelectedGroup != null)
-                        {
-                            Debug.WriteLine($"Executing SendMessageAsync for Group ID: {SelectedGroup.Id}");
-                            await SendMessageAsync(SelectedGroup.Id);
-                        }
-                        else
-                        {
-                            Debug.WriteLine("SendMessageAsync: No group selected.");
-                            MessageBox.Show("Please select a group before sending a message.");
-                        }
-                    },
+            {
+                if (SelectedGroup != null)
+                {
+                    Debug.WriteLine($"Executing SendMessageAsync for Group ID: {SelectedGroup.Id}");
+                    await SendMessageAsync(SelectedGroup.Id);
+                }
+                else
+                {
+                    Debug.WriteLine("SendMessageAsync: No group selected.");
+                    MessageBox.Show("Please select a group before sending a message.");
+                }
+            },
                     _ => !string.IsNullOrEmpty(Message) && SelectedGroup != null
                 );
 
             _deleteGroupCommand = new AsyncRelayCommand(
-              async () =>
-              {
-                  if (SelectedGroup != null)
-                  {
-                      Debug.WriteLine($"Executing DeleteGroupAsync for Group ID: {SelectedGroup.Id}");
+             async () =>
+             {
+                 if (SelectedGroup != null)
+                 {
+                     Debug.WriteLine($"[DEBUG] Executing DeleteGroupAsync for Group ID: {SelectedGroup.Id}");
 
-                      var result = MessageBox.Show($"Are you sure you want to delete the group '{SelectedGroup.GroupName}'?",
-                                                   "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                     var result = MessageBox.Show($"Are you sure you want to delete the group '{SelectedGroup.GroupName}'?",
+                                                  "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
-                      if (result == MessageBoxResult.Yes)
-                      {
-                          bool isDeleted = await _supabaseService.DeleteGroupAsync(SelectedGroup.Id);
+                     if (result == MessageBoxResult.Yes)
+                     {
+                         bool isDeleted = await _supabaseService.DeleteGroupAsync(SelectedGroup.Id);
 
-                          if (isDeleted)
-                          {
-                              Debug.WriteLine("Group deleted successfully.");
-                              MessageBox.Show("Group deleted successfully.");
-                              Groups.Remove(SelectedGroup);
+                         if (isDeleted)
+                         {
+                             Debug.WriteLine("[DEBUG] Group deleted successfully.");
+                             MessageBox.Show("Group deleted successfully.");
 
-                              
-                          }
-                          else
-                          {
-                              Debug.WriteLine("Failed to delete group.");
-                              MessageBox.Show("Failed to delete group. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                          }
-                      }
+                             Groups.Remove(SelectedGroup);
 
-                      
-                  }
-                  else
-                  {
-                      Debug.WriteLine("DeleteGroupAsync: No group selected.");
-                      MessageBox.Show("Please select a group before attempting to delete.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                  }
-              },
-                  () => SelectedGroup != null
-              );
+                             await Task.Delay(100); // Allow WPF to update UI
+
+                             Debug.WriteLine("[DEBUG] Calling CheckGroupsAndToggleShade() after deletion...");
+                             CheckGroupsAndToggleShade(); // Explicitly check after deletion
+
+                             // **Check if all groups are deleted**
+                             if (Groups.Count == 0)
+                             {
+                                 Debug.WriteLine("[DEBUG] No groups left. Clearing messages and prompting user.");
+
+                                 // **Clear Messages**
+                                 Messages.Clear();
+                                 Debug.WriteLine("[DEBUG] Messages cleared.");
+
+                                 MessageBox.Show("You have deleted all your groups. Please create a new group to continue chatting.",
+                                                 "No Groups Available", MessageBoxButton.OK, MessageBoxImage.Information);
+                             }
+                         }
+                         else
+                         {
+                             Debug.WriteLine("[DEBUG] Failed to delete group.");
+                             MessageBox.Show("Failed to delete group. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                         }
+                     }
+                 }
+                 else
+                 {
+                     Debug.WriteLine("[DEBUG] DeleteGroupAsync: No group selected.");
+                     MessageBox.Show("Please select a group before attempting to delete.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                 }
+             },
+             () => SelectedGroup != null
+         );
+
+
+
+
 
 
             _openSettingsCommand = new RelayCommand(_ => OpenSettings());
@@ -383,7 +423,7 @@ namespace Client__.Net_.MVVM.ViewModel
             {
                 // Reset the ListView if the search query is empty
                 Debug.WriteLine("Search query is empty, resetting ListView to show all groups.");
-                
+
                 Groups.Clear(); // Clear the previous search results
 
                 // You may want to call a method to reload all groups here if needed
@@ -414,9 +454,6 @@ namespace Client__.Net_.MVVM.ViewModel
             // Hide skeleton loader after the search finishes
             IsGroupsLoading = false;
         }
-
-
-
 
         // these ping google to check internet for I don't have loadusergroups
         public async void StartConnectionCheck()
@@ -571,7 +608,7 @@ namespace Client__.Net_.MVVM.ViewModel
             settingsWindow.ShowDialog();
         }
 
-     
+
 
         private void LoadUserData()
         {
