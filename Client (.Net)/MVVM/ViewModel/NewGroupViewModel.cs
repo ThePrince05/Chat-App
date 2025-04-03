@@ -47,6 +47,7 @@ namespace Client__.Net_.MVVM.ViewModel
                 OnPropertyChanged(nameof(CanCreateGroup)); // Notify button state change
             }
         }
+        
 
         public bool CanCreateGroup => !string.IsNullOrWhiteSpace(GroupName) && SelectedUsernames.Any();
 
@@ -54,7 +55,7 @@ namespace Client__.Net_.MVVM.ViewModel
         {
             _mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
             _sqliteDBService = new SQLiteDBService();
-
+           
 
             // Initialize SupabaseService and subscribe to connection failed event
             _supabaseService = new SupabaseService(new SupabaseSettings
@@ -157,6 +158,7 @@ namespace Client__.Net_.MVVM.ViewModel
 
                     // **Trigger LoadMessagesAsync after the group is created.**
                     await _mainViewModel.LoadMessagesAsync(groupId);
+
                 }
                 else
                 {

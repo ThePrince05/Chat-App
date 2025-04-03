@@ -345,7 +345,7 @@ namespace Client__.Net_.MVVM.ViewModel
                     MessageBox.Show("Please select a group before sending a message.");
                 }
             },
-                    _ => !string.IsNullOrEmpty(Message) && SelectedGroup != null
+                    _ => !string.IsNullOrEmpty(Message) && SelectedGroup != null && Groups.Count > 0
                 );
 
             _deleteGroupCommand = new AsyncRelayCommand(
@@ -824,6 +824,7 @@ namespace Client__.Net_.MVVM.ViewModel
 
                         long latestMessageId = messages.Max(m => m.Id);
                         _lastFetchedMessageId[groupId] = latestMessageId;
+                        SelectedGroup.Id = groupId;
                         ScrollToLastMessage(groupId);
                     }
 
