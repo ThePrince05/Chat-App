@@ -44,8 +44,6 @@ namespace Client__.Net_
         }
 
 
-        
-
         protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -99,7 +97,10 @@ namespace Client__.Net_
             // Wait for both minimum splash time and all startup tasks to finish
             await Task.WhenAll(minSplashTime, initTask, loadGroupsTask);
 
-            splashScreen.Close();
+            // Ensure the groups are loaded before checking and toggling the shade
+            mainViewModel.CheckGroupsAndToggleShade(); // Call after groups are loaded
+
+            splashScreen.Close(); // Close splash screen once everything is set
 
             var initResult = await initTask; // Retrieve the initialization result
 
@@ -137,6 +138,8 @@ namespace Client__.Net_
                 NotifyIconInstance = null;
             }
         }
+
+
 
         public static void SetPrimaryColorFromUserSelection(SQLiteDBService sqliteService)
         {
@@ -230,7 +233,7 @@ namespace Client__.Net_
         private void OpenMainWindow(MainViewModel mainViewModel)
         {
             var dbService = new SQLiteDBService();
-           
+
 
             // Apply user settings (primary color)
             SetPrimaryColorFromUserSelection(dbService);
