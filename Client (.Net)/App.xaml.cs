@@ -8,6 +8,9 @@ using MaterialDesignThemes.Wpf;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Client__.Net_.Services;
+using System.Windows.Forms;
+using MessageBox = System.Windows.MessageBox;
+using Application = System.Windows.Application;
 
 namespace Client__.Net_
 {
@@ -21,6 +24,7 @@ namespace Client__.Net_
         private MainWindow _mainWindow;
 
         public static MessageTrackerService MessageTrackerService { get; private set; }
+        public static NotifyIcon NotifyIconInstance { get; private set; }
 
         // Mapping from stored hex value to MaterialDesign swatch name.
         private static readonly Dictionary<string, string> HexToSwatch = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
@@ -40,13 +44,20 @@ namespace Client__.Net_
         }
 
 
-        
-
         protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             MessageTrackerService = new MessageTrackerService();
+            if (NotifyIconInstance == null)
+            {
+                NotifyIconInstance = new NotifyIcon
+                {
+                    Icon = new System.Drawing.Icon("Assets/Icons/group.ico"),
+                    Visible = true,
+                    Text = "Chat App"
+                };
+            }
 
             var splashScreen = new MVVM.View.SplashScreen();
             splashScreen.Show();
@@ -86,7 +97,10 @@ namespace Client__.Net_
             // Wait for both minimum splash time and all startup tasks to finish
             await Task.WhenAll(minSplashTime, initTask, loadGroupsTask);
 
-            splashScreen.Close();
+            // Ensure the groups are loaded before checking and toggling the shade
+            mainViewModel.CheckGroupsAndToggleShade(); // Call after groups are loaded
+
+            splashScreen.Close(); // Close splash screen once everything is set
 
             var initResult = await initTask; // Retrieve the initialization result
 
@@ -108,6 +122,23 @@ namespace Client__.Net_
                 _userLoginWindow.ShowDialog();
             }
         }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            DisposeNotifyIcon();
+            base.OnExit(e);
+        }
+
+        public static void DisposeNotifyIcon()
+        {
+            if (NotifyIconInstance != null)
+            {
+                NotifyIconInstance.Visible = false;
+                NotifyIconInstance.Dispose();
+                NotifyIconInstance = null;
+            }
+        }
+
 
 
         public static void SetPrimaryColorFromUserSelection(SQLiteDBService sqliteService)
@@ -202,7 +233,7 @@ namespace Client__.Net_
         private void OpenMainWindow(MainViewModel mainViewModel)
         {
             var dbService = new SQLiteDBService();
-           
+
 
             // Apply user settings (primary color)
             SetPrimaryColorFromUserSelection(dbService);

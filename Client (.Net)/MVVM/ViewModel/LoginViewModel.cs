@@ -148,7 +148,7 @@ namespace Client__.Net_.MVVM.ViewModel
             _openUserProfileAddCommand = new RelayCommand(_ => OpenUserProfileAdd());
         }
 
-        private void ExecuteLogout()
+        public void ExecuteLogout()
         {
             var result = MessageBox.Show("Are you sure you want to log out?",
                                          "Confirm Logout",
@@ -159,19 +159,22 @@ namespace Client__.Net_.MVVM.ViewModel
                 // Step 1: Delete all user logins from SQLite
                 _sqliteDBService.DeleteAllUserLogins();
 
-                // Step 2: Get the correct application executable path
+                // Step 2: Dispose NotifyIcon before restarting
+                App.DisposeNotifyIcon();
+
+                // Step 3: Get the correct application executable path
                 string exePath = Path.ChangeExtension(Assembly.GetExecutingAssembly().Location, ".exe");
 
-                if (File.Exists(exePath))  // Ensure the .exe file exists
+                if (File.Exists(exePath)) // Ensure the .exe file exists
                 {
-                    // Step 3: Start the application again
+                    // Step 4: Start the application again
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = exePath, // Correct executable path
+                        FileName = exePath,
                         UseShellExecute = true,
                     });
 
-                    // Step 4: Exit the current application
+                    // Step 5: Exit the current application
                     Application.Current.Shutdown();
                     Environment.Exit(0);
                 }
@@ -182,6 +185,7 @@ namespace Client__.Net_.MVVM.ViewModel
                 }
             }
         }
+
 
 
 

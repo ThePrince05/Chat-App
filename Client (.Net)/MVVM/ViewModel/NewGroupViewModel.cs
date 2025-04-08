@@ -20,7 +20,7 @@ using User = Chat_App.Core.Model.User;
 
 namespace Client__.Net_.MVVM.ViewModel
 {
-    public class NewGroupViewModel: INotifyPropertyChanged
+    public class NewGroupViewModel : INotifyPropertyChanged
     {
         private MainViewModel _mainViewModel;
         private readonly SQLiteDBService _sqliteDBService;
@@ -47,14 +47,15 @@ namespace Client__.Net_.MVVM.ViewModel
                 OnPropertyChanged(nameof(CanCreateGroup)); // Notify button state change
             }
         }
+        
 
         public bool CanCreateGroup => !string.IsNullOrWhiteSpace(GroupName) && SelectedUsernames.Any();
 
-        public NewGroupViewModel(MainViewModel mainViewModel, SupabaseSettings supabaseSettings) 
+        public NewGroupViewModel(MainViewModel mainViewModel, SupabaseSettings supabaseSettings)
         {
             _mainViewModel = mainViewModel ?? throw new ArgumentNullException(nameof(mainViewModel));
             _sqliteDBService = new SQLiteDBService();
-          
+           
 
             // Initialize SupabaseService and subscribe to connection failed event
             _supabaseService = new SupabaseService(new SupabaseSettings
@@ -69,7 +70,7 @@ namespace Client__.Net_.MVVM.ViewModel
             Task.Run(async () => await LoadUsernamesAsync());
 
         }
-      
+
         private void InitializeCommands()
         {
             _createGroupCommand = new AsyncRelayCommand(CreateGroupAsync, () => CanCreateGroup);
@@ -86,7 +87,7 @@ namespace Client__.Net_.MVVM.ViewModel
             _mainViewModel.LoadUserGroupsAsync();
         }
 
-       
+
         private void LoadUserData()
         {
             User = _sqliteDBService.LoadUser();
@@ -154,6 +155,7 @@ namespace Client__.Net_.MVVM.ViewModel
 
                     TriggerTogglePanel();
                     RefreshGroupList();
+
                 }
                 else
                 {
@@ -166,6 +168,7 @@ namespace Client__.Net_.MVVM.ViewModel
                 MessageBox.Show("An error occurred while creating the group.");
             }
         }
+
 
 
 
