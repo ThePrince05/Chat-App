@@ -176,7 +176,7 @@
                           Height="auto"
                           Foreground="White"
                           ItemsSource="{Binding Groups}"
-                          IsSynchronizedWithCurrentItem="True"
+                          IsSynchronizedWithCurrentItem="False"
                           Background="Transparent"
                           BorderThickness="0"
                           ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -424,6 +424,25 @@
                         CornerRadius="5"
                         Margin="5" />
             </StackPanel>
+
+            <TextBlock FontSize="35"
+                       Foreground="#AAAAAA"
+                       Margin="80 0 0 0"
+                       VerticalAlignment="Center"
+                       TextAlignment="Center">
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource GroupStatusToMessageConverter}">
+                        <Binding Path="Groups.Count" />
+                        <Binding Path="SelectedGroup" />
+                    </MultiBinding>
+                </TextBlock.Visibility>
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource GroupStatusToMessageConverter}">
+                        <Binding Path="Groups.Count" />
+                        <Binding Path="SelectedGroup" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
 
 
             <!--Message box-->

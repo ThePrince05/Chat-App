@@ -824,7 +824,7 @@ namespace Client__.Net_.MVVM.ViewModel
 
                         long latestMessageId = messages.Max(m => m.Id);
                         _lastFetchedMessageId[groupId] = latestMessageId;
-                        SelectedGroup.Id = groupId;
+
                         ScrollToLastMessage(groupId);
                     }
 

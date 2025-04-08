@@ -29,18 +29,7 @@ namespace Client__.Net_.MVVM.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
-        }
-        private void NextToServerSettings_Click(object sender, RoutedEventArgs e)
-        {
-           
-        }
-
-        private void FinishSettings_Click(object sender, RoutedEventArgs e)
-        {
-           
-            // Close the window
-            this.Close();
+            Application.Current.Shutdown();
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)

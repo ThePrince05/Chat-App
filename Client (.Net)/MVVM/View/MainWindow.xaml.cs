@@ -9,9 +9,10 @@ using System.Windows.Media.Animation;
 using System.Windows.Forms;
 using System.Windows.Threading;
 using Panel = System.Windows.Controls.Panel;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace Chat_App
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         private double lvGroupListOldMaxHeight;
         private double NewGroupControlMenusOldHeight;

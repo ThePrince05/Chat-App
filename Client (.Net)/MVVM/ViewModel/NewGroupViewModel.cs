@@ -156,9 +156,6 @@ namespace Client__.Net_.MVVM.ViewModel
                     TriggerTogglePanel();
                     RefreshGroupList();
 
-                    // **Trigger LoadMessagesAsync after the group is created.**
-                    await _mainViewModel.LoadMessagesAsync(groupId);
-
                 }
                 else
                 {
