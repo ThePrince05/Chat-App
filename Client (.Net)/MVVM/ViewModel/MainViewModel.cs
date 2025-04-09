@@ -326,22 +326,12 @@ namespace Client__.Net_.MVVM.ViewModel
                             // Remove from Groups list
                             Groups.Remove(SelectedGroup);
 
-<<<<<<< HEAD
-                             await Task.Delay(100); // Allow WPF to update UI
-                             
-=======
-                            // Clear selection
-                            SelectedGroup = null;
 
-                            // Clear messages
-                            Messages.Clear();
-                            Debug.WriteLine("[DEBUG] Messages cleared.");
->>>>>>> a97430dcbddd1584f44d3090e914d1dddb0422a0
 
                             await Task.Delay(100); // Allow WPF to update UI
 
                             Debug.WriteLine("[DEBUG] Calling CheckGroupsAndToggleShade() after deletion...");
-                            CheckGroupsAndToggleShade(); // Explicitly check after deletion
+                            
 
                             // If all groups are deleted
                             if (Groups.Count == 0)
