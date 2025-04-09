@@ -71,3 +71,7 @@
 /Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_MarkupCompile.i.lref
 /Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/GeneratedInternalTypeHelper.g.i.cs
 /Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/UserControls/ShadeControl.g.i.cs
+/.vs/Chat App Client/FileContentIndex/33cd1def-a858-49ef-95fe-46f4f8302870.vsidx
+/.vs/Chat App Client/FileContentIndex/380f2780-c847-4c46-ac72-b6ca6598ef95.vsidx
+*.vsidx
+/Client (.Net)/bin/Debug/net8.0-windows10.0.17763.0/Chat App.dll
