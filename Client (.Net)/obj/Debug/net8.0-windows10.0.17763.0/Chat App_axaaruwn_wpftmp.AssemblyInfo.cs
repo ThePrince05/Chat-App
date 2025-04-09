@@ -14,11 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Chat App")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD:Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_dtod5i1z_wpftmp.AssemblyInfo.cs
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ee30d78a4748eff809815a7a27530e533961c370")]
-=======
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe31da7df4ce7cb9939f222ba4746f5ae6a411fe")]
->>>>>>> a97430dcbddd1584f44d3090e914d1dddb0422a0:Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App.AssemblyInfo.cs
 [assembly: System.Reflection.AssemblyProductAttribute("Chat App")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Chat App")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
