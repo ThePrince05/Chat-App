@@ -12,14 +12,9 @@ TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\Micha\Source\Repos\Chat-App\Client (.Net)\App.xaml
 11-1862506247
 2864851921
-<<<<<<< HEAD
-321226248134
-221395840449
-=======
 331822299634
-2212038843866
->>>>>>> a97430dcbddd1584f44d3090e914d1dddb0422a0
+221395840449
 MVVM\View\MainWindow.xaml;MVVM\View\Settings.xaml;MVVM\View\SplashScreen.xaml;MVVM\View\UserLogin.xaml;MVVM\View\UserProfileAdd.xaml;MVVM\View\UserProfileEdit.xaml;Themes\GroupsCard.xaml;Themes\MessageBox.xaml;Themes\StylishCrollbar.xaml;UserControls\NewGroupControl.xaml;UserControls\ShadeControl.xaml;
 
-False
+True
 
