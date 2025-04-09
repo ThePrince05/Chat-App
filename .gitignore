@@ -75,3 +75,24 @@
 /.vs/Chat App Client/FileContentIndex/380f2780-c847-4c46-ac72-b6ca6598ef95.vsidx
 *.vsidx
 /Client (.Net)/bin/Debug/net8.0-windows10.0.17763.0/Chat App.dll
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App.AssemblyInfo.cs
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App.AssemblyInfoInputs.cache
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_nxn0guo0_wpftmp.AssemblyInfo.cs
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_nxn0guo0_wpftmp.AssemblyInfoInputs.cache
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_nxn0guo0_wpftmp.assets.cache
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_nxn0guo0_wpftmp.csproj.BuildWithSkipAnalyzers
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_nxn0guo0_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_nxn0guo0_wpftmp.GlobalUsings.g.cs
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_nxn0guo0_wpftmp.sourcelink.json
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_ukdbfq2c_wpftmp.AssemblyInfo.cs
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_ukdbfq2c_wpftmp.AssemblyInfoInputs.cache
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_ukdbfq2c_wpftmp.assets.cache
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_ukdbfq2c_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_ukdbfq2c_wpftmp.GlobalUsings.g.cs
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/Chat App_ukdbfq2c_wpftmp.sourcelink.json
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/MVVM/View/Settings.g.i.cs
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/MVVM/View/SplashScreen.g.i.cs
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/MVVM/View/UserLogin.g.i.cs
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/MVVM/View/UserProfileAdd.g.i.cs
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/MVVM/View/UserProfileEdit.g.i.cs
+/Client (.Net)/obj/Debug/net8.0-windows10.0.17763.0/UserControls/NewGroupControl.g.i.cs
