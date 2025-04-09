@@ -175,7 +175,7 @@ namespace Client__.Net_.MVVM.ViewModel
                         _groups.CollectionChanged += Groups_CollectionChanged; // Subscribe new
                     }
 
-                    CheckGroupsAndToggleShade(); // Check immediately after setting new collection
+                    
                 }
             }
         }
@@ -224,9 +224,9 @@ namespace Client__.Net_.MVVM.ViewModel
             _sqliteDBService = new SQLiteDBService();
             _sqliteDBService.InitializeDatabase();
 
-            ShadeControlMenuZIndex = 1;
-            ShadeMessageVisibility = Visibility.Visible;
-            ShadeControlVisibility = Visibility.Visible;
+            ShadeControlMenuZIndex = 0;
+            ShadeMessageVisibility = Visibility.Collapsed;
+            ShadeControlVisibility = Visibility.Collapsed;
 
             // For shade control
             _groups.CollectionChanged += Groups_CollectionChanged; // Listen for changes                                                       // Initialize shade state based on existing groups (if already populated)
@@ -264,56 +264,12 @@ namespace Client__.Net_.MVVM.ViewModel
         private void Groups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(Groups)); // Notify UI of changes
-            CheckGroupsAndToggleShade();
-        }
-
-        public async void CheckGroupsAndToggleShade()
-        {
-            Debug.WriteLine($"[DEBUG] Checking groups count: {Groups.Count}");
-
-            await Task.Delay(100); // Ensure UI processing is completed
-
-            if (Groups.Count == 0)
-            {
-                Debug.WriteLine("[DEBUG] No groups left, forcing shade to show...");
-                ToggleShade(true); // Force show shade
-            }
-            else
-            {
-                Debug.WriteLine("[DEBUG] Groups exist, ensuring shade is hidden...");
-                ToggleShade(false); // Force hide shade
-            }
+            
         }
 
 
         private bool isPanelVisible = false; // Track visibility state
-        private void ToggleShade(bool forceShow = false)
-        {
-            Debug.WriteLine($"ToggleShade called. Groups count: {Groups.Count}, isPanelVisible: {isPanelVisible}");
-
-            if (forceShow || Groups.Count == 0) // Force show when groups are empty or when explicitly requested
-            {
-                ShadeMessageVisibility = Visibility.Visible;
-                ShadeControlMenuZIndex = 1;
-                ShadeControlVisibility = Visibility.Visible;
-                Debug.WriteLine("Shade set to VISIBLE");
-            }
-            else
-            {
-                ShadeMessageVisibility = Visibility.Collapsed;
-                ShadeControlMenuZIndex = 0;
-                ShadeControlVisibility = Visibility.Collapsed;
-                Debug.WriteLine("Shade set to COLLAPSED");
-            }
-
-            isPanelVisible = !isPanelVisible;
-
-            // Ensure UI binding is notified
-            OnPropertyChanged(nameof(ShadeControlVisibility));
-            OnPropertyChanged(nameof(ShadeControlMenuZIndex));
-            OnPropertyChanged(nameof(ShadeMessageVisibility));
-            Debug.WriteLine($"Updated isPanelVisible: {isPanelVisible}");
-        }
+       
 
 
         // Toggle new group panel
@@ -370,9 +326,7 @@ namespace Client__.Net_.MVVM.ViewModel
                              Groups.Remove(SelectedGroup);
 
                              await Task.Delay(100); // Allow WPF to update UI
-
-                             Debug.WriteLine("[DEBUG] Calling CheckGroupsAndToggleShade() after deletion...");
-                             CheckGroupsAndToggleShade(); // Explicitly check after deletion
+                             
 
                              // **Check if all groups are deleted**
                              if (Groups.Count == 0)
@@ -507,7 +461,6 @@ namespace Client__.Net_.MVVM.ViewModel
                 {
                     Groups.Add(group);
                 }
-                //ToggleShade();
             });
 
             IsGroupsLoading = false; // Hide skeleton loader

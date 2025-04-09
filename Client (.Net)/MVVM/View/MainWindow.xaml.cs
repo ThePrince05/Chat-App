@@ -155,33 +155,13 @@ namespace Chat_App
                     await viewModel.LoadMessagesAsync(selectedGroup.Id);
 
                     viewModel.IsMessagesLoading = false; // Hide skeleton loader
-
+                    
                     // Restart polling for the new group
                     viewModel.StartMessagePolling();
                 }
             }
         }
 
-        
-        private void ToggleShade()
-        {
-            Storyboard st = new();
-
-            if (ShadeControlMenu.MessageVisibility == "Visible")
-            {
-                ShadeControlMenu.MessageVisibility = "Collapsed";
-                st = (Storyboard)ShadeControlMenu.FindResource("ShadeOut");
-                ShadeControlMenu.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                ShadeControlMenu.MessageVisibility = "Visible";
-                st = (Storyboard)ShadeControlMenu.FindResource("ShadeIn");
-                ShadeControlMenu.Visibility = Visibility.Visible;
-            }
-
-            st.Begin();
-        }
 
         private void MessageTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
