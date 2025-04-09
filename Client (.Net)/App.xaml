@@ -22,8 +22,9 @@
             <converters:MessageBackgroundConverter x:Key="MessageBackgroundConverter" />
             <converters:MessageAlignmentConverter x:Key="MessageAlignmentConverter" />
             <converters:MessageColumnConverter x:Key="MessageColumnConverter" />
-            <converters:GroupStatusToMessageConverter x:Key="GroupStatusToMessageConverter" /> 
-            
+            <converters:GroupStatusToMessageConverter x:Key="GroupStatusToMessageConverter" />
+            <converters:GroupSelectionToIsEnabledConverter x:Key="GroupSelectionToIsEnabledConverter" />
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -98,7 +98,7 @@ namespace Client__.Net_
             await Task.WhenAll(minSplashTime, initTask, loadGroupsTask);
 
             // Ensure the groups are loaded before checking and toggling the shade
-            mainViewModel.CheckGroupsAndToggleShade(); // Call after groups are loaded
+           //  mainViewModel.CheckGroupsAndToggleShade(); // Call after groups are loaded
 
             splashScreen.Close(); // Close splash screen once everything is set
 

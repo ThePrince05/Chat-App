@@ -467,7 +467,15 @@
                      AcceptsReturn="True"
                      Margin="8,7,8,11"
                      TextChanged="MessageTextBox_TextChanged"
-                     KeyDown="MessageTextBox_KeyDown"/>
+                     KeyDown="MessageTextBox_KeyDown">
+                <TextBox.IsEnabled>
+                    <MultiBinding Converter="{StaticResource GroupSelectionToIsEnabledConverter}">
+                        <Binding Path="Groups.Count" />
+                        <Binding Path="SelectedGroup" />
+                    </MultiBinding>
+                </TextBox.IsEnabled>
+            </TextBox>
+
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Left"
                         Grid.Column="1"

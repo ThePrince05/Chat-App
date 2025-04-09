@@ -349,59 +349,63 @@ namespace Client__.Net_.MVVM.ViewModel
                 );
 
             _deleteGroupCommand = new AsyncRelayCommand(
-             async () =>
-             {
-                 if (SelectedGroup != null)
-                 {
-                     Debug.WriteLine($"[DEBUG] Executing DeleteGroupAsync for Group ID: {SelectedGroup.Id}");
+            async () =>
+            {
+                if (SelectedGroup != null)
+                {
+                    Debug.WriteLine($"[DEBUG] Executing DeleteGroupAsync for Group ID: {SelectedGroup.Id}");
 
-                     var result = MessageBox.Show($"Are you sure you want to delete the group '{SelectedGroup.GroupName}'?",
-                                                  "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    var result = MessageBox.Show($"Are you sure you want to delete the group '{SelectedGroup.GroupName}'?",
+                                                 "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
-                     if (result == MessageBoxResult.Yes)
-                     {
-                         bool isDeleted = await _supabaseService.DeleteGroupAsync(SelectedGroup.Id);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        bool isDeleted = await _supabaseService.DeleteGroupAsync(SelectedGroup.Id);
 
-                         if (isDeleted)
-                         {
-                             Debug.WriteLine("[DEBUG] Group deleted successfully.");
-                             MessageBox.Show("Group deleted successfully.");
+                        if (isDeleted)
+                        {
+                            Debug.WriteLine("[DEBUG] Group deleted successfully.");
+                            MessageBox.Show("Group deleted successfully.");
 
-                             Groups.Remove(SelectedGroup);
+                            // Remove from Groups list
+                            Groups.Remove(SelectedGroup);
 
-                             await Task.Delay(100); // Allow WPF to update UI
+                            // Clear selection
+                            SelectedGroup = null;
 
-                             Debug.WriteLine("[DEBUG] Calling CheckGroupsAndToggleShade() after deletion...");
-                             CheckGroupsAndToggleShade(); // Explicitly check after deletion
+                            // Clear messages
+                            Messages.Clear();
+                            Debug.WriteLine("[DEBUG] Messages cleared.");
 
-                             // **Check if all groups are deleted**
-                             if (Groups.Count == 0)
-                             {
-                                 Debug.WriteLine("[DEBUG] No groups left. Clearing messages and prompting user.");
+                            await Task.Delay(100); // Allow WPF to update UI
 
-                                 // **Clear Messages**
-                                 Messages.Clear();
-                                 Debug.WriteLine("[DEBUG] Messages cleared.");
+                            Debug.WriteLine("[DEBUG] Calling CheckGroupsAndToggleShade() after deletion...");
+                            CheckGroupsAndToggleShade(); // Explicitly check after deletion
 
-                                 MessageBox.Show("You have deleted all your groups. Please create a new group to continue chatting.",
-                                                 "No Groups Available", MessageBoxButton.OK, MessageBoxImage.Information);
-                             }
-                         }
-                         else
-                         {
-                             Debug.WriteLine("[DEBUG] Failed to delete group.");
-                             MessageBox.Show("Failed to delete group. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                         }
-                     }
-                 }
-                 else
-                 {
-                     Debug.WriteLine("[DEBUG] DeleteGroupAsync: No group selected.");
-                     MessageBox.Show("Please select a group before attempting to delete.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                 }
-             },
-             () => SelectedGroup != null
-         );
+                            // If all groups are deleted
+                            if (Groups.Count == 0)
+                            {
+                                Debug.WriteLine("[DEBUG] No groups left. Clearing messages and prompting user.");
+
+                                MessageBox.Show("You have deleted all your groups. Please create a new group to continue chatting.",
+                                                "No Groups Available", MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine("[DEBUG] Failed to delete group.");
+                            MessageBox.Show("Failed to delete group. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("[DEBUG] DeleteGroupAsync: No group selected.");
+                    MessageBox.Show("Please select a group before attempting to delete.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            },
+            () => SelectedGroup != null
+        );
 
 
 
