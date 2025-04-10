@@ -97,8 +97,6 @@ namespace Client__.Net_
             // Wait for both minimum splash time and all startup tasks to finish
             await Task.WhenAll(minSplashTime, initTask, loadGroupsTask);
 
-
-
             splashScreen.Close(); // Close splash screen once everything is set
 
             var initResult = await initTask; // Retrieve the initialization result

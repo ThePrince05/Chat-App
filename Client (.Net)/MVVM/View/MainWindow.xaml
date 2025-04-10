@@ -309,8 +309,7 @@
                                         Opacity="0.7"
                                         Grid.ColumnSpan="2"
                                         ShadeMessage=""
-                                        MessageVisibility="{Binding DataContext.ShadeMessageVisibility,Mode=TwoWay, RelativeSource={RelativeSource AncestorType=Window}}"
-                                        Visibility="{Binding DataContext.ShadeControlVisibility,Mode=TwoWay, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        Visibility="Collapsed"
                                         Grid.RowSpan="4" />
             <userControls:NewGroupControl Panel.ZIndex="1"
                                           Grid.RowSpan="4"
@@ -358,8 +357,7 @@
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Border
-                                Padding="10"
+                        <Border Padding="10"
                                 CornerRadius="8"
                                 MinWidth="150"
                                 MaxWidth="600"

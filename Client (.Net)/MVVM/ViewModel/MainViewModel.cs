@@ -105,13 +105,6 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
-        private string _shadeVisiblity;
-
-        public string ShadeVisiblity
-        {
-            get { return _shadeVisiblity; }
-            set { _shadeVisiblity = value; }
-        }
 
 
         private Group _selectedGroup;
@@ -160,61 +153,11 @@ namespace Client__.Net_.MVVM.ViewModel
             get => _groups;
             set
             {
-                if (_groups != value)
-                {
-                    if (_groups != null)
-                    {
-                        _groups.CollectionChanged -= Groups_CollectionChanged; // Unsubscribe old
-                    }
-
-                    _groups = value;
-                    OnPropertyChanged(nameof(Groups));
-
-                    if (_groups != null)
-                    {
-                        _groups.CollectionChanged += Groups_CollectionChanged; // Subscribe new
-                    }
-
-                    
-                }
+                _groups = value;
+                OnPropertyChanged(nameof(Groups));
             }
         }
-        // shade commands
-        private Visibility shadeMessageVisibility;
-
-        public Visibility ShadeMessageVisibility
-        {
-            get { return shadeMessageVisibility; }
-            set
-            {
-                shadeMessageVisibility = value;
-                OnPropertyChanged(nameof(ShadeMessageVisibility));
-            }
-        }
-
-        private int shadeControlMenuZIndex;
-
-        public int ShadeControlMenuZIndex
-        {
-            get { return shadeControlMenuZIndex; }
-            set
-            {
-                shadeControlMenuZIndex = value;
-                OnPropertyChanged(nameof(ShadeControlMenuZIndex));
-            }
-        }
-
-        private Visibility shadeControlVisibility;
-
-        public Visibility ShadeControlVisibility
-        {
-            get { return shadeControlVisibility; }
-            set
-            {
-                shadeControlVisibility = value;
-                OnPropertyChanged(nameof(ShadeControlVisibility));
-            }
-        }
+       
 
         // Constructor
         public MainViewModel()
@@ -223,14 +166,6 @@ namespace Client__.Net_.MVVM.ViewModel
 
             _sqliteDBService = new SQLiteDBService();
             _sqliteDBService.InitializeDatabase();
-
-            ShadeControlMenuZIndex = 0;
-            ShadeMessageVisibility = Visibility.Collapsed;
-            ShadeControlVisibility = Visibility.Collapsed;
-
-            // For shade control
-            _groups.CollectionChanged += Groups_CollectionChanged; // Listen for changes                                                       // Initialize shade state based on existing groups (if already populated)
-
 
             // Initialize Commands
             InitializeCommands();
@@ -261,16 +196,7 @@ namespace Client__.Net_.MVVM.ViewModel
             // Start Notifications
             NotificationVM.StartNotificationChecker();
         }
-        private void Groups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(Groups)); // Notify UI of changes
-            
-        }
-
-
-        private bool isPanelVisible = false; // Track visibility state
-       
-
+      
 
         // Toggle new group panel
         public event Action ToggleNewGroupPanel;
@@ -325,13 +251,10 @@ namespace Client__.Net_.MVVM.ViewModel
 
                             // Remove from Groups list
                             Groups.Remove(SelectedGroup);
-
-
-
-                            await Task.Delay(100); // Allow WPF to update UI
-
-                            Debug.WriteLine("[DEBUG] Calling CheckGroupsAndToggleShade() after deletion...");
                             
+                            // Clears Message feed and resetting selected group for proper message to show on feed
+                            Messages.Clear();
+                            SelectedGroup = null;
 
                             // If all groups are deleted
                             if (Groups.Count == 0)
@@ -357,10 +280,6 @@ namespace Client__.Net_.MVVM.ViewModel
             },
             () => SelectedGroup != null
         );
-
-
-
-
 
 
             _openSettingsCommand = new RelayCommand(_ => OpenSettings());
@@ -561,8 +480,6 @@ namespace Client__.Net_.MVVM.ViewModel
             var settingsWindow = new Settings();
             settingsWindow.ShowDialog();
         }
-
-
 
         private void LoadUserData()
         {
