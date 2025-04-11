@@ -12,23 +12,23 @@ namespace Client__.Net_.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            // values[0] = Groups.Count
-            // values[1] = SelectedGroup
             int groupCount = (int)(values[0] ?? 0);
             object selectedGroup = values[1];
+            bool isSearchingGroups = values.Length > 2 && values[2] is bool b && b;
+
+            if (isSearchingGroups)
+                return ""; // Suppress message during search
 
             if (groupCount == 0)
                 return "Please create a new group";
             if (groupCount > 0 && selectedGroup == null)
                 return "Please select a group";
 
-            return ""; // no message
+            return "";
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
 
 }

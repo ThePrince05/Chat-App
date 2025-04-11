@@ -157,7 +157,18 @@ namespace Client__.Net_.MVVM.ViewModel
                 OnPropertyChanged(nameof(Groups));
             }
         }
-       
+
+        private bool _isSearchingGroups;
+        public bool IsSearchingGroups
+        {
+            get => _isSearchingGroups;
+            set
+            {
+                _isSearchingGroups = value;
+                OnPropertyChanged(nameof(IsSearchingGroups));
+            }
+        }
+
 
         // Constructor
         public MainViewModel()
@@ -290,33 +301,36 @@ namespace Client__.Net_.MVVM.ViewModel
 
         }
 
-
         private async Task SearchGroupsAsync()
         {
             if (string.IsNullOrWhiteSpace(SearchQuery))
             {
-                // Reset the ListView if the search query is empty
                 Debug.WriteLine("Search query is empty, resetting ListView to show all groups.");
 
-                Groups.Clear(); // Clear the previous search results
-
-                // You may want to call a method to reload all groups here if needed
-                await LoadUserGroupsAsync(); // Reload groups when reconnected
-
-                return; // Exit the method since we don't need to search if the query is empty
+                Groups.Clear();
+                await LoadUserGroupsAsync();
+                return;
             }
 
-            // Show skeleton loader while searching
             IsGroupsLoading = true;
             Debug.WriteLine($"Searching for: {SearchQuery}");
 
-            // Perform the search
             var results = await _supabaseService.SearchGroupsByNameAsync(SearchQuery);
 
-            // Update the Groups collection on the UI thread
+            if (results == null || results.Count == 0)
+            {
+                MessageBox.Show("No groups found matching your search query.",
+                                "No Results", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Keep the existing Groups list unchanged to avoid triggering the "create a group" message.
+                IsGroupsLoading = false;
+                return;
+            }
+
+            // If there are results, update the Groups collection on the UI thread
             Application.Current.Dispatcher.Invoke(() =>
             {
-                Groups.Clear(); // Clear the previous search results
+                Groups.Clear();
                 foreach (var group in results)
                 {
                     Groups.Add(group);
@@ -324,10 +338,9 @@ namespace Client__.Net_.MVVM.ViewModel
             });
 
             Debug.WriteLine($"Groups found: {Groups.Count}");
-
-            // Hide skeleton loader after the search finishes
             IsGroupsLoading = false;
         }
+
 
         // these ping google to check internet for I don't have loadusergroups
         public async void StartConnectionCheck()

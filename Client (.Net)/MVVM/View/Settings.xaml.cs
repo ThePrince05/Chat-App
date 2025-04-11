@@ -29,7 +29,7 @@ namespace Client__.Net_.MVVM.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            this.Close();
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
