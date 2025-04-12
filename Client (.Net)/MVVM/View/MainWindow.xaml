@@ -432,16 +432,17 @@
                     <MultiBinding Converter="{StaticResource GroupStatusToMessageConverter}">
                         <Binding Path="Groups.Count" />
                         <Binding Path="SelectedGroup" />
+                        <Binding Path="SuppressGroupStatusMessage" />
                     </MultiBinding>
                 </TextBlock.Visibility>
                 <TextBlock.Text>
                     <MultiBinding Converter="{StaticResource GroupStatusToMessageConverter}">
                         <Binding Path="Groups.Count" />
                         <Binding Path="SelectedGroup" />
+                        <Binding Path="SuppressGroupStatusMessage" />
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-
 
             <!--Message box-->
             <Rectangle Grid.ColumnSpan="2"

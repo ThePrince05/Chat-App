@@ -12,12 +12,13 @@ namespace Client__.Net_.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            // values[0] = Groups.Count, values[1] = SelectedGroup, values[2] = SuppressGroupStatusMessage (bool)
             int groupCount = (int)(values[0] ?? 0);
             object selectedGroup = values[1];
-            bool isSearchingGroups = values.Length > 2 && values[2] is bool b && b;
+            bool suppressMessage = values.Length > 2 && values[2] is bool b && b;
 
-            if (isSearchingGroups)
-                return ""; // Suppress message during search
+            if (suppressMessage)
+                return ""; // Do not show any message when a search is active.
 
             if (groupCount == 0)
                 return "Please create a new group";
@@ -30,5 +31,6 @@ namespace Client__.Net_.Converters
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
             => throw new NotImplementedException();
     }
+
 
 }

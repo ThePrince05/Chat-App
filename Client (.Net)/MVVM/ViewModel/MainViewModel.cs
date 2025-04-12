@@ -158,16 +158,18 @@ namespace Client__.Net_.MVVM.ViewModel
             }
         }
 
-        private bool _isSearchingGroups;
-        public bool IsSearchingGroups
+
+        private bool _suppressGroupStatusMessage;
+        public bool SuppressGroupStatusMessage
         {
-            get => _isSearchingGroups;
+            get => _suppressGroupStatusMessage;
             set
             {
-                _isSearchingGroups = value;
-                OnPropertyChanged(nameof(IsSearchingGroups));
+                _suppressGroupStatusMessage = value;
+                OnPropertyChanged(nameof(SuppressGroupStatusMessage));
             }
         }
+
 
 
         // Constructor
@@ -303,15 +305,24 @@ namespace Client__.Net_.MVVM.ViewModel
 
         private async Task SearchGroupsAsync()
         {
+            // If the search query is blank, we force a refresh without showing the message.
             if (string.IsNullOrWhiteSpace(SearchQuery))
             {
-                Debug.WriteLine("Search query is empty, resetting ListView to show all groups.");
+                Debug.WriteLine("Search query is empty, refreshing all groups.");
+                SuppressGroupStatusMessage = true; // Prevent messages during refresh
 
-                Groups.Clear();
-                await LoadUserGroupsAsync();
+                // Option 1: Optionally skip clearing the Groups collection to minimize flicker
+                // Groups.Clear();
+
+                await LoadUserGroupsAsync(); // Refresh groups
+
+                // After groups are reloaded, disable the suppression flag.
+                SuppressGroupStatusMessage = false;
                 return;
             }
 
+            // For a non-empty query, proceed as usual.
+            SuppressGroupStatusMessage = true; // Suppress any messages during search execution
             IsGroupsLoading = true;
             Debug.WriteLine($"Searching for: {SearchQuery}");
 
@@ -321,13 +332,12 @@ namespace Client__.Net_.MVVM.ViewModel
             {
                 MessageBox.Show("No groups found matching your search query.",
                                 "No Results", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                // Keep the existing Groups list unchanged to avoid triggering the "create a group" message.
+                // Do not clear Groups so the converter isn’t triggered by an empty list.
                 IsGroupsLoading = false;
+                SuppressGroupStatusMessage = false;
                 return;
             }
 
-            // If there are results, update the Groups collection on the UI thread
             Application.Current.Dispatcher.Invoke(() =>
             {
                 Groups.Clear();
@@ -339,7 +349,11 @@ namespace Client__.Net_.MVVM.ViewModel
 
             Debug.WriteLine($"Groups found: {Groups.Count}");
             IsGroupsLoading = false;
+            SuppressGroupStatusMessage = false;
         }
+
+
+
 
 
         // these ping google to check internet for I don't have loadusergroups
