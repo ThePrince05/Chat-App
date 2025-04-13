@@ -422,11 +422,14 @@
                         CornerRadius="5"
                         Margin="5" />
             </StackPanel>
-
+            
+            
             <TextBlock FontSize="35"
                        Foreground="#AAAAAA"
                        Margin="80 0 0 0"
                        VerticalAlignment="Center"
+                       Width="Auto"
+                       TextWrapping="WrapWithOverflow"
                        TextAlignment="Center">
                 <TextBlock.Visibility>
                     <MultiBinding Converter="{StaticResource GroupStatusToMessageConverter}">
