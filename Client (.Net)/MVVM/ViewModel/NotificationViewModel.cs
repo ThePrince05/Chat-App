@@ -80,19 +80,19 @@ namespace Client__.Net_.MVVM.ViewModel
         {
             try
             {
-                Debug.WriteLine("Checking for new messages...");
+                // Debug.WriteLine("Checking for new messages...");
 
                 int userId = await _supabaseService.GetUserIdByUsernameAsync(User.Username);
                 if (userId <= 0)
                 {
-                    Debug.WriteLine("User ID not found. Exiting check.");
+                    // Debug.WriteLine("User ID not found. Exiting check.");
                     return;
                 }
 
                 List<int> userGroupIds = await _supabaseService.GetUserGroupIdsAsync(userId);
                 if (userGroupIds.Count == 0)
                 {
-                    Debug.WriteLine("User is not part of any groups. Exiting check.");
+                    // Debug.WriteLine("User is not part of any groups. Exiting check.");
                     return;
                 }
 
@@ -104,13 +104,13 @@ namespace Client__.Net_.MVVM.ViewModel
                     // Get the last known message ID from the shared tracker
                     long lastKnownMessageId = _messageTrackerService.GetLastMessageId(groupId);
 
-                    Debug.WriteLine($"Group {groupId}: Last Known ID = {lastKnownMessageId}, Latest ID = {latestMessage.Id}");
+                    // Debug.WriteLine($"Group {groupId}: Last Known ID = {lastKnownMessageId}, Latest ID = {latestMessage.Id}");
 
                     // If the tracker hasn't been initialized (i.e., it's zero), update it without notifying.
                     if (lastKnownMessageId == 0)
                     {
                         _messageTrackerService.UpdateLastMessageId(groupId, latestMessage.Id);
-                        Debug.WriteLine($"Initializing tracker for Group {groupId} with message ID {latestMessage.Id}");
+                        // Debug.WriteLine($"Initializing tracker for Group {groupId} with message ID {latestMessage.Id}");
                         continue; // Skip notifications on initial load
                     }
 
@@ -126,7 +126,7 @@ namespace Client__.Net_.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error in CheckForNewMessagesAsync: {ex.Message}");
+                // Debug.WriteLine($"Error in CheckForNewMessagesAsync: {ex.Message}");
                 Notifications.Add("Error checking messages: " + ex.Message);
             }
         }
@@ -136,7 +136,7 @@ namespace Client__.Net_.MVVM.ViewModel
         {
             if (!string.IsNullOrEmpty(latestMessage.username) && latestMessage.username != User.Username)
             {
-                Debug.WriteLine($"New message detected in {groupName}: {latestMessage.message}");
+                // Debug.WriteLine($"New message detected in {groupName}: {latestMessage.message}");
                 Notifications.Add($"New message in {groupName}: {latestMessage.message}");
                 ShowNewMessageNotification(groupName, latestMessage.message);
 
@@ -145,7 +145,7 @@ namespace Client__.Net_.MVVM.ViewModel
             }
             else
             {
-                Debug.WriteLine($"Skipping message from self or empty sender in {groupName}");
+                // Debug.WriteLine($"Skipping message from self or empty sender in {groupName}");
             }
         }
 
@@ -168,12 +168,12 @@ namespace Client__.Net_.MVVM.ViewModel
                 }
                 else
                 {
-                    Debug.WriteLine("Group name or message is empty, notification not shown.");
+                    // Debug.WriteLine("Group name or message is empty, notification not shown.");
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error showing notification: {ex.Message}");
+                // Debug.WriteLine($"Error showing notification: {ex.Message}");
                 Notifications.Add("Error showing notification: " + ex.Message);
             }
         }

@@ -25,36 +25,36 @@ public class SQLiteDBService
         {
             if (!Directory.Exists(_databaseFolderPath))
             {
-                Debug.WriteLine($"Creating folder: {_databaseFolderPath}");
+                // Debug.WriteLine($"Creating folder: {_databaseFolderPath}");
                 Directory.CreateDirectory(_databaseFolderPath);
-                Debug.WriteLine("Folder created successfully.");
+                // Debug.WriteLine("Folder created successfully.");
             }
             else
             {
-                Debug.WriteLine("Folder already exists.");
+                // Debug.WriteLine("Folder already exists.");
             }
 
             if (!File.Exists(_databaseFilePath))
             {
-                Debug.WriteLine($"Creating database file: {_databaseFilePath}");
+                // Debug.WriteLine($"Creating database file: {_databaseFilePath}");
                 SQLiteConnection.CreateFile(_databaseFilePath);
-                Debug.WriteLine("Database file created successfully.");
+                // Debug.WriteLine("Database file created successfully.");
 
                 using (var connection = new SQLiteConnection($"Data Source={_databaseFilePath};Version=3;"))
                 {
                     connection.Open();
                     CreateTables(connection);
-                    Debug.WriteLine("Tables created successfully.");
+                    // Debug.WriteLine("Tables created successfully.");
                 }
             }
             else
             {
-                Debug.WriteLine("Database file already exists. No changes made.");
+                // Debug.WriteLine("Database file already exists. No changes made.");
             }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error initializing the database: {ex.Message}");
+            // Debug.WriteLine($"Error initializing the database: {ex.Message}");
             throw;
         }
     }
@@ -86,19 +86,19 @@ public class SQLiteDBService
         using (var command = new SQLiteCommand(createUserTableQuery, connection))
         {
             command.ExecuteNonQuery();
-            Debug.WriteLine("Table 'users' created successfully.");
+            // Debug.WriteLine("Table 'users' created successfully.");
         }
 
         using (var command = new SQLiteCommand(createSettingsTableQuery, connection))
         {
             command.ExecuteNonQuery();
-            Debug.WriteLine("Table 'settings' created successfully.");
+            // Debug.WriteLine("Table 'settings' created successfully.");
         }
 
         using (var command = new SQLiteCommand(createLoginTableQuery, connection))
         {
             command.ExecuteNonQuery();
-            Debug.WriteLine("Table 'login' created successfully.");
+            // Debug.WriteLine("Table 'login' created successfully.");
         }
     }
 
@@ -122,7 +122,7 @@ public class SQLiteDBService
                         using (var deleteCommand = new SQLiteCommand(deleteQuery, connection))
                         {
                             deleteCommand.ExecuteNonQuery();
-                            Debug.WriteLine("Existing user deleted.");
+                            // Debug.WriteLine("Existing user deleted.");
                         }
                     }
 
@@ -132,14 +132,14 @@ public class SQLiteDBService
                         insertCommand.Parameters.AddWithValue("@Username", username);
                         insertCommand.Parameters.AddWithValue("@Colour", color);
                         insertCommand.ExecuteNonQuery();
-                        Debug.WriteLine("New user saved successfully.");
+                        // Debug.WriteLine("New user saved successfully.");
                     }
                 }
             }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error saving user: {ex.Message}");
+            // Debug.WriteLine($"Error saving user: {ex.Message}");
             throw;
         }
     }
@@ -164,7 +164,7 @@ public class SQLiteDBService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error saving settings: {ex.Message}");
+            // Debug.WriteLine($"Error saving settings: {ex.Message}");
             throw;
         }
     }
@@ -180,7 +180,7 @@ public class SQLiteDBService
                 // Check if the User table exists
                 if (!TableExists("User"))
                 {
-                    Debug.WriteLine("User table does not exist.");
+                    // Debug.WriteLine("User table does not exist.");
                     return new User
                     {
                         Username = string.Empty,
@@ -210,7 +210,7 @@ public class SQLiteDBService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error loading user data: {ex.Message}");
+            // Debug.WriteLine($"Error loading user data: {ex.Message}");
         }
 
         // Return a default user if no data is found or an error occurs
@@ -235,7 +235,7 @@ public class SQLiteDBService
                 // Check if the Settings table exists
                 if (!TableExists("Settings"))
                 {
-                    Debug.WriteLine("Settings table does not exist.");
+                    // Debug.WriteLine("Settings table does not exist.");
                     return supabaseSettings; // Return default settings if the table doesn't exist
                 }
 
@@ -281,7 +281,7 @@ public class SQLiteDBService
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error checking table existence: {ex.Message}");
+           // System.Diagnostics.Debug.WriteLine($"Error checking table existence: {ex.Message}");
             return false;
         }
     }
@@ -303,7 +303,7 @@ public class SQLiteDBService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error checking data in table '{tableName}': {ex.Message}");
+            // Debug.WriteLine($"Error checking data in table '{tableName}': {ex.Message}");
             return false;
         }
     }
@@ -339,7 +339,7 @@ public class SQLiteDBService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error checking if user '{username}' exists: {ex.Message}");
+            // Debug.WriteLine($"Error checking if user '{username}' exists: {ex.Message}");
             return false;
         }
     }
@@ -362,7 +362,7 @@ public class SQLiteDBService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error checking UserLogin status: {ex.Message}");
+            // Debug.WriteLine($"Error checking UserLogin status: {ex.Message}");
             return false; // Default to false in case of error
         }
     }
@@ -388,7 +388,7 @@ public class SQLiteDBService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error updating user in SQLite: {ex.Message}");
+            // Debug.WriteLine($"Error updating user in SQLite: {ex.Message}");
             return false;
         }
     }
@@ -419,7 +419,7 @@ public class SQLiteDBService
 
                 if (userId == null)
                 {
-                    Debug.WriteLine($"Error: Username '{username}' not found in User table.");
+                    // Debug.WriteLine($"Error: Username '{username}' not found in User table.");
                     return;
                 }
 
@@ -432,12 +432,12 @@ public class SQLiteDBService
                     command.ExecuteNonQuery();
                 }
 
-                Debug.WriteLine($"Inserted UserLogin status for Username '{username}' (UserID {userId}): {isLoggedIn}");
+                // Debug.WriteLine($"Inserted UserLogin status for Username '{username}' (UserID {userId}): {isLoggedIn}");
             }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error inserting UserLogin status: {ex.Message}");
+            // Debug.WriteLine($"Error inserting UserLogin status: {ex.Message}");
         }
     }
 
@@ -455,7 +455,7 @@ public class SQLiteDBService
                 {
                     int rowsAffected = command.ExecuteNonQuery();
 
-                    Debug.WriteLine(rowsAffected > 0
+                         Debug.WriteLine(rowsAffected > 0
                         ? "Deleted all login records"
                         : "No login records to delete");
                 }
@@ -463,7 +463,7 @@ public class SQLiteDBService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error deleting all UserLogins: {ex.Message}");
+            // Debug.WriteLine($"Error deleting all UserLogins: {ex.Message}");
         }
     }
 

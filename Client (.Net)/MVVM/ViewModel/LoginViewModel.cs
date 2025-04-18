@@ -373,7 +373,7 @@ namespace Client__.Net_.MVVM.ViewModel
 
                     // Step 3: Save user in SQLite (only if found in Supabase)
                     _sqliteDBService.SaveUser(userFromSupabase.Username, userFromSupabase.SelectedColor);
-                    Debug.WriteLine("User retrieved from Supabase and saved locally.");
+                    // Debug.WriteLine("User retrieved from Supabase and saved locally.");
                 }
 
                 // Step 4: Retrieve user from Supabase again to validate credentials

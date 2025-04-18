@@ -78,7 +78,7 @@ public class SupabaseService
         // Check if _supabaseUrl is null or empty before proceeding
         if (string.IsNullOrEmpty(_supabaseUrl))
         {
-            Debug.WriteLine("Supabase URL is null or empty. Initialization aborted.");
+            // Debug.WriteLine("Supabase URL is null or empty. Initialization aborted.");
             return false;
         }
 
@@ -121,7 +121,7 @@ public class SupabaseService
         // Ensure SQL string is not null or empty
         if (string.IsNullOrEmpty(sql))
         {
-            Debug.WriteLine("SQL schema is null or empty. Initialization aborted.");
+            // Debug.WriteLine("SQL schema is null or empty. Initialization aborted.");
             return false;
         }
 
@@ -146,19 +146,19 @@ public class SupabaseService
             // Ensure the request was successful
             if (response.IsSuccessStatusCode)
             {
-                Debug.WriteLine("Database schema initialized successfully.");
+                // Debug.WriteLine("Database schema initialized successfully.");
                 return true;
             }
             else
             {
                 // Log error response if not successful
-                Debug.WriteLine($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
+                // Debug.WriteLine($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
                 return false;
             }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Exception: {ex.Message}");
+            // Debug.WriteLine($"Exception: {ex.Message}");
             return false;
         }
     }
@@ -223,7 +223,7 @@ public class SupabaseService
 
             if (!response.IsSuccessStatusCode)
             {
-                Debug.WriteLine($"Error fetching messages: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
+                // Debug.WriteLine($"Error fetching messages: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
                 return messages;
             }
 
@@ -232,7 +232,7 @@ public class SupabaseService
 
             if (result == null || result.Count == 0)
             {
-                Debug.WriteLine("No new messages retrieved.");
+                // Debug.WriteLine("No new messages retrieved.");
                 return messages;
             }
 
@@ -252,7 +252,7 @@ public class SupabaseService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error in GetMessagesSinceIdAsync: {ex.Message}");
+            // Debug.WriteLine($"Error in GetMessagesSinceIdAsync: {ex.Message}");
         }
 
         return messages;
@@ -263,7 +263,7 @@ public class SupabaseService
     {
         if (_httpClient == null)
         {
-            Debug.WriteLine("HTTP client is not initialized.");
+            // Debug.WriteLine("HTTP client is not initialized.");
             return "Unknown";
         }
 
@@ -273,7 +273,7 @@ public class SupabaseService
 
             if (!response.IsSuccessStatusCode)
             {
-                Debug.WriteLine($"Error fetching username: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
+                // Debug.WriteLine($"Error fetching username: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
                 return "Unknown";
             }
 
@@ -287,7 +287,7 @@ public class SupabaseService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error in GetUsernameByUserIdAsync: {ex.Message}");
+            // Debug.WriteLine($"Error in GetUsernameByUserIdAsync: {ex.Message}");
         }
 
         return "Unknown";
@@ -296,7 +296,7 @@ public class SupabaseService
 
     public async Task<bool> SaveMessageAsync(string username, string message, int groupId)
     {
-        Debug.WriteLine("Saving message to Supabase...");
+        // Debug.WriteLine("Saving message to Supabase...");
 
         if (string.IsNullOrEmpty(_supabaseUrl) || string.IsNullOrEmpty(_supabaseApiKey))
         {
@@ -312,7 +312,7 @@ public class SupabaseService
         int userId = await GetUserIdByUsernameAsync(username);
         if (userId <= 0)
         {
-            Debug.WriteLine("User ID not found.");
+            // Debug.WriteLine("User ID not found.");
             return false;
         }
 
@@ -333,25 +333,25 @@ public class SupabaseService
 
             if (response.IsSuccessStatusCode)
             {
-                Debug.WriteLine("Message saved successfully!");
+                // Debug.WriteLine("Message saved successfully!");
                 return true;
             }
 
             string errorContent = await response.Content.ReadAsStringAsync();
-            Debug.WriteLine($"Error: {response.StatusCode}, {errorContent}");
+            // Debug.WriteLine($"Error: {response.StatusCode}, {errorContent}");
 
             // Check for duplicate key error (conflict)
             if (errorContent.Contains("duplicate key value violates unique constraint"))
             {
-                Debug.WriteLine("Duplicate key error: This likely means that the sequence for messageid is out-of-sync. " +
-                    "Please run the following SQL on your database to update the sequence:\n" +
-                    "SELECT setval('usermessages_messageid_seq', (SELECT MAX(messageid) FROM usermessages)+1);");
+                    // Debug.WriteLine("Duplicate key error: This likely means that the sequence for messageid is out-of-sync. " +
+                    //"Please run the following SQL on your database to update the sequence:\n" +
+                    //"SELECT setval('usermessages_messageid_seq', (SELECT MAX(messageid) FROM usermessages)+1);");
             }
             return false;
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"An error occurred: {ex.Message}");
+            // Debug.WriteLine($"An error occurred: {ex.Message}");
             return false;
         }
     }
@@ -382,7 +382,7 @@ public class SupabaseService
             if (!string.IsNullOrEmpty(responseContent) && responseContent != "[]")
             {
                 // Username already exists
-                Debug.WriteLine("Username already exists.");
+                // Debug.WriteLine("Username already exists.");
                 return false;
             }
         }
@@ -410,18 +410,18 @@ public class SupabaseService
             // Check if the request was successful
             if (response.IsSuccessStatusCode)
             {
-                Debug.WriteLine("User inserted successfully.");
+                // Debug.WriteLine("User inserted successfully.");
                 return true;
             }
 
             // If not successful, log the error
-            Debug.WriteLine($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
+            // Debug.WriteLine($"Error: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
             return false;
         }
         catch (Exception ex)
         {
             // Log any exceptions that occur
-            Debug.WriteLine($"An error occurred while inserting the user: {ex.Message}");
+            // Debug.WriteLine($"An error occurred while inserting the user: {ex.Message}");
             return false;
         }
     }
@@ -430,7 +430,7 @@ public class SupabaseService
     {
         if (_httpClient == null)
         {
-            Debug.WriteLine("Error: HTTP client is not initialized.");
+            // Debug.WriteLine("Error: HTTP client is not initialized.");
             return null;
         }
 
@@ -440,7 +440,7 @@ public class SupabaseService
 
             if (!response.IsSuccessStatusCode)
             {
-                Debug.WriteLine($"Error fetching user: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+                // Debug.WriteLine($"Error fetching user: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
                 return null;
             }
 
@@ -448,7 +448,7 @@ public class SupabaseService
 
             if (string.IsNullOrWhiteSpace(json))
             {
-                Debug.WriteLine("Error: API returned an empty response.");
+                // Debug.WriteLine("Error: API returned an empty response.");
                 return null;
             }
 
@@ -457,15 +457,15 @@ public class SupabaseService
         }
         catch (HttpRequestException ex)
         {
-            Debug.WriteLine($"HTTP request error: {ex.Message}");
+            // Debug.WriteLine($"HTTP request error: {ex.Message}");
         }
         catch (System.Text.Json.JsonException ex)
         {
-            Debug.WriteLine($"JSON parsing error: {ex.Message}");
+            // Debug.WriteLine($"JSON parsing error: {ex.Message}");
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Unexpected error: {ex.Message}");
+            // Debug.WriteLine($"Unexpected error: {ex.Message}");
         }
 
         return null;
@@ -475,7 +475,7 @@ public class SupabaseService
     {
         try
         {
-            Debug.WriteLine($"Starting UpdateUserAsync for username: {username}");
+            // Debug.WriteLine($"Starting UpdateUserAsync for username: {username}");
 
             var requestBody = new
             {
@@ -484,29 +484,29 @@ public class SupabaseService
             };
 
             string jsonData = JsonConvert.SerializeObject(requestBody);
-            Debug.WriteLine($"Request JSON: {jsonData}");
+            // Debug.WriteLine($"Request JSON: {jsonData}");
 
             var jsonContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            Debug.WriteLine($"Sending PATCH request to Supabase for user: {username}");
+            // Debug.WriteLine($"Sending PATCH request to Supabase for user: {username}");
 
             var response = await _httpClient.PatchAsync($"users?username=eq.{username}", jsonContent);
 
             if (response.IsSuccessStatusCode)
             {
-                Debug.WriteLine("User update successful.");
+                // Debug.WriteLine("User update successful.");
                 return true;
             }
             else
             {
                 string errorResponse = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine($"User update failed. Status Code: {response.StatusCode}, Response: {errorResponse}");
+                // Debug.WriteLine($"User update failed. Status Code: {response.StatusCode}, Response: {errorResponse}");
                 return false;
             }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error in UpdateUserAsync: {ex.Message}");
+            // Debug.WriteLine($"Error in UpdateUserAsync: {ex.Message}");
             return false;
         }
     }
@@ -544,7 +544,7 @@ public class SupabaseService
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"An error occurred while fetching usernames: {ex.Message}");
+            // Debug.WriteLine($"An error occurred while fetching usernames: {ex.Message}");
         }
 
         return new List<string>();
@@ -555,15 +555,15 @@ public class SupabaseService
         var groupData = new { groupname = groupName };
         var content = new StringContent(JsonConvert.SerializeObject(groupData), Encoding.UTF8, "application/json");
 
-        Debug.WriteLine($"Sending request to create group: {JsonConvert.SerializeObject(groupData)}");
+        // Debug.WriteLine($"Sending request to create group: {JsonConvert.SerializeObject(groupData)}");
 
         var response = await _httpClient.PostAsync("groups", content);
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        Debug.WriteLine($"API Raw Response: {jsonResponse}");
+        // Debug.WriteLine($"API Raw Response: {jsonResponse}");
 
         if (!response.IsSuccessStatusCode)
         {
-            Debug.WriteLine($"Error creating group: {response.StatusCode}, Content: {jsonResponse}");
+            // Debug.WriteLine($"Error creating group: {response.StatusCode}, Content: {jsonResponse}");
             return -1; // Return -1 to indicate failure
         }
 
@@ -573,15 +573,15 @@ public class SupabaseService
 
     private async Task<int> GetGroupIdByNameAsync(string groupName)
     {
-        Debug.WriteLine($"Fetching group ID for group: {groupName}");
+        // Debug.WriteLine($"Fetching group ID for group: {groupName}");
 
         var response = await _httpClient.GetAsync($"groups?groupname=eq.{groupName}&select=groupid");
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        Debug.WriteLine($"API Response for group ID lookup: {jsonResponse}");
+        // Debug.WriteLine($"API Response for group ID lookup: {jsonResponse}");
 
         if (!response.IsSuccessStatusCode)
         {
-            Debug.WriteLine($"Error fetching group ID: {response.StatusCode}, Content: {jsonResponse}");
+            // Debug.WriteLine($"Error fetching group ID: {response.StatusCode}, Content: {jsonResponse}");
             return -1;
         }
 
@@ -591,16 +591,16 @@ public class SupabaseService
             if (result != null && result.Count > 0 && result.First().ContainsKey("groupid"))
             {
                 int groupId = Convert.ToInt32(result.First()["groupid"]);
-                Debug.WriteLine($"Fetched Group ID: {groupId}");
+                // Debug.WriteLine($"Fetched Group ID: {groupId}");
                 return groupId;
             }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error parsing group ID response: {ex.Message}");
+            // Debug.WriteLine($"Error parsing group ID response: {ex.Message}");
         }
 
-        Debug.WriteLine("Error: 'groupid' not found in the fetched response.");
+        // Debug.WriteLine("Error: 'groupid' not found in the fetched response.");
         return -1;
     }
 
@@ -611,7 +611,7 @@ public class SupabaseService
     {
         if (_httpClient == null)
         {
-            Debug.WriteLine("Error: HTTP client is not initialized.");
+            // Debug.WriteLine("Error: HTTP client is not initialized.");
             return -1;
         }
 
@@ -621,7 +621,7 @@ public class SupabaseService
 
             if (!response.IsSuccessStatusCode)
             {
-                Debug.WriteLine($"Error fetching user ID: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+                // Debug.WriteLine($"Error fetching user ID: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
                 return -1;
             }
 
@@ -629,7 +629,7 @@ public class SupabaseService
 
             if (string.IsNullOrWhiteSpace(responseContent))
             {
-                Debug.WriteLine("Error: API returned an empty response.");
+                // Debug.WriteLine("Error: API returned an empty response.");
                 return -1;
             }
 
@@ -640,20 +640,20 @@ public class SupabaseService
             }
             else
             {
-                Debug.WriteLine("Warning: User not found in database.");
+                // Debug.WriteLine("Warning: User not found in database.");
             }
         }
         catch (HttpRequestException ex)
         {
-            Debug.WriteLine($"Network error: {ex.Message}");
+            // Debug.WriteLine($"Network error: {ex.Message}");
         }
         catch (System.Text.Json.JsonException ex)
         {
-            Debug.WriteLine($"JSON parsing error: {ex.Message}");
+            // Debug.WriteLine($"JSON parsing error: {ex.Message}");
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Unexpected error: {ex.Message}");
+            // Debug.WriteLine($"Unexpected error: {ex.Message}");
         }
 
         return -1; // Return -1 if any issue occurs
@@ -682,18 +682,18 @@ public class SupabaseService
 
                 if (memberResponse.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine($"User {username} added to group {groupId}.");
+                    // Debug.WriteLine($"User {username} added to group {groupId}.");
                 }
                 else
                 {
                     // Log error if adding user fails
                     string memberErrorContent = await memberResponse.Content.ReadAsStringAsync();
-                    Debug.WriteLine($"Error adding user {username} to group {groupId}: {memberResponse.StatusCode}, {memberErrorContent}");
+                    // Debug.WriteLine($"Error adding user {username} to group {groupId}: {memberResponse.StatusCode}, {memberErrorContent}");
                 }
             }
             else
             {
-                Debug.WriteLine($"User {username} not found. Skipping...");
+                // Debug.WriteLine($"User {username} not found. Skipping...");
             }
         }
     }
@@ -705,7 +705,7 @@ public class SupabaseService
         int userId = await GetUserIdByUsernameAsync(username);
         if (userId <= 0)
         {
-            Debug.WriteLine("User ID not found.");
+            // Debug.WriteLine("User ID not found.");
             return groups;
         }
 
@@ -713,7 +713,7 @@ public class SupabaseService
         var response = await _httpClient.GetAsync($"groupmembers?userid=eq.{userId}");
         if (!response.IsSuccessStatusCode)
         {
-            Debug.WriteLine($"Error fetching group memberships: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
+            // Debug.WriteLine($"Error fetching group memberships: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
             return groups;
         }
 
@@ -721,7 +721,7 @@ public class SupabaseService
         var groupMemberships = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(responseContent);
         if (groupMemberships == null || groupMemberships.Count == 0)
         {
-            Debug.WriteLine("User is not in any groups.");
+            // Debug.WriteLine("User is not in any groups.");
             return groups;
         }
 
@@ -733,7 +733,7 @@ public class SupabaseService
             var groupResponse = await _httpClient.GetAsync($"groups?groupid=eq.{groupId}");
             if (!groupResponse.IsSuccessStatusCode)
             {
-                Debug.WriteLine($"Error fetching group info for group ID {groupId}: {groupResponse.StatusCode}, {await groupResponse.Content.ReadAsStringAsync()}");
+                // Debug.WriteLine($"Error fetching group info for group ID {groupId}: {groupResponse.StatusCode}, {await groupResponse.Content.ReadAsStringAsync()}");
                 continue;
             }
 
@@ -782,12 +782,12 @@ public class SupabaseService
             if (!deleteMembersResponse.IsSuccessStatusCode)
             {
                 string membersError = await deleteMembersResponse.Content.ReadAsStringAsync();
-                Debug.WriteLine($"Failed to delete group members: {deleteMembersResponse.StatusCode}, {membersError}");
+                // Debug.WriteLine($"Failed to delete group members: {deleteMembersResponse.StatusCode}, {membersError}");
                 return false;
             }
             else
             {
-                Debug.WriteLine($"Successfully deleted group members for Group ID: {groupId}");
+                // Debug.WriteLine($"Successfully deleted group members for Group ID: {groupId}");
             }
 
             // Step 2: Delete user messages related to this group
@@ -796,12 +796,12 @@ public class SupabaseService
             if (!deleteMessagesResponse.IsSuccessStatusCode)
             {
                 string messagesError = await deleteMessagesResponse.Content.ReadAsStringAsync();
-                Debug.WriteLine($"Failed to delete messages for Group ID: {groupId}: {deleteMessagesResponse.StatusCode}, {messagesError}");
+                // Debug.WriteLine($"Failed to delete messages for Group ID: {groupId}: {deleteMessagesResponse.StatusCode}, {messagesError}");
                 return false;
             }
             else
             {
-                Debug.WriteLine($"Successfully deleted messages for Group ID: {groupId}");
+                // Debug.WriteLine($"Successfully deleted messages for Group ID: {groupId}");
             }
 
             // Step 3: Now attempt to delete the group itself using the correct column name `groupid`
@@ -810,30 +810,30 @@ public class SupabaseService
             string groupDeleteError = await deleteGroupResponse.Content.ReadAsStringAsync();
             if (deleteGroupResponse.IsSuccessStatusCode)
             {
-                Debug.WriteLine($"Successfully deleted Group ID: {groupId}");
+                // Debug.WriteLine($"Successfully deleted Group ID: {groupId}");
                 return true;
             }
             else
             {
-                Debug.WriteLine($"Failed to delete group: {deleteGroupResponse.StatusCode}, {groupDeleteError}");
+                // Debug.WriteLine($"Failed to delete group: {deleteGroupResponse.StatusCode}, {groupDeleteError}");
                 return false;
             }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error deleting group: {ex.Message}");
+            // Debug.WriteLine($"Error deleting group: {ex.Message}");
             return false;
         }
     }
 
     public async Task<(Message, string)> FetchLatestGroupMessageAsync(int groupId)
     {
-        Debug.WriteLine($"Fetching latest message for Group ID: {groupId}");
+        // Debug.WriteLine($"Fetching latest message for Group ID: {groupId}");
 
         var latestMessage = await GetLatestMessageAsync(groupId);
         if (latestMessage == null)
         {
-            Debug.WriteLine($"No message found for Group ID: {groupId}");
+            // Debug.WriteLine($"No message found for Group ID: {groupId}");
             return (null, null);
         }
 
@@ -847,7 +847,7 @@ public class SupabaseService
 
         if (!groupResponse.IsSuccessStatusCode)
         {
-            Debug.WriteLine($"Error fetching group name for Group ID {groupId}: {groupResponse.StatusCode}");
+            // Debug.WriteLine($"Error fetching group name for Group ID {groupId}: {groupResponse.StatusCode}");
             return "Unknown Group";
         }
 
@@ -862,31 +862,31 @@ public class SupabaseService
     {
         try
         {
-            Debug.WriteLine($"GetLatestMessageAsync: Fetching latest message for Group ID {groupId}");
+            // Debug.WriteLine($"GetLatestMessageAsync: Fetching latest message for Group ID {groupId}");
 
             // Send a request to Supabase to fetch the most recent message for the specified group
             var response = await _httpClient.GetAsync($"usermessages?groupid=eq.{groupId}&order=sentat.desc&limit=1");
 
             if (response.IsSuccessStatusCode)
             {
-                Debug.WriteLine($"GetLatestMessageAsync: Successfully fetched response for Group ID {groupId}");
+                // Debug.WriteLine($"GetLatestMessageAsync: Successfully fetched response for Group ID {groupId}");
 
                 var responseContent = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine($"GetLatestMessageAsync: Response content: {responseContent}");
+                // Debug.WriteLine($"GetLatestMessageAsync: Response content: {responseContent}");
 
                 var result = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(responseContent);
 
                 if (result != null && result.Any())
                 {
-                    Debug.WriteLine($"GetLatestMessageAsync: Found {result.Count} messages for Group ID {groupId}");
+                    // Debug.WriteLine($"GetLatestMessageAsync: Found {result.Count} messages for Group ID {groupId}");
 
                     // Extract the latest message from the result
                     var latestMessage = result.First();
                     var userId = Convert.ToInt32(latestMessage["userid"]);
-                    Debug.WriteLine($"GetLatestMessageAsync: UserID of latest message: {userId}");
+                    // Debug.WriteLine($"GetLatestMessageAsync: UserID of latest message: {userId}");
 
                     string username = await GetUsernameByUserIdAsync(userId); // Get username from the Users table
-                    Debug.WriteLine($"GetLatestMessageAsync: Retrieved username for UserID {userId}: {username}");
+                    // Debug.WriteLine($"GetLatestMessageAsync: Retrieved username for UserID {userId}: {username}");
 
                     // Return the latest message as a Message object
                     var message = new Message
@@ -897,87 +897,128 @@ public class SupabaseService
                         timestamp = latestMessage["sentat"].ToString() // Ensure timestamp is in UTC format
                     };
 
-                    Debug.WriteLine($"GetLatestMessageAsync: Latest message retrieved with ID {message.Id} and content: {message.message}");
+                    // Debug.WriteLine($"GetLatestMessageAsync: Latest message retrieved with ID {message.Id} and content: {message.message}");
                     return message;
                 }
                 else
                 {
-                    Debug.WriteLine($"GetLatestMessageAsync: No messages found for Group ID {groupId}");
+                    // Debug.WriteLine($"GetLatestMessageAsync: No messages found for Group ID {groupId}");
                 }
             }
             else
             {
-                Debug.WriteLine($"GetLatestMessageAsync: Failed to fetch messages for Group ID {groupId}. Status code: {response.StatusCode}");
+                // Debug.WriteLine($"GetLatestMessageAsync: Failed to fetch messages for Group ID {groupId}. Status code: {response.StatusCode}");
             }
 
             return null; // Return null if no message is found
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error in GetLatestMessageAsync: {ex.Message}");
+            // Debug.WriteLine($"Error in GetLatestMessageAsync: {ex.Message}");
             return null; // Handle errors and return null
         }
     }
     public async Task<List<int>> GetUserGroupIdsAsync(int userId)
     {
-        Debug.WriteLine($"Fetching group IDs for User ID: {userId}");
-        Debug.WriteLine($"Requesting: groupmembers?userid=eq.{userId}");
+        // Debug.WriteLine($"Fetching group IDs for User ID: {userId}");
+        // Debug.WriteLine($"Requesting: groupmembers?userid=eq.{userId}");
 
         var groupIds = new List<int>();
 
         var response = await _httpClient.GetAsync($"groupmembers?userid=eq.{userId}");
         if (!response.IsSuccessStatusCode)
         {
-            Debug.WriteLine($"Error fetching group memberships for User ID {userId}: {response.StatusCode}");
-            Debug.WriteLine($"Error response: {await response.Content.ReadAsStringAsync()}");
+            // Debug.WriteLine($"Error fetching group memberships for User ID {userId}: {response.StatusCode}");
+            // Debug.WriteLine($"Error response: {await response.Content.ReadAsStringAsync()}");
             return groupIds;
         }
 
         var responseContent = await response.Content.ReadAsStringAsync();
-        Debug.WriteLine($"Raw group membership response: {responseContent}");
+        // Debug.WriteLine($"Raw group membership response: {responseContent}");
 
         var groupMemberships = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(responseContent);
         if (groupMemberships == null || groupMemberships.Count == 0)
         {
-            Debug.WriteLine($"User ID {userId} is not in any groups.");
+            // Debug.WriteLine($"User ID {userId} is not in any groups.");
             return groupIds;
         }
 
         groupIds = groupMemberships.Select(g => Convert.ToInt32(g["groupid"])).ToList();
-        Debug.WriteLine($"User ID {userId} is part of {groupIds.Count} groups: {string.Join(", ", groupIds)}");
+        // Debug.WriteLine($"User ID {userId} is part of {groupIds.Count} groups: {string.Join(", ", groupIds)}");
 
         return groupIds;
     }
 
-    public async Task<List<Group>> SearchGroupsByNameAsync(string searchQuery)
+    public async Task<List<Group>> SearchGroupsByNameAsync(string searchQuery, string username)
     {
         var groups = new List<Group>();
 
-        if (string.IsNullOrWhiteSpace(searchQuery))
+        if (string.IsNullOrWhiteSpace(searchQuery) || string.IsNullOrWhiteSpace(username))
         {
-            Debug.WriteLine("Search query is empty.");
+            Debug.WriteLine("Search query or username is empty.");
             return groups;
         }
 
         try
         {
-            Debug.WriteLine($"Searching for groups with query: {searchQuery}");
+            Debug.WriteLine($"Searching for groups with query: {searchQuery} for username: {username}");
 
-            // Step 1: Fetch groups where the name matches the search query
-            var response = await _httpClient.GetAsync($"groups?groupname=ilike.%{searchQuery}%");
-            Debug.WriteLine($"Group search request URL: groups?groupname=ilike.%{searchQuery}%");
+            // Step 1: Get the user ID based on the username
+            var userResponse = await _httpClient.GetAsync($"users?username=eq.{username}");
+            Debug.WriteLine($"User fetch request URL: users?username=eq.{username}");
 
-            if (!response.IsSuccessStatusCode)
+            if (!userResponse.IsSuccessStatusCode)
             {
-                string errorMessage = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine($"Error searching for groups: {response.StatusCode}, {errorMessage}");
+                Debug.WriteLine($"Failed to fetch user ID. Status: {userResponse.StatusCode}");
                 return groups;
             }
 
-            var responseContent = await response.Content.ReadAsStringAsync();
-            Debug.WriteLine($"Group search response: {responseContent}");
+            var userContent = await userResponse.Content.ReadAsStringAsync();
+            var userData = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(userContent);
 
-            var groupData = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(responseContent);
+            if (userData == null || userData.Count == 0)
+            {
+                Debug.WriteLine("Username not found in the database.");
+                return groups;
+            }
+
+            int userId = Convert.ToInt32(userData[0]["userid"]);
+            Debug.WriteLine($"Resolved user ID: {userId}");
+
+            // Step 2: Get group memberships for this user
+            var membershipResponse = await _httpClient.GetAsync($"groupmembers?userid=eq.{userId}");
+            Debug.WriteLine($"Group membership request URL: groupmembers?userid=eq.{userId}");
+
+            if (!membershipResponse.IsSuccessStatusCode)
+            {
+                Debug.WriteLine($"Error getting group memberships: {membershipResponse.StatusCode}");
+                return groups;
+            }
+
+            var membershipContent = await membershipResponse.Content.ReadAsStringAsync();
+            var memberships = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(membershipContent);
+
+            if (memberships == null || memberships.Count == 0)
+            {
+                Debug.WriteLine("User is not a member of any groups.");
+                return groups;
+            }
+
+            var userGroupIds = memberships.Select(m => Convert.ToInt32(m["groupid"])).ToList();
+            Debug.WriteLine($"User is in groups: {string.Join(",", userGroupIds)}");
+
+            // Step 3: Search groups by name
+            var groupSearchResponse = await _httpClient.GetAsync($"groups?groupname=ilike.%{searchQuery}%");
+            Debug.WriteLine($"Group search request URL: groups?groupname=ilike.%{searchQuery}%");
+
+            if (!groupSearchResponse.IsSuccessStatusCode)
+            {
+                Debug.WriteLine($"Group search failed. Status: {groupSearchResponse.StatusCode}");
+                return groups;
+            }
+
+            var groupContent = await groupSearchResponse.Content.ReadAsStringAsync();
+            var groupData = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(groupContent);
 
             if (groupData == null || groupData.Count == 0)
             {
@@ -985,35 +1026,27 @@ public class SupabaseService
                 return groups;
             }
 
-            // Step 2: Fetch the last message for each found group
+            // Step 4: Filter only the groups the user is part of
             foreach (var group in groupData)
             {
                 int groupId = Convert.ToInt32(group["groupid"]);
+                if (!userGroupIds.Contains(groupId))
+                    continue;
+
                 string groupName = group["groupname"].ToString();
-                Debug.WriteLine($"Processing group: ID={groupId}, Name={groupName}");
+                Debug.WriteLine($"Matched group: ID={groupId}, Name={groupName}");
 
                 string lastMessage = "No Messages";
                 var messageResponse = await _httpClient.GetAsync($"usermessages?groupid=eq.{groupId}&order=sentat.desc&limit=1");
-                Debug.WriteLine($"Fetching last message for group ID {groupId}");
 
                 if (messageResponse.IsSuccessStatusCode)
                 {
                     var messageContent = await messageResponse.Content.ReadAsStringAsync();
-                    Debug.WriteLine($"Message response for group {groupId}: {messageContent}");
-
                     var messages = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(messageContent);
                     if (messages != null && messages.Count > 0)
-                    {
                         lastMessage = messages.First()["content"].ToString();
-                        Debug.WriteLine($"Last message for group {groupId}: {lastMessage}");
-                    }
-                }
-                else
-                {
-                    Debug.WriteLine($"Failed to fetch last message for group {groupId}. Response: {messageResponse.StatusCode}");
                 }
 
-                // Step 3: Add the group with last message
                 groups.Add(new Group
                 {
                     Id = groupId,
@@ -1021,16 +1054,33 @@ public class SupabaseService
                     Messages = lastMessage,
                     ImageSource = "https://img.freepik.com/free-photo/people-posing-together-registration-day_23-2149096794.jpg"
                 });
-                Debug.WriteLine($"Added group {groupId} to results.");
             }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error in SearchGroupsByNameAsync: {ex.Message}");
+            Debug.WriteLine($"Exception in SearchGroupsByNameAsync: {ex.Message}");
         }
 
-        Debug.WriteLine($"Search completed. Found {groups.Count} groups.");
+        Debug.WriteLine($"Search complete. {groups.Count} matching groups returned.");
         return groups;
     }
+
+
+
+    public async Task<bool> IsUserInGroupAsync(int userId, int groupId)
+    {
+        string url = $"groupmembers?userid=eq.{userId}&groupid=eq.{groupId}&select=membershipid";
+        var response = await _httpClient.GetAsync(url);
+
+        if (!response.IsSuccessStatusCode)
+            return false;
+
+        string content = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(content);
+
+        return data != null && data.Count > 0;
+    }
+
+
 
 }

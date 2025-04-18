@@ -49,7 +49,7 @@ namespace Client__.Net_.UserControls
                 foreach (var selectedItem in lvListFriends.SelectedItems)
                 {
                     // Since it's a string, we can directly log the username
-                    Debug.WriteLine($"Selected User: {selectedItem}");
+                    // Debug.WriteLine($"Selected User: {selectedItem}");
                 }
             }
         }

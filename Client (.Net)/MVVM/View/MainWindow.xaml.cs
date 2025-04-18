@@ -88,7 +88,7 @@ namespace Chat_App
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Debug.WriteLine("MainWindow is closing.");
+            // Debug.WriteLine("MainWindow is closing.");
         }
 
         private bool isPanelVisible = false; // Track visibility state

@@ -114,7 +114,7 @@ namespace Client__.Net_.MVVM.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine($"Error adding group members: {ex.Message}");
+                        // Debug.WriteLine($"Error adding group members: {ex.Message}");
                         MessageBox.Show("Group was created, but adding members failed.");
                         return; // Exit early if adding members fails
                     }
@@ -130,14 +130,14 @@ namespace Client__.Net_.MVVM.ViewModel
                         if (!messageSent)
                         {
                             retryCount++;
-                            Debug.WriteLine($"Retry {retryCount}: Failed to insert welcome message.");
+                            // Debug.WriteLine($"Retry {retryCount}: Failed to insert welcome message.");
                             await Task.Delay(1000); // Small delay before retrying
                         }
                     }
 
                     if (!messageSent)
                     {
-                        Debug.WriteLine("Failed to insert welcome message after retries.");
+                        // Debug.WriteLine("Failed to insert welcome message after retries.");
                     }
 
                     MessageBox.Show("Group created successfully!");
@@ -164,7 +164,7 @@ namespace Client__.Net_.MVVM.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error in CreateGroupAsync: {ex.Message}");
+                // Debug.WriteLine($"Error in CreateGroupAsync: {ex.Message}");
                 MessageBox.Show("An error occurred while creating the group.");
             }
         }
