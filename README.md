@@ -43,6 +43,9 @@ begin
 end;
 $$;
 ```
+Watch a quick demo of the app in action:  
+📺 [YouTube Demo](https://youtu.be/IQpegI567Sg)
+
 
 ## Running the App
 1.	Open the project in Visual Studio.
@@ -60,3 +63,6 @@ Feel free to reach out via email: princesithole49@gmail.com
 Special thanks to:
 - [@JimmyNos](https://github.com/JimmyNos) (Quality Assurance & Co-Programmer)
 - [@Kioe-Saiba-Archfey-Warlock](https://github.com/Kioe-Saiba-Archfey-Warlock) (Product Feature Owner)
+
+## 📝 License
+This project is licensed under the **[GLP-3.0](LICENSE)**.
