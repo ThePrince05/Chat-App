@@ -44,7 +44,7 @@ end;
 $$;
 ```
 Watch a quick demo of the app in action:  
-📺 [YouTube Demo](https://youtu.be/IQpegI567Sg)
+📺 [YouTube Demo](https://youtu.be/-j52JbxHLmw)
 
 
 ## Running the App
